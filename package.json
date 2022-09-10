@@ -2,10 +2,10 @@
   "name": "ypmessenger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "parcel index.hbs",
-    "build": "parcel build index.hbs"
+    "build": "rm -rf dist/* && parcel build index.hbs"
   },
   "author": "Dmitrii Nazimov",
   "license": "MIT",

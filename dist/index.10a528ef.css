@@ -1,0 +1,18 @@
+:root {
+  --color: red;
+}
+
+h1 {
+  color: red;
+  color: var(--color);
+}
+
+h1 span {
+  color: #000;
+}
+
+body p span {
+  color: green;
+}
+
+/*# sourceMappingURL=index.10a528ef.css.map */

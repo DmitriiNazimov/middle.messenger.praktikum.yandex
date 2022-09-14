@@ -1,0 +1,70 @@
+@import url('../../variables.css');
+
+
+.form {
+    background-color: $sectionBackgroundColor;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 400px;
+    @media (max-width: 420px) {
+        max-width: 100%;
+    }
+
+    
+    label {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        color: $fontColorSoft;
+    }  
+
+    h3 {
+        width: 80%;
+        margin: 25px auto 10px auto;
+    }
+}
+
+.form_row {
+    width: 80%;
+    margin: 0 auto 23px auto;
+}
+
+input {
+    background-color: $sectionBackgroundColor;
+    border: 1px solid $borderColor;
+    height: 30px;
+    color: $fontColorBright;
+    font-size: 18px;
+    padding: 5px 0px 5px 10px;
+    width: 100%;
+    
+    &:hover {
+    -webkit-transition: 0.2s;
+    border-color: #ffa825;
+    }
+
+    &:focus {
+    -webkit-transition: 0.2s;
+    box-shadow: 0px 0px 20px #ffa825;
+    }
+}
+
+
+.roundFormWrapper {
+    input {
+        border: 0;
+        border-radius: 10px;
+        text-align: center;
+    }
+    
+    .form_row {
+        width: 100%;
+    }
+}
+
+.form_buttons {
+    width: 80%;
+    margin: 30px auto;
+}

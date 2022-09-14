@@ -1,0 +1,36 @@
+@import url('../../variables.css');
+
+.button_form {
+    width: 100%;
+    display: flex;
+    border-radius: 100px;
+    font-size: 18px;
+    margin: 24px auto;
+    min-height: 38px;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &_full {
+        background-color: $accentColor;
+        color: $fontColorDark;
+        border: 2px solid $accentColor;
+        font-weight: bold;
+    }
+
+    &_empty {
+        background-color: $sectionBackgroundColor;
+        border: 2px solid $accentColor;
+        color: $fontColorSoft;
+    }
+
+    &:hover {
+        -webkit-transition: 0.2s;
+        box-shadow: 0px 0px 20px $accentColor;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

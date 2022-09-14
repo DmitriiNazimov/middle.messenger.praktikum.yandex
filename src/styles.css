@@ -1,0 +1,55 @@
+@import url('./variables.css');
+
+
+body {
+    background-color: $backgroundColor;
+    color: $fontColorBright;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    display: flex;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+}
+
+h1 {
+    font-size: 36px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.hide {
+    display: none !important;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+
+    &_big {
+        width: 150px;
+        height: 150px;
+        margin: 50px auto;
+    }
+}
+
+a {
+    color: $fontColorBright;
+}
+
+.delimiter_line {
+    margin: 15px auto;
+    height: 1px;
+    background-color: $borderColor;
+}
+
+.menuDots {
+    font-size: 40px;
+    line-height: 0.25;
+    margin-top: -18px;
+}

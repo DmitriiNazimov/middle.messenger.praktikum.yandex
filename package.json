@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node index.js",
-    "dev": "parcel index.hbs",
-    "build": "rm -rf dist/* && parcel build index.hbs"
+    "start": "node src/pages/*.hbs",
+    "dev": "parcel /src/pages/*.hbs",
+    "build": "rm -rf dist/* && parcel build src/pages/*.hbs"
   },
   "author": "Dmitrii Nazimov",
   "license": "MIT",

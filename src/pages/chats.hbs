@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway+Dots&family=Roboto+Serif:ital,opsz,wght@0,8..144,400;0,8..144,700;0,8..144,800;0,8..144,900;1,8..144,400&family=Roboto:ital,wght@0,100;0,400;0,700;0,900;1,100;1,400&display=swap"
+        rel="stylesheet">
+    <title>Easy touch: список чатов</title>
+</head>
+
+<body>
+    <main>
+        <div class="chatColumn chatsList">
+            <p class="profileLink"><a href="./profile.hbs">Профиль ></a></p>
+
+            <form class="searchInContactList roundFormWrapper"></form>
+
+            <div class="contacts"></div>
+
+            {{!-- <div class="contact_row">
+                <div class="contact_info contact_info_active">
+                    <div class="contact_avatar">
+                        <div class="pointer"></div>
+                        <img src="../../static/img/dimon.jpg" alt="Димон">
+                    </div>
+                    <div class="contact_mainInfo">
+                        <div class="contact_username">Димон</div>
+                        <div class="contact_message">Здесь какой-то текст на пару строк</div>
+                    </div>
+                    <div class="contact_extraInfo">
+                        <div class="contact_messageDate">10:30</div>
+                        <div class="contact_messageCounter">4</div>
+                    </div>
+                </div>
+            </div>
+            <div class="delimiter_line"></div>
+
+            <div class="contact_row">
+                <div class="contact_info">
+                    <div class="contact_avatar">
+                        <div class="pointer"></div>
+                        <img src="../../static/img/dimon.jpg" alt="Димон">
+                    </div>
+                    <div class="contact_mainInfo">
+                        <div class="contact_username">Димон</div>
+                        <div class="contact_message">Здесь какой-то текст на пару строк</div>
+                    </div>
+                    <div class="contact_extraInfo">
+                        <div class="contact_messageDate">10:30</div>
+                        <div class="contact_messageCounter">4</div>
+                    </div>
+                </div>
+            </div>
+            <div class="delimiter_line"></div> --}}
+
+        </div>
+        <div class="chatColumn feed">
+            <div class="feed_header">
+                <div class="contact_avatar">
+                    <img src="../../static/img/dimon.jpg" alt="Димон">
+                </div>
+                <div class="contact_username">Димон</div>
+                <div class="menuDots">.<br>.<br>.</div>
+            </div>
+            <div class="delimiter_line"></div>
+
+            <div class="messages">
+                <p>Здесь пока никто ничего не писал.</p>
+            </div>
+
+            <form>
+                <div class="writeMsg">
+                    <textarea id="message" name="message" rows="1"
+                        placeholder="Напишите ваше сообщение здесь..."></textarea>
+                    <div class="button_wrapper">
+                        <button type="submit" class="button_form button_form_full">Отправить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script src="chats.js" type="module"></script>
+</body>
+
+</html>

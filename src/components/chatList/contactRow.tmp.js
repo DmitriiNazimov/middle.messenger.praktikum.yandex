@@ -14,7 +14,9 @@ export default `
             </div>
             <div class="contact_extraInfo">
                 <div class="contact_messageDate">{{ lastMsgData }}</div>
-                <div class="contact_messageCounter">{{ msgCounter }}</div>
+                {{#if msgCounter}}
+                    <div class="contact_messageCounter">{{ msgCounter }}</div>
+                {{/if}}
             </div>
         </div>
     </div>

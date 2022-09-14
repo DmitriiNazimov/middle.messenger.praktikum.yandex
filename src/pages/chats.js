@@ -6,47 +6,54 @@ import '../components/form/form.css';
 import hbs from 'handlebars';
 import '../components/form/formRow.tmp';
 import contactRow from '../components/chatList/contactRow.tmp';
+import feedHeader from '../components/chatList/feedHeader.tmp';
 
 
 const searchInputData =
 {
     type: 'text',
-    id: 'searchInContactList',
+    id: 'searchContacts',
     placeholder: 'Поиск',
+}
+
+const feedHeaderData =
+{
+    avatarPath: '/img/dimon.jpg',
+    display_name: 'Иван',
 }
 
 const contactsData = {
     peoples: [
         {
-            avatarPath: './static/img/dimon.jpg',
+            avatarPath: '/img/dimon.jpg',
             display_name: 'Иван',
-            lastMsgText: 'Здесь какой-то текст на пару строк',
+            lastMsgText: 'Как насчет пересмотреть "Бойцовский клуб"?',
             lastMsgData: '10:30',
             msgCounter: 4,
             active: true
         },
         {
-            avatarPath: '../../static/img/dimon.jpg',
+            avatarPath: '/img/misha.jpg',
             display_name: 'Миша',
-            lastMsgText: 'Здесь какой-то текст на пару строк',
-            lastMsgData: '10:30',
-            msgCounter: 4,
+            lastMsgText: 'Посмотри какой прикол',
+            lastMsgData: '08:01',
+            msgCounter: 1,
             active: false
         },
         {
-            avatarPath: '../../static/img/dimon.jpg',
+            avatarPath: '/img/love.jpg',
             display_name: 'Любовь',
-            lastMsgText: 'Здесь какой-то текст на пару строк',
-            lastMsgData: '10:30',
-            msgCounter: 4,
-            active: true
+            lastMsgText: 'Я скучаю.',
+            lastMsgData: '09:30',
+            msgCounter: 1,
+            active: false
         },
         {
-            avatarPath: '../../static/img/dimon.jpg',
+            avatarPath: '/img/fsb.jpg',
             display_name: 'Управление ФСБ',
-            lastMsgText: 'Здесь какой-то текст на пару строк',
-            lastMsgData: '10:30',
-            msgCounter: 4,
+            lastMsgText: 'Привет. Заедешь сегодня?',
+            lastMsgData: 'Вт',
+            msgCounter: 0,
             active: false
         },
     ]
@@ -61,3 +68,8 @@ document.querySelector('.searchInContactList').innerHTML = htmlSearchInput;
 const templateContacts = hbs.compile(contactRow);
 const htmlContacts = templateContacts(contactsData);
 document.querySelector('.contacts').innerHTML = htmlContacts;
+
+
+const templateFeedHeader = hbs.compile(feedHeader);
+const htmlFeedHeader = templateFeedHeader(feedHeaderData);
+document.querySelector('#feedHeader').innerHTML = htmlFeedHeader;

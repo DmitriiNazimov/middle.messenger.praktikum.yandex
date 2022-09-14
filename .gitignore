@@ -2,3 +2,4 @@ mydev
 node_modules
 .parcel-cache
 data.mdb
+dist

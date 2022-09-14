@@ -15,57 +15,12 @@
     <main>
         <div class="chatColumn chatsList">
             <p class="profileLink"><a href="./profile.hbs">Профиль ></a></p>
-
             <form class="searchInContactList roundFormWrapper"></form>
-
             <div class="contacts"></div>
-
-            {{!-- <div class="contact_row">
-                <div class="contact_info contact_info_active">
-                    <div class="contact_avatar">
-                        <div class="pointer"></div>
-                        <img src="../../static/img/dimon.jpg" alt="Димон">
-                    </div>
-                    <div class="contact_mainInfo">
-                        <div class="contact_username">Димон</div>
-                        <div class="contact_message">Здесь какой-то текст на пару строк</div>
-                    </div>
-                    <div class="contact_extraInfo">
-                        <div class="contact_messageDate">10:30</div>
-                        <div class="contact_messageCounter">4</div>
-                    </div>
-                </div>
-            </div>
-            <div class="delimiter_line"></div>
-
-            <div class="contact_row">
-                <div class="contact_info">
-                    <div class="contact_avatar">
-                        <div class="pointer"></div>
-                        <img src="../../static/img/dimon.jpg" alt="Димон">
-                    </div>
-                    <div class="contact_mainInfo">
-                        <div class="contact_username">Димон</div>
-                        <div class="contact_message">Здесь какой-то текст на пару строк</div>
-                    </div>
-                    <div class="contact_extraInfo">
-                        <div class="contact_messageDate">10:30</div>
-                        <div class="contact_messageCounter">4</div>
-                    </div>
-                </div>
-            </div>
-            <div class="delimiter_line"></div> --}}
-
         </div>
         <div class="chatColumn feed">
-            <div class="feed_header">
-                <div class="contact_avatar">
-                    <img src="../../static/img/dimon.jpg" alt="Димон">
-                </div>
-                <div class="contact_username">Димон</div>
-                <div class="menuDots">.<br>.<br>.</div>
-            </div>
-            <div class="delimiter_line"></div>
+
+            <div id="feedHeader"></div>
 
             <div class="messages">
                 <p>Здесь пока никто ничего не писал.</p>

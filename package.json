@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node src/pages/*.hbs",
-    "dev": "parcel /src/pages/*.hbs",
+    "dev": "parcel src/pages/*.hbs",
     "build": "rm -rf dist/* && parcel build src/pages/*.hbs"
   },
   "author": "Dmitrii Nazimov",
@@ -12,6 +12,7 @@
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
     "parcel": "^2.7.0",
+    "parcel-reporter-static-files-copy": "^1.4.0",
     "postcss": "^8.4.16",
     "postcss-custom-properties": "^12.1.8",
     "postcss-functions": "^4.0.2",

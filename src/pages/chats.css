@@ -108,7 +108,7 @@ body {
         text-align: center;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
 
         .contact_messageDate {
@@ -174,7 +174,7 @@ body {
         textarea {
             background-color: $sectionBackgroundColor;
             border: 0;
-            height: 24px;
+            height: 19px;
             color: $fontColorBright;
             font-size: 15px;
             padding: 5px 0px 5px 10px;

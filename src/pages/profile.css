@@ -1,0 +1,45 @@
+@import url('../variables.css');
+
+
+.sidebar_left {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    background-color: $section_background_color;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    a {
+        text-decoration: none;
+        color: $font_color_bright;
+        margin: 7px;
+    }
+
+    p {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    @media (max-width: 650px) {
+        height: 80px;
+        width: 70px;
+        border-radius: 0 0 10px 0;
+        box-shadow: 0px 0px 8px #727476;
+    }
+}
+
+.icon_comeback {
+    width: 33px;
+    height: 33px;
+    background-color: #ffa826;
+    border-radius: 100px;
+    text-align: center;
+    color: #2b1c09;
+    margin: 12px;
+    font-size: 28px;
+}
+
+#avatar_input {
+    padding: 20px 5px;
+}

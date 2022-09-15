@@ -62,7 +62,7 @@ const contactsData = {
 
 const templateSearchInput = hbs.compile('{{> formRow }}');
 const htmlSearchInput = templateSearchInput(searchInputData);
-document.querySelector('.searchInContactList').innerHTML = htmlSearchInput;
+document.querySelector('.search_form').innerHTML = htmlSearchInput;
 
 
 const templateContacts = hbs.compile(contactRow);

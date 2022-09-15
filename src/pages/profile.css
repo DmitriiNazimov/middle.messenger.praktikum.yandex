@@ -5,14 +5,14 @@
     display: flex;
     position: fixed;
     align-items: center;
-    background-color: $sectionBackgroundColor;
+    background-color: $section_background_color;
     top: 0;
     left: 0;
     bottom: 0;
 
     a {
         text-decoration: none;
-        color: $fontColorBright;
+        color: $font_color_bright;
         margin: 7px;
     }
 

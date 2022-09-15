@@ -8,7 +8,7 @@ export default `
     <p class="err_header">{{ code }}</p>
     <p class="err_msg">{{ message }}</p>
     <p class="err_link">
-        <a href="{{ url }}" class="button_form button_form_empty">{{ linkText }}</a>
+        <a href="{{ url }}" class="button_form button_form__empty">{{ linkText }}</a>
     </p>
 </div>
 `

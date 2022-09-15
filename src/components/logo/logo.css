@@ -11,12 +11,12 @@ logo {
         font-size: 50px;
     }
 
-    .accent {
-        color: $accentColor;
+    .accent_wrapper {
+        color: $accent_color;
     }
 
     a {
         text-decoration: none;
-        color: $fontColorBright;
+        color: $font_color_bright;
     }
 }

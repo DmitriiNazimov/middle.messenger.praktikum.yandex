@@ -10,24 +10,24 @@
     text-decoration: none;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: contact_pointer;
 
-    &_full {
-        background-color: $accentColor;
-        color: $fontColorDark;
-        border: 2px solid $accentColor;
+    &__full {
+        background-color: $accent_color;
+        color: $font_color_dark;
+        border: 2px solid $accent_color;
         font-weight: bold;
     }
 
-    &_empty {
-        background-color: $sectionBackgroundColor;
-        border: 2px solid $accentColor;
-        color: $fontColorSoft;
+    &__empty {
+        background-color: $section_background_color;
+        border: 2px solid $accent_color;
+        color: $font_color_soft;
     }
 
     &:hover {
         -webkit-transition: 0.2s;
-        box-shadow: 0px 0px 20px $accentColor;
+        box-shadow: 0px 0px 20px $accent_color;
     }
 
     &:last-child {

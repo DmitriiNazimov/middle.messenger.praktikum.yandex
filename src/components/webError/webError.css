@@ -23,6 +23,6 @@
     .err_link {
         margin: 70px auto;
         width: 200px;
-        color: $fontColorBright;
+        color: $font_color_bright;
     }
 }

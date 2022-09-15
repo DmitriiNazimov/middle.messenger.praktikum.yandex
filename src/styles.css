@@ -2,8 +2,8 @@
 
 
 body {
-    background-color: $backgroundColor;
-    color: $fontColorBright;
+    background-color: $background_color;
+    color: $font_color_bright;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     display: flex;
@@ -39,23 +39,28 @@ h1 {
 }
 
 a {
-    color: $fontColorBright;
+    color: $font_color_bright;
 }
 
-.delimiter_line {
-    margin: 15px auto;
-    height: 1px;
-    background-color: $borderColor;
+.delimiter {
+    &_line {
+        margin: 15px auto;
+        height: 1px;
+        background-color: $border_color;
+    }
 }
 
-.menuDots {
-    font-size: 40px;
-    line-height: 0.25;
-    margin-top: -18px;
+.dotsmenu {
+    &_large {
+        font-size: 40px;
+        line-height: 0.25;
+        margin-top: -18px;
+    }
 }
 
 button {
     font-family: 'Roboto';
+    cursor: pointer;
 }
 
 textarea {

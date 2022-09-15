@@ -4,7 +4,7 @@ export default `
         <img src="{{ avatarPath }}" alt="{{ display_name }}">
     </div>
     <div class="contact_username">{{ display_name }}</div>
-    <div class="menuDots">.<br>.<br>.</div>
+    <div class="dotsmenu_large">.<br>.<br>.</div>
 </div>
 <div class="delimiter_line"></div>
 `

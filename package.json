@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "parcel build src/pages/*.hbs && node ./server.js",
-    "dev": "parcel src/pages/*.hbs",
+    "dev": "rm -rf dist/* && parcel src/pages/*.hbs",
     "build": "rm -rf dist/* && parcel build src/pages/*.hbs"
   },
   "author": "Dmitrii Nazimov",

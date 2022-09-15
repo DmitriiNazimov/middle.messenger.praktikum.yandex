@@ -1,7 +1,6 @@
+dist
 mydev
 node_modules
 .parcel-cache
-data.mdb
-dist
 .parcel-cache/lock.mdb
 .parcel-cache/data.mdb

@@ -2,6 +2,16 @@
   "name": "ypmessenger",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "targets": {
+    "default": {
+      "engines": {
+        "browsers": "defaults"
+      }
+    }
+  },
   "scripts": {
     "start": "parcel build src/pages/*.hbs && node ./server.js",
     "dev": "parcel src/pages/*.hbs",

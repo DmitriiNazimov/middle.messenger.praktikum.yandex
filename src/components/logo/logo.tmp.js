@@ -9,4 +9,3 @@ const template = `
 `
 
 hbs.registerPartial('logo', template);
-

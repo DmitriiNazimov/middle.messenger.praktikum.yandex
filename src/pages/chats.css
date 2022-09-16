@@ -134,6 +134,14 @@ body {
     left: $left_shift_wide;
     padding: 10px 30px;
 
+    @media (max-width: 850px) {
+        left: $left_shift_slim;
+    }
+
+    @media (max-width: 730px) {
+        display: none;
+    }
+
     .feed_header {
         display: flex;
         align-items: center;
@@ -163,7 +171,8 @@ body {
         display: flex;
         justify-content: space-between;
 
-        textarea {
+        /* textarea */
+        #message { 
             background-color: $section_background_color;
             border: 0;
             height: 19px;
@@ -203,13 +212,13 @@ body {
             display: flex;
             align-items: center;
 
-            button {
+            .button_send_msg {
                 font-size: 22px;
                 margin: 0;
                 margin-right: 10px;
                 font-weight: normal;
 
-                span {
+                .icon_send_msg {
                     margin-bottom: -5px;
                 }
             }
@@ -218,13 +227,5 @@ body {
         @media (max-width: 850px) {
             left: $left_shift_slim;
         }
-    }
-
-    @media (max-width: 850px) {
-        left: $left_shift_slim;
-    }
-
-    @media (max-width: 730px) {
-        display: none;
     }
 }

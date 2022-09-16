@@ -10,13 +10,13 @@
     left: 0;
     bottom: 0;
 
-    a {
+    .comeback_link {
         text-decoration: none;
         color: $font_color_bright;
         margin: 7px;
     }
 
-    p {
+    .comeback_note {
         text-align: center;
         font-size: 14px;
     }

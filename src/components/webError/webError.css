@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
 
-    p {
+    .err_paragraph {
         text-align: center;
     }
 

@@ -15,7 +15,7 @@ logo {
         color: $accent_color;
     }
 
-    a {
+    .logo_link {
         text-decoration: none;
         color: $font_color_bright;
     }

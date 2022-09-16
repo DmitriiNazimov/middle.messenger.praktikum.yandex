@@ -4,7 +4,7 @@ import './logo.css';
 
 const template = `
 <logo>
-    <a href="/"><span class="accent_wrapper">EASY</span>TOUCH</a>
+    <a class="logo_link" href="/"><span class="accent_wrapper">EASY</span>TOUCH</a>
 </logo>
 `
 

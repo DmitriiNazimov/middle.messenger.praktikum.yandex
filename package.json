@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "start": "parcel build src/pages/*.hbs && node ./server.js",
+    "start": "npm run build && node ./server.js",
     "dev": "rm -rf dist/* && parcel src/pages/*.hbs",
     "build": "rm -rf dist/* && parcel build src/pages/*.hbs"
   },

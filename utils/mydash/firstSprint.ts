@@ -1,4 +1,4 @@
-function last(list) {
+function last(list: any[]): unknown {
     if (!Array.isArray(list) || !list.length) {
         return undefined;
     }
@@ -7,7 +7,7 @@ function last(list) {
 }
 
 
-function first(list) {
+function first(list: any[]): unknown {
     if (!Array.isArray(list) || !list.length) {
         return undefined;
     }
@@ -16,10 +16,8 @@ function first(list) {
 }
 
 
-function range(start, end, step) {
-    let result = [];
-
-    if (typeof step !== 'number') step = 1;
+function range(start: number, end?: number, step: number = 1): number[] {
+    let result: number[] = [];
 
     if (step < 0) step *= -1;
 
@@ -49,12 +47,12 @@ function range(start, end, step) {
 }
 
 
-function rangeRight(start, end, step) {
+function rangeRight(start: number, end?: number, step: number = 1): number[] {
     return range(start, end, step).reverse();
 }
 
 
-function isEmpty(value) {
+function isEmpty(value: any): boolean {
     if (typeof value === 'undefined') return true;
     if (value === null) return true;
     if (typeof value === 'boolean') return true;

@@ -1,5 +1,5 @@
-import hbs from "handlebars";
-import "./buttons.css";
+import hbs from 'handlebars';
+import './buttons.css';
 
 const template: string = `
 {{#if typeFull }}
@@ -12,4 +12,4 @@ const template: string = `
 {{/if}}
 `;
 
-hbs.registerPartial("buttonForForm", template);
+hbs.registerPartial('buttonForForm', template);

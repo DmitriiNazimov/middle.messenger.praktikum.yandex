@@ -1,27 +1,27 @@
-@import url("../../variables.css");
+@import url('../../variables.css');
 
 .web_error {
-	height: 75vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-	.err_paragraph {
-		text-align: center;
-	}
+  .err_paragraph {
+    text-align: center;
+  }
 
-	.err_header {
-		font-size: 50px;
-		margin: 0;
-	}
+  .err_header {
+    font-size: 50px;
+    margin: 0;
+  }
 
-	.err_msg {
-		font-size: 20px;
-	}
+  .err_msg {
+    font-size: 20px;
+  }
 
-	.err_link {
-		margin: 70px auto;
-		width: 200px;
-		color: $font_color_bright;
-	}
+  .err_link {
+    margin: 70px auto;
+    width: 200px;
+    color: $font_color_bright;
+  }
 }

@@ -1,41 +1,41 @@
-import "../styles.css";
+import '../styles.css';
 
-import hbs from "handlebars";
-import form from "../components/form/form.tmp";
+import hbs from 'handlebars';
+import form from '../components/form/form.tmp';
 
 const data: object = {
-	header: "Вход",
-	formRows: [
-		{
-			title: "Логин",
-			type: "login",
-			id: "login",
-			placeholder: "ivanIvanov",
-			required: true,
-		},
-		{
-			title: "Пароль",
-			type: "password",
-			id: "password",
-			placeholder: "Латинские буквы и цифры",
-			required: true,
-		},
-	],
-	buttons: [
-		{
-			typeFull: true,
-			text: "Войти",
-			link: "./chats.html",
-		},
-		{
-			typeEmpty: true,
-			text: "Ещё не зарегистрированы?",
-			link: "./registration.html",
-		},
-	],
+  header: 'Вход',
+  formRows: [
+    {
+      title: 'Логин',
+      type: 'login',
+      id: 'login',
+      placeholder: 'ivanIvanov',
+      required: true,
+    },
+    {
+      title: 'Пароль',
+      type: 'password',
+      id: 'password',
+      placeholder: 'Латинские буквы и цифры',
+      required: true,
+    },
+  ],
+  buttons: [
+    {
+      typeFull: true,
+      text: 'Войти',
+      link: './chats.html',
+    },
+    {
+      typeEmpty: true,
+      text: 'Ещё не зарегистрированы?',
+      link: './registration.html',
+    },
+  ],
 };
 
-const template: HandlebarsTemplateDelegate = hbs.compile("{{> logo }}" + form);
+const template = hbs.compile(`{{> logo }} ${form}`);
 const html: string = template(data);
 
-document.getElementsByTagName("MAIN")[0]!.innerHTML += html;
+document.getElementsByTagName('MAIN')[0].innerHTML += html;

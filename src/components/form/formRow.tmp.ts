@@ -1,5 +1,5 @@
-import hbs from "handlebars";
-import "./form.css";
+import hbs from 'handlebars';
+import './form.css';
 
 const template: string = `
 <div class="form_row">
@@ -12,4 +12,4 @@ const template: string = `
 </div>
 `;
 
-hbs.registerPartial("formRow", template);
+hbs.registerPartial('formRow', template);

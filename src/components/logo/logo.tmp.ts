@@ -1,5 +1,5 @@
-import hbs from "handlebars";
-import "./logo.css";
+import hbs from 'handlebars';
+import './logo.css';
 
 const template: string = `
 <logo>
@@ -7,4 +7,4 @@ const template: string = `
 </logo>
 `;
 
-hbs.registerPartial("logo", template);
+hbs.registerPartial('logo', template);

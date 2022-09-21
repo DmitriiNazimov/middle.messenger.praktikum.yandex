@@ -1,5 +1,5 @@
-import "../logo/logo.tmp";
-import "./webError.css";
+import '../logo/logo.tmp';
+import './webError.css';
 
 export default `
 {{> logo }}

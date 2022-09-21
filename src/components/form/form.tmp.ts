@@ -20,14 +20,14 @@ export default `
 
     {{#if avatarChange}}
         <h3 class="form_header3">Если хотите поменять аватар:</h3>
-        <div class="form_row">
-            <label class="form_label" for="avatar_input">Фото</label>
-            <input type="file" class="standart_input" id="avatar_input" name="avatar_input">
+        <div class="form-row">
+            <label class="form_label" for="avatar-input">Фото</label>
+            <input type="file" class="standart-input" id="avatar-input" name="avatar-input">
         </div>
     {{/if}}
 
     {{#if buttons}}
-        <div class="form_buttons">
+        <div class="form-buttons">
             {{#each buttons}}
                 {{> buttonForForm this}}
             {{/each}}

@@ -1,9 +1,9 @@
-@import url('./variables.css');
+@import "./variables.css";
 
 body {
   background-color: $background_color;
   color: $font_color_bright;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
   display: flex;
 }
@@ -63,10 +63,10 @@ a {
 }
 
 button {
-  font-family: 'Roboto';
+  font-family: Roboto, sans-serif;
   cursor: pointer;
 }
 
 textarea {
-  font-family: 'Roboto';
+  font-family: Roboto, sans-serif;
 }

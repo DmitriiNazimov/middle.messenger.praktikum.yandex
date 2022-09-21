@@ -1,6 +1,6 @@
-@import url('../../variables.css');
+@import "../../variables.css";
 
-.button_form {
+.button-form {
   width: 100%;
   display: flex;
   border-radius: 100px;
@@ -10,7 +10,7 @@
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  cursor: contact_pointer;
+  cursor: contact-pointer;
 
   &__full {
     background-color: $accent_color;
@@ -26,8 +26,8 @@
   }
 
   &:hover {
-    -webkit-transition: 0.2s;
-    box-shadow: 0px 0px 20px $accent_color;
+    transition: 0.2s;
+    box-shadow: 0 0 20px $accent_color;
   }
 
   &:last-child {

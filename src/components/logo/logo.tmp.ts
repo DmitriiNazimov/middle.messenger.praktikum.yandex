@@ -2,9 +2,9 @@ import hbs from 'handlebars';
 import './logo.css';
 
 const template: string = `
-<logo>
-    <a class="logo_link" href="/"><span class="accent_wrapper">EASY</span>TOUCH</a>
-</logo>
+<div class="logo">
+    <a class="logo-link" href="/"><span class="accent-wrapper">EASY</span>TOUCH</a>
+</div>
 `;
 
 hbs.registerPartial('logo', template);

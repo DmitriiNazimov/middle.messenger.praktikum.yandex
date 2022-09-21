@@ -1,25 +1,25 @@
-@import url('../../variables.css');
+@import "../../variables.css";
 
-.web_error {
+.web-error {
   height: 75vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  .err_paragraph {
+  .err-paragraph {
     text-align: center;
   }
 
-  .err_header {
+  .err-header {
     font-size: 50px;
     margin: 0;
   }
 
-  .err_msg {
+  .err-msg {
     font-size: 20px;
   }
 
-  .err_link {
+  .err-link {
     margin: 70px auto;
     width: 200px;
     color: $font_color_bright;

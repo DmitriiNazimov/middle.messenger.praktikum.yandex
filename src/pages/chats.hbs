@@ -1,52 +1,49 @@
 <html lang="ru">
 
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Raleway+Dots&family=Roboto+Serif:ital,opsz,wght@0,8..144,400;0,8..144,700;0,8..144,800;0,8..144,900;1,8..144,400&family=Roboto:ital,wght@0,100;0,400;0,700;0,900;1,100;1,400&display=swap"
-			rel="stylesheet"
-		/>
-		<title>Easy touch: список чатов</title>
-	</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway+Dots&family=Roboto+Serif:ital,opsz,wght@0,8..144,400;0,8..144,700;0,8..144,800;0,8..144,900;1,8..144,400&family=Roboto:ital,wght@0,100;0,400;0,700;0,900;1,100;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>Easy touch: список чатов</title>
+  </head>
 
-	<body>
-		<main>
-			<div class="chat_side contacts_list">
-				<p class="profile_link"><a href="./profile.hbs">Профиль ></a></p>
-				<form class="search_form round_form_wrapper"></form>
-				<div class="contacts"></div>
-			</div>
-			<div class="chat_side feed">
+  <body>
+    <main>
+      <div class="chat-side contacts-list">
+        <p class="profile-link"><a href="./profile.hbs">Профиль ></a></p>
+        <form class="search-form round-form-wrapper"></form>
+        <div class="contacts"></div>
+      </div>
+      <div class="chat-side feed">
 
-				<div id="feedHeader"></div>
+        <div id="feedHeader"></div>
 
-				<div class="messages">
-					<p>Здесь пока никто ничего не писал.</p>
-				</div>
+        <div class="messages">
+          <p>Здесь пока никто ничего не писал.</p>
+        </div>
 
-				<form>
-					<div class="write_message_wrapper">
-						<textarea
-							id="message"
-							name="message"
-							rows="1"
-							placeholder="Напишите ваше сообщение здесь..."
-						></textarea>
-						<div class="button_wrapper">
-							<button
-								type="submit"
-								class="button_form button_form__full button_send_msg"
-							>
-								<span class="icon_send_msg">↳</span>
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</main>
-		<script src="chats.ts" type="module"></script>
-	</body>
+        <form>
+          <div class="write-message-wrapper">
+            <textarea
+              id="message"
+              name="message"
+              rows="1"
+              placeholder="Напишите ваше сообщение здесь..."
+            ></textarea>
+            <div class="button-wrapper">
+              <button type="submit" class="button-form button-form__full button-send-msg">
+                <span class="icon-send-msg">↳</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script src="chats.ts" type="module"></script>
+  </body>
 
 </html>

@@ -3,7 +3,7 @@ import "../styles.css";
 import hbs from "handlebars";
 import form from "../components/form/form.tmp";
 
-const data = {
+const data: object = {
 	header: "Регистрация",
 	formRows: [
 		{
@@ -71,7 +71,7 @@ const data = {
 	],
 };
 
-const template = hbs.compile("{{> logo }}" + form);
-const html = template(data);
+const template: HandlebarsTemplateDelegate = hbs.compile("{{> logo }}" + form);
+const html: string = template(data);
 
 document.getElementsByTagName("MAIN")[0].innerHTML += html;

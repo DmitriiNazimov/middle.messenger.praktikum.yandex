@@ -7,18 +7,18 @@ import "../components/form/formRow.tmp";
 import contactRow from "../components/chatList/contactRow.tmp";
 import feedHeader from "../components/chatList/feedHeader.tmp";
 
-const searchInputData = {
+const searchInputData: object = {
 	type: "text",
 	id: "searchContacts",
 	placeholder: "Поиск",
 };
 
-const feedHeaderData = {
+const feedHeaderData: object = {
 	avatarPath: "/img/dimon.jpg",
 	display_name: "Иван",
 };
 
-const contactsData = {
+const contactsData: object = {
 	peoples: [
 		{
 			avatarPath: "/img/dimon.jpg",
@@ -55,14 +55,14 @@ const contactsData = {
 	],
 };
 
-const templateSearchInput = hbs.compile("{{> formRow }}");
-const htmlSearchInput = templateSearchInput(searchInputData);
-document.querySelector(".search_form").innerHTML = htmlSearchInput;
+const templateSearchInput: HandlebarsTemplateDelegate = hbs.compile("{{> formRow }}");
+const htmlSearchInput: string = templateSearchInput(searchInputData);
+document.querySelector(".search_form")!.innerHTML = htmlSearchInput;
 
-const templateContacts = hbs.compile(contactRow);
-const htmlContacts = templateContacts(contactsData);
-document.querySelector(".contacts").innerHTML = htmlContacts;
+const templateContacts: HandlebarsTemplateDelegate = hbs.compile(contactRow);
+const htmlContacts: string = templateContacts(contactsData);
+document.querySelector(".contacts")!.innerHTML = htmlContacts;
 
-const templateFeedHeader = hbs.compile(feedHeader);
-const htmlFeedHeader = templateFeedHeader(feedHeaderData);
-document.querySelector("#feedHeader").innerHTML = htmlFeedHeader;
+const templateFeedHeader: HandlebarsTemplateDelegate = hbs.compile(feedHeader);
+const htmlFeedHeader: string = templateFeedHeader(feedHeaderData);
+document.querySelector("#feedHeader")!.innerHTML = htmlFeedHeader;

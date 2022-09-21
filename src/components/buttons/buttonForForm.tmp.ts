@@ -1,7 +1,7 @@
 import hbs from "handlebars";
 import "./buttons.css";
 
-const template = `
+const template: string = `
 {{#if typeFull }}
     <button type="submit" class="hide button_form button_form__full">{{ text }}</button>
     <a href="{{link}}" class="button_form button_form__full">{{ text }}</a>

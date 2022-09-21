@@ -1,7 +1,7 @@
 import hbs from "handlebars";
 import "./form.css";
 
-const template = `
+const template: string = `
 <div class="form_row">
     <label class="form_label" for="{{ id }}">{{ title }}{{#if required}}<em>*</em>{{/if}}</label>
     <input class="standart_input" type="{{ type }}" id="{{ id }}" name="{{ id }}" 

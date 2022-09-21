@@ -1,8 +1,7 @@
-import './formRow.tmp';
-import '../buttons/buttonForForm.tmp';
-import '../logo/logo.tmp';
-import './form.css';
-
+import "./formRow.tmp";
+import "../buttons/buttonForForm.tmp";
+import "../logo/logo.tmp";
+import "./form.css";
 
 export default `
 <form class="form">
@@ -35,4 +34,4 @@ export default `
         </div>
     {{/if}}
 </form>
-`
+`;

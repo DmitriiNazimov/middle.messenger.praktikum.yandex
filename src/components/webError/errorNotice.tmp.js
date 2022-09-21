@@ -1,6 +1,5 @@
-import '../logo/logo.tmp';
-import './webError.css';
-
+import "../logo/logo.tmp";
+import "./webError.css";
 
 export default `
 {{> logo }}
@@ -11,4 +10,4 @@ export default `
         <a href="{{ url }}" class="button_form button_form__empty">{{ linkText }}</a>
     </p>
 </div>
-`
+`;

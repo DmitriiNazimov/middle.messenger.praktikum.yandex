@@ -20,4 +20,4 @@ export default `
     </div>
     <div class="delimiter_line"></div>
 {{/each}}
-`
+`;

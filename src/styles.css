@@ -1,73 +1,72 @@
-@import url('./variables.css');
-
+@import url("./variables.css");
 
 body {
-    background-color: $background_color;
-    color: $font_color_bright;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    display: flex;
+	background-color: $background_color;
+	color: $font_color_bright;
+	font-family: "Roboto", sans-serif;
+	font-size: 16px;
+	display: flex;
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: auto;
 
-    @media (max-width: 730px) {
-        width: 95%;
-        margin-bottom: 15px;
-    }
+	@media (max-width: 730px) {
+		width: 95%;
+		margin-bottom: 15px;
+	}
 }
 
 h1 {
-    font-size: 36px;
-    text-align: center;
-    font-weight: normal;
+	font-size: 36px;
+	text-align: center;
+	font-weight: normal;
 }
 
 .hide {
-    display: none !important;
+	display: none !important;
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 100px;
+	width: 50px;
+	height: 50px;
+	border-radius: 100px;
 
-    &_big {
-        width: 150px;
-        height: 150px;
-        margin: 50px auto;
-    }
+	&_big {
+		width: 150px;
+		height: 150px;
+		margin: 50px auto;
+	}
 }
 
 a {
-    color: $font_color_bright;
+	color: $font_color_bright;
 }
 
 .delimiter {
-    &_line {
-        margin: 15px auto;
-        height: 1px;
-        background-color: $border_color;
-    }
+	&_line {
+		margin: 15px auto;
+		height: 1px;
+		background-color: $border_color;
+	}
 }
 
 .dotsmenu {
-    &_large {
-        font-size: 40px;
-        line-height: 0.25;
-        margin-top: -18px;
-    }
+	&_large {
+		font-size: 40px;
+		line-height: 0.25;
+		margin-top: -18px;
+	}
 }
 
 button {
-    font-family: 'Roboto';
-    cursor: pointer;
+	font-family: "Roboto";
+	cursor: pointer;
 }
 
 textarea {
-    font-family: 'Roboto';
+	font-family: "Roboto";
 }

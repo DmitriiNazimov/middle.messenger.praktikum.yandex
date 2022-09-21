@@ -1,22 +1,21 @@
-@import url('../../variables.css');
-
+@import url("../../variables.css");
 
 logo {
-    font-size: 55px;
-    font-family: 'Raleway Dots', cursive;
-    text-align: center;
-    margin: 50px 0;
+	font-size: 55px;
+	font-family: "Raleway Dots", cursive;
+	text-align: center;
+	margin: 50px 0;
 
-    @media (max-width: 389px) {
-        font-size: 50px;
-    }
+	@media (max-width: 389px) {
+		font-size: 50px;
+	}
 
-    .accent_wrapper {
-        color: $accent_color;
-    }
+	.accent_wrapper {
+		color: $accent_color;
+	}
 
-    .logo_link {
-        text-decoration: none;
-        color: $font_color_bright;
-    }
+	.logo_link {
+		text-decoration: none;
+		color: $font_color_bright;
+	}
 }

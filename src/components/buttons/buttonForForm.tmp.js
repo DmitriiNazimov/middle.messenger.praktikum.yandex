@@ -1,7 +1,5 @@
-import hbs from 'handlebars';
-import './buttons.css';
-
-
+import hbs from "handlebars";
+import "./buttons.css";
 
 const template = `
 {{#if typeFull }}
@@ -12,6 +10,6 @@ const template = `
 {{#if typeEmpty }}
     <a href="{{link}}" class="button_form button_form__empty">{{ text }}</a>
 {{/if}}
-`
+`;
 
-hbs.registerPartial('buttonForForm', template);
+hbs.registerPartial("buttonForForm", template);

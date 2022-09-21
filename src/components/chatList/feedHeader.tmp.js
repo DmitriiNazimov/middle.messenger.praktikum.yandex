@@ -7,4 +7,4 @@ export default `
     <div class="dotsmenu_large">.<br>.<br>.</div>
 </div>
 <div class="delimiter_line"></div>
-`
+`;

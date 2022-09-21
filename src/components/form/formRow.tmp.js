@@ -1,6 +1,5 @@
-import hbs from 'handlebars';
-import './form.css';
-
+import hbs from "handlebars";
+import "./form.css";
 
 const template = `
 <div class="form_row">
@@ -11,6 +10,6 @@ const template = `
     {{#if value}}value="{{ value }}" {{/if}}
     {{#if required}}required{{/if}}>
 </div>
-`
+`;
 
-hbs.registerPartial('formRow', template);
+hbs.registerPartial("formRow", template);

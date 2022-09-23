@@ -13,9 +13,9 @@
 		}
 	},
 	"scripts": {
-		"build": "rm -rf dist/* && parcel build src/pages/*.hbs",
-		"dev": "rm -rf dist/* && parcel src/pages/*.hbs",
-		"start": "npm run build && node ./server.js"
+		"build": "rm -rf dist/* && parcel build src/pages/*.hbs --no-cache",
+		"dev": "rm -rf dist/* && parcel src/pages/*.hbs --no-cache",
+		"start": "npm run build && node ./server.js --no-cache"
 	},
 	"author": "Dmitrii Nazimov",
 	"license": "MIT",

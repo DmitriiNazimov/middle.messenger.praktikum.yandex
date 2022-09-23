@@ -4,19 +4,26 @@
   "eslint.alwaysShowStatus": true,
   // tell the ESLint plugin to run on save
   "editor.codeActionsOnSave": {
-		"source.fixAll": true
+    "source.fixAll": true
   },
-	"[postcss]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[jsonc]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	// "[javascript]": {
-	//   "editor.defaultFormatter": "esbenp.prettier-vscode"
-	// },
-	// "editor.defaultFormatter": "vscode.typescript-language-features",
-	// "[typescript]": {
-	//   "editor.defaultFormatter": "esbenp.prettier-vscode"
-	// },
+  "[postcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[handlebars]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false
+  },
+  "todo-tree.highlights.defaultHighlight": {},
+  "html.format.enable": false,
+  "prettier.printWidth": 100
+  // "[javascript]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  // "editor.defaultFormatter": "vscode.typescript-language-features",
+  // "[typescript]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
 }

@@ -6,6 +6,7 @@ import hbs from 'handlebars';
 import '../components/form/formRow.tmp';
 import contactRow from '../components/chatList/contactRow.tmp';
 import feedHeader from '../components/chatList/feedHeader.tmp';
+import messagesFeed from '../components/messages/messagesFeed.tmp';
 
 const searchInputData: object = {
   type: 'text',
@@ -55,6 +56,27 @@ const contactsData: object = {
   ],
 };
 
+const messagesData: object = {
+  days: [
+    {
+      date: '19.04.2009',
+      messages: [
+        {
+          time: '10:30',
+          text: 'Привет. Как дела?',
+        },
+        {
+          time: '10:30',
+          text: 'Привет. Я норм. Как сам?',
+          outgoing: true,
+          delivered: true,
+          readed: false,
+        },
+      ],
+    },
+  ],
+};
+
 const templateSearchInput = hbs.compile('{{> formRow }}');
 const htmlSearchInput: string = templateSearchInput(searchInputData);
 document.querySelector('.search-form')!.innerHTML = htmlSearchInput;
@@ -65,4 +87,8 @@ document.querySelector('.contacts')!.innerHTML = htmlContacts;
 
 const templateFeedHeader = hbs.compile(feedHeader);
 const htmlFeedHeader: string = templateFeedHeader(feedHeaderData);
-document.querySelector('#feedHeader')!.innerHTML = htmlFeedHeader;
+document.querySelector('.feed-header-wrapper')!.innerHTML = htmlFeedHeader;
+
+const templateMessages = hbs.compile(messagesFeed);
+const htmlMessages: string = templateMessages(messagesData);
+document.querySelector('.messages')!.innerHTML = htmlMessages;

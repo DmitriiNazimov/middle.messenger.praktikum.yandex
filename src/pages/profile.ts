@@ -41,7 +41,6 @@ const data: object = {
       title: 'Телефон',
       type: 'tel',
       id: 'phone',
-      pattern: '+7 [0-9]{3}-[0-9]{3}-[0-9]{4}',
       value: '+7 999 777 55 22',
     },
   ],

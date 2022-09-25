@@ -16,7 +16,10 @@ main {
 
   @media (max-width: 730px) {
     width: 95%;
-    margin-bottom: 15px;
+
+    /* //TODO удалить коммент */
+
+    /* margin-bottom: 15px; */
   }
 }
 
@@ -69,4 +72,12 @@ button {
 
 textarea {
   font-family: Roboto, sans-serif;
+}
+
+.index-nav {
+  margin: 0 auto;
+
+  .navigation-list li {
+    margin: 20px 0;
+  }
 }

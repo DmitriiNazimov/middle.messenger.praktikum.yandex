@@ -64,3 +64,8 @@
   width: 80%;
   margin: 30px auto;
 }
+
+.input-error {
+  margin-top: 7px;
+  color: $font_color_red;
+}

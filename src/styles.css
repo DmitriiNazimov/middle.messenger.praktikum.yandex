@@ -77,7 +77,11 @@ textarea {
 .index-nav {
   margin: 0 auto;
 
-  .navigation-list li {
-    margin: 20px 0;
+  .navigation-list {
+    padding: 0;
+
+    li {
+      margin: 20px 0;
+    }
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-
-class Validator {
+/* eslint-disable no-unused-vars */
+export default class Validator {
   run(inputs: HTMLInputElement[]): void {
     inputs.forEach((input) => {
       const methodName = `${input.name}Check` as keyof Validator;
@@ -40,30 +40,4 @@ class Validator {
   getErrNode(input: HTMLInputElement): HTMLElement {
     return [...input.parentElement!.children].filter((node) => node.classList.contains('input-error'))[0] as HTMLElement;
   }
-}
-
-const forms: Element[] = Array.from(document.forms);
-
-if (forms.length) {
-  const validator = new Validator();
-  forms.forEach((form: Element) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.target as HTMLFormElement);
-      // eslint-disable-next-line no-console
-      console.log(Object.fromEntries(formData));
-
-      const inputs: Element[] = Array.from(form.getElementsByTagName('INPUT'));
-      validator.run(inputs as HTMLInputElement[]);
-    });
-
-    function focusBlurHandler(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (input.className === 'standart-input') {
-        validator.run([event.target] as HTMLInputElement[]);
-      }
-    }
-
-    ['focus', 'blur'].forEach((event) => form.addEventListener(event, focusBlurHandler, true));
-  });
 }

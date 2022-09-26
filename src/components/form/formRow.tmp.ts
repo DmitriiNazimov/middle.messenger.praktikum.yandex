@@ -9,6 +9,7 @@ const template: string = `
     {{#if placeholder}}placeholder="{{ placeholder }}" {{/if}}
     {{#if value}}value="{{ value }}" {{/if}}
     {{#if required}}required{{/if}}>
+    <div class="input-error hide">Error</div>
 </div>
 `;
 

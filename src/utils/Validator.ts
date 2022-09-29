@@ -1,16 +1,25 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
+
+type InputValue = HTMLInputElement[] & string;
+type Errors = {[key: string]: string };
+
 export default class Validator {
-  run(inputs: HTMLInputElement[]): void {
+  run(inputs: HTMLInputElement[]): {} {
+    const errors: Errors = {};
+
     inputs.forEach((input) => {
       const methodName = `${input.name}Check` as keyof Validator;
 
-      if (this[methodName]) this[methodName](input as HTMLInputElement & HTMLInputElement[]);
+      if (this[methodName]) {
+        // @ts-ignore
+        errors[input.name] = this[methodName](input.value as InputValue);
+      }
     });
+
+    return errors;
   }
 
-  loginCheck(input: HTMLInputElement): boolean {
-    const { value } = input;
+  loginCheck(value: string) {
     let errorText: string = '';
 
     if (!/^(?=.{3,20}$)/.test(value)) {
@@ -25,19 +34,6 @@ export default class Validator {
       errorText += 'Логин не может состоять только из цифр.\r\n';
     }
 
-    const errNode: HTMLElement = this.getErrNode(input);
-
-    if (errorText.length) {
-      errNode.textContent = errorText;
-      errNode.classList.remove('hide');
-      return false;
-    }
-
-    errNode.classList.add('hide');
-    return true;
-  }
-
-  getErrNode(input: HTMLInputElement): HTMLElement {
-    return [...input.parentElement!.children].filter((node) => node.classList.contains('input-error'))[0] as HTMLElement;
+    return errorText;
   }
 }

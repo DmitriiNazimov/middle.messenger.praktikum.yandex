@@ -3,7 +3,7 @@ import './chats.css';
 import '../components/form/form.css';
 
 import hbs from 'handlebars';
-import '../components/form/formRow.tmp';
+import '../components/form/input.tmp';
 import contactRow from '../components/chatList/contactRow.tmp';
 import feedHeader from '../components/chatList/feedHeader.tmp';
 import messagesFeed from '../components/messages/messagesFeed.tmp';

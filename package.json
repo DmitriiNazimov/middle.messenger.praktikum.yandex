@@ -21,17 +21,19 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@anikin/parcel-transformer-handlebars": "1.0.9",
+		"@babel/register": "7.18.9",
+		"@types/node": "18.7.23",
 		"@typescript-eslint/eslint-plugin": "5.38.0",
 		"@typescript-eslint/parser": "5.38.0",
 		"eslint": "8.23.1",
 		"eslint-config-airbnb": "19.0.4",
 		"eslint-plugin-import": "2.26.0",
-		"parcel": "2.7.0",
+		"parcel-plugin-handlebars-precompile": "1.0.2",
 		"parcel-reporter-static-files-copy": "1.4.0",
 		"postcss": "8.4.16",
 		"postcss-custom-properties": "12.1.8",
 		"postcss-functions": "4.0.2",
-		"postcss-import": "15.0.0",
+		"postcss-import": "12.0.1",
 		"postcss-mixins": "9.0.4",
 		"postcss-nested": "5.0.6",
 		"postcss-simple-vars": "7.0.0",
@@ -45,7 +47,10 @@
 		"typescript": "4.8.3"
 	},
 	"dependencies": {
+		"@babel/core": "7.19.3",
 		"express": "4.18.1",
-		"handlebars": "4.7.7"
+		"handlebars": "4.7.7",
+		"nanoid": "4.0.0",
+		"parcel": "2.7.0"
 	}
 }

@@ -4,7 +4,7 @@ type Listener = {
   [key: string]: Function[]
 }
 
-class EventBus<Key extends string, Func extends Function> {
+export default class EventBus<Key extends string, Func extends Function> {
   private listeners: Listener = {};
 
   on(event: Key, callback: Func): void {
@@ -30,7 +30,7 @@ class EventBus<Key extends string, Func extends Function> {
 
   emit(event: Key, ...args: unknown[]): void {
     if (!this.listeners[event]) {
-      throw new Event(`Не зарегистрировано событие: ${String(event)}`);
+      return;
     }
 
     this.listeners[event].forEach((listener: Function) => listener(...args));

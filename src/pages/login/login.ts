@@ -1,11 +1,12 @@
-import '../styles.css';
+/* eslint-disable import/prefer-default-export */
+import '../../styles.css';
 
-import hbs from 'handlebars';
-import form from '../components/form/form.tmp';
+import Block from '../../utils/Block';
+import '../../components/logo/logo.tmp';
 
-const data: object = {
+export const data: object = {
   header: 'Вход',
-  formRows: [
+  inputs: [
     {
       title: 'Логин',
       type: 'login',
@@ -28,14 +29,30 @@ const data: object = {
       link: './chats.html',
     },
     {
-      typeEmpty: true,
+      typeFull: false,
       text: 'Ещё не зарегистрированы?',
       link: './registration.html',
     },
   ],
 };
 
-const template = hbs.compile(`{{> logo }} ${form}`);
-const html: string = template(data);
+export class LoginPage extends Block {
+  constructor() {
+    super(data);
+  }
 
-document.getElementsByTagName('MAIN')[0].innerHTML += html;
+  render() {
+    document.title = 'Авторизация';
+
+    return `
+    <main>
+      {{> logo}} 
+      {{{ Form 
+          header="{{header}}" 
+          inputs=inputs 
+          buttons=buttons 
+      }}}
+    </main>
+    `;
+  }
+}

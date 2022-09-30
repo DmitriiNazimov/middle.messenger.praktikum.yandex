@@ -1,4 +1,9 @@
-@import "../variables.css";
+@import "../../variables.css";
+
+.profile-wrapper {
+  margin: auto;
+  display: flex;
+}
 
 .sidebar-left {
   display: flex;
@@ -40,5 +45,5 @@
 }
 
 #avatar-input {
-  padding: 20px 5px;
+  padding: 30px 5px;
 }

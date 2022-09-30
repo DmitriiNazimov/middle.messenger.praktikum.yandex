@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import '../../styles.css';
+import './index.css';
 
 import Block from '../../utils/Block';
-import '../../components/logo/logo.tmp';
 
 export class IndexPage extends Block {
   render() {
@@ -10,7 +10,7 @@ export class IndexPage extends Block {
 
     return `
     <main>
-      {{> logo}} 
+      {{{ Logo }}} 
       <h1>Список страниц:</h1>
       <nav class="index-nav">
         <ul class="navigation-list">

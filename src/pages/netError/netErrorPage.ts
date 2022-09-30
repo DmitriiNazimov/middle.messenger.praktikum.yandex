@@ -3,7 +3,6 @@ import '../../styles.css';
 import './netError.css';
 
 import Block from '../../utils/Block';
-import '../../components/logo/logo.tmp';
 
 export const data404: object = {
   code: '404',
@@ -25,7 +24,7 @@ export class NetErrorPage extends Block {
 
     return `
     <main>
-    {{> logo }}
+    {{{ Logo }}}
     <div class="web-error">
         <p class="err-paragraph err-header">{{ code }}</p>
         <p class="err-paragraph err-msg">{{ message }}</p>

@@ -3,23 +3,31 @@ import { renderDOM, registerComponent } from './utils';
 import IndexPage from './pages/index';
 import LoginPage from './pages/login';
 import RegistrationPage from './pages/registration';
+import ChatsPage from './pages/chats';
+import ProfilePage from './pages/profile';
 import { NetErrorPage, data404, data500 } from './pages/netError';
 import { Form, Input, InputError } from './components/form';
+import Logo from './components/logo';
 import Button from './components/button';
-import Layout from './components/layout';
+import { Contact, ChatHeader, Message } from './components/chat';
 
 // Страницы
 registerComponent(LoginPage);
 registerComponent(IndexPage);
 registerComponent(RegistrationPage);
 registerComponent(NetErrorPage);
+registerComponent(ChatsPage);
+registerComponent(ProfilePage);
 
 // Компоненты
+registerComponent(Logo);
 registerComponent(Form);
 registerComponent(Input);
 registerComponent(InputError);
 registerComponent(Button);
-registerComponent(Layout);
+registerComponent(Contact);
+registerComponent(ChatHeader);
+registerComponent(Message);
 
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', () => {
@@ -36,6 +44,14 @@ if (window.location.pathname === '/') {
 } else if (window.location.pathname.startsWith('/500')) {
   document.addEventListener('DOMContentLoaded', () => {
     renderDOM(new NetErrorPage(data500));
+  });
+} else if (window.location.pathname.startsWith('/chats')) {
+  document.addEventListener('DOMContentLoaded', () => {
+    renderDOM(new ChatsPage());
+  });
+} else if (window.location.pathname.startsWith('/profile')) {
+  document.addEventListener('DOMContentLoaded', () => {
+    renderDOM(new ProfilePage());
   });
 } else {
   document.addEventListener('DOMContentLoaded', () => {

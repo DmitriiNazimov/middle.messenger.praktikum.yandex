@@ -34,7 +34,7 @@
   border: 1px solid $border_color;
   color: $font_color_bright;
   font-size: 18px;
-  padding: 5px 0 5px 10px;
+  padding: 8px 0 8px 10px;
   width: 100%;
 
   &:hover {
@@ -69,10 +69,12 @@
   white-space: pre-wrap;
   margin-top: 7px;
   color: $font_color_soft;
+  display: flex;
 
   &-list {
     padding-left: 15px;
     list-style: circle;
+    margin-bottom: 0;
 
     li {
       margin-bottom: 10px;

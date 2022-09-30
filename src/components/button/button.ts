@@ -4,7 +4,6 @@ import './button.css';
 
 interface Props {
   text: string;
-  typeEmpty: boolean;
   typeFull: boolean;
   link: string;
   events: Object;
@@ -12,11 +11,10 @@ interface Props {
 
 export class Button extends Block {
   constructor({
-    text, typeEmpty, typeFull, link,
+    text, typeFull, link,
   }: Props) {
     super({
       text,
-      typeEmpty,
       typeFull,
       link,
     });

@@ -2,7 +2,6 @@
 import '../../styles.css';
 
 import Block from '../../utils/Block';
-import '../../components/logo/logo.tmp';
 
 export const data: object = {
   header: 'Регистрация',
@@ -61,12 +60,12 @@ export const data: object = {
     {
       typeFull: true,
       text: 'Зарегистрироваться',
-      link: './chats.html',
+      link: './chats',
     },
     {
       typeEmpty: true,
       text: 'Вход',
-      link: './login.html',
+      link: './login',
     },
   ],
 };
@@ -81,7 +80,7 @@ export class RegistrationPage extends Block {
 
     return `
     <main>
-      {{> logo}} 
+      {{{ Logo }}}
       {{{ Form 
           header="{{header}}" 
           inputs=inputs 

@@ -4,15 +4,15 @@ type InputValue = HTMLInputElement[] & string;
 type Errors = {[key: string]: string };
 
 export default class Validator {
-  check(inputs: HTMLInputElement[]): {} {
+  check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): {} {
     const errors: Errors = {};
 
-    inputs.forEach((input) => {
-      const rulesName = `${input.name}Rules` as keyof Validator;
+    formItems.forEach((item) => {
+      const validateRulesName = `${item.name}Rules` as keyof Validator;
 
-      if (this[rulesName]) {
+      if (this[validateRulesName]) {
         // @ts-ignore
-        errors[input.name] = this[rulesName](input.value as InputValue);
+        errors[item.name] = this[validateRulesName](item.value as InputValue);
       }
     });
 
@@ -129,8 +129,6 @@ export default class Validator {
 
   composeErrorString(errArr: string[]): string {
     const lines = errArr.map((string) => `<li>${string}</li>`).join('');
-    const str = `<ul class='input-error-list'>${lines}</ul>`;
-
-    return str;
+    return `<ul class='input-error-list'>${lines}</ul>`;
   }
 }

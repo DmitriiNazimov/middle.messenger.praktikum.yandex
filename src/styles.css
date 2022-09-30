@@ -16,10 +16,6 @@ main {
 
   @media (max-width: 730px) {
     width: 95%;
-
-    /* //TODO удалить коммент */
-
-    /* margin-bottom: 15px; */
   }
 }
 
@@ -58,7 +54,7 @@ a {
 }
 
 .dotsmenu {
-  &_large {
+  &__large {
     font-size: 40px;
     line-height: 0.25;
     margin-top: -18px;
@@ -72,16 +68,4 @@ button {
 
 textarea {
   font-family: Roboto, sans-serif;
-}
-
-.index-nav {
-  margin: 0 auto;
-
-  .navigation-list {
-    padding: 0;
-
-    li {
-      margin: 20px 0;
-    }
-  }
 }

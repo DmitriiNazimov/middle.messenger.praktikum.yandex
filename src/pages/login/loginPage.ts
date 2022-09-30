@@ -2,7 +2,6 @@
 import '../../styles.css';
 
 import Block from '../../utils/Block';
-import '../../components/logo/logo.tmp';
 
 export const data: object = {
   header: 'Вход',
@@ -46,7 +45,7 @@ export class LoginPage extends Block {
 
     return `
     <main>
-      {{> logo}} 
+      {{{ Logo }}} 
       {{{ Form 
           header="{{header}}" 
           inputs=inputs 

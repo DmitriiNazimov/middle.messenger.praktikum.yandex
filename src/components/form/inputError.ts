@@ -31,7 +31,7 @@ export default class InputError extends Block {
 
   render() {
     return `
-        <div class="input-error{{#unless error}} hide{{/unless}}">{{error}}</div>
+        <div class="input-error{{#unless error}} hide{{/unless}}">{{{error}}}</div>
      `;
   }
 }

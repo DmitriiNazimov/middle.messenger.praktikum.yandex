@@ -28,31 +28,33 @@ export default class Form extends Block {
     });
 
     this.validator = new Validator();
-
     this.addErrorRefNamesToProps();
   }
 
   inputChangeHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT') {
-      const errors: Object = this.validator.run([target] as HTMLInputElement[]);
+      const errors: Object = this.validator.check([target] as HTMLInputElement[]);
 
       this.updatePropsAfterValidation(errors);
     }
   }
 
   submitHandler(event: Event) {
-    event.preventDefault();
+    if (document.querySelectorAll('.input-error-list')?.length) {
+      event.preventDefault();
+    }
+
+    event.preventDefault();// FIXME временно, пока данные формы выводятся в консоль. Потом убрать.
 
     const formData = new FormData(event.target as HTMLFormElement);
     // eslint-disable-next-line no-console
     console.log(Object.fromEntries(formData));
 
     const form = event.target as HTMLFormElement;
-    const inputs: Element[] = Array.from(form.getElementsByTagName('INPUT'));
-
-    const validateData: Object = this.validator.run(inputs as HTMLInputElement[]);
-
-    this.updatePropsAfterValidation(validateData);
+    const inputs: Element[] = Array.from(form.querySelectorAll('INPUT'));
+    const errors: Object = this.validator.check(inputs as HTMLInputElement[]);
+    this.updatePropsAfterValidation(errors);
+    this.paintErrorsInRed(form);
   }
 
   updatePropsAfterValidation(errors: Object) {
@@ -66,6 +68,14 @@ export default class Form extends Block {
     // eslint-disable-next-line no-param-reassign
     newProps.inputs.forEach((input: InputRef) => { input.errorRefName = `${input.id}Error`; });
     this.setProps(newProps);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  paintErrorsInRed(form: HTMLFormElement) {
+    const errElems = Array.from(form.querySelectorAll('.input-error'));
+    errElems.forEach((elem) => {
+      elem.classList.add('input-error__submitted');
+    });
   }
 
   render() {

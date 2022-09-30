@@ -14,8 +14,6 @@ export default class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  private _meta: {props: {}, events?: {[key: string]: Function}};
-
   protected children: {[id: string]: Block} = {};
 
   protected _element: HTMLElement | null = null;
@@ -33,20 +31,16 @@ export default class Block {
   constructor(props?: any) {
     const eventBus = new EventBus();
 
-    this._meta = {
-      props,
-    };
-
     this.getStateFromProps(props);
 
     this.props = this._makePropsProxy(props);
-    // console.log(this.props);
 
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
+
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
@@ -115,8 +109,6 @@ export default class Block {
   }
 
   _render() {
-    // TODO сюда вернутся и скопировать от Моргунова.
-
     const fragment = this._compile();
 
     this._removeEvents();
@@ -135,11 +127,10 @@ export default class Block {
   }
 
   getContent(): HTMLElement {
-    // TODO у моргунова много написано, но вроде как не надо это. Какой-то хак.
     return this.element;
   }
 
-  _makePropsProxy(props: Object) {
+  _makePropsProxy(props: Object = {}) {
     const self = this;
 
     return new Proxy(props, {
@@ -150,12 +141,14 @@ export default class Block {
 
         return objProps[prop];
       },
+
       set(objProps: Object, prop: keyof Object, value) {
         // eslint-disable-next-line no-param-reassign
         objProps[prop] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
         return true;
       },
+
       deleteProperty() {
         throw new Error('Нет доступа');
       },
@@ -169,9 +162,7 @@ export default class Block {
   _removeEvents() {
     const { events } = this.props as any;
 
-    if (!events || !this._element) {
-      return;
-    }
+    if (!events || !this._element) return;
 
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.removeEventListener(event, listener as any);
@@ -181,9 +172,7 @@ export default class Block {
   _addEvents() {
     const { events }: {[key: string]: Function} = this.props;
 
-    if (!events) {
-      return;
-    }
+    if (!events) return;
 
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.addEventListener(event, listener as any, true);
@@ -201,41 +190,25 @@ export default class Block {
   _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
-    /**
-     * Рендерим шаблон
-     */
     const template = Handlebars.compile(this.render());
-
-    // console.log(this.props);
 
     fragment.innerHTML = template({
       ...this.state, ...this.props, children: this.children, refs: this.refs,
     });
 
-    /**
-     * Заменяем заглушки на компоненты
-     */
+    // Заменяем заглушки на компоненты
     Object.entries(this.children).forEach(([id, component]) => {
-      /**
-       * Ищем заглушку по id
-       */
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
-      if (!stub) {
-        return;
-      }
+      if (!stub) return;
 
       const stubChilds = stub.childNodes.length ? stub.childNodes : [];
 
-      /**
-       * Заменяем заглушку на component._element
-       */
+      // Заменяем заглушку на component._element
       const content = component.getContent();
       stub.replaceWith(content);
 
-      /**
-       * Ищем элемент layout-а, куда вставлять детей
-       */
+      // Ищем элемент layout-а, куда вставлять детей
       const layoutContent = content.querySelector('[data-layout="1"]');
 
       if (layoutContent && stubChilds.length) {
@@ -243,9 +216,6 @@ export default class Block {
       }
     });
 
-    /**
-     * Возвращаем фрагмент
-     */
     return fragment.content;
   }
 }

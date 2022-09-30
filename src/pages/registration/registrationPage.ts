@@ -1,11 +1,12 @@
-import '../styles.css';
+/* eslint-disable import/prefer-default-export */
+import '../../styles.css';
 
-import hbs from 'handlebars';
-import form from '../components/form/form.tmp';
+import Block from '../../utils/Block';
+import '../../components/logo/logo.tmp';
 
-const data: object = {
+export const data: object = {
   header: 'Регистрация',
-  formRows: [
+  inputs: [
     {
       title: 'Email',
       type: 'email',
@@ -70,7 +71,23 @@ const data: object = {
   ],
 };
 
-const template = hbs.compile(`{{> logo }} ${form}`);
-const html: string = template(data);
+export class RegistrationPage extends Block {
+  constructor() {
+    super(data);
+  }
 
-document.getElementsByTagName('MAIN')[0].innerHTML += html;
+  render() {
+    document.title = 'Регистрация';
+
+    return `
+    <main>
+      {{> logo}} 
+      {{{ Form 
+          header="{{header}}" 
+          inputs=inputs 
+          buttons=buttons 
+      }}}
+    </main>
+    `;
+  }
+}

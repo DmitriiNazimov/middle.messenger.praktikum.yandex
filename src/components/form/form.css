@@ -66,6 +66,20 @@
 }
 
 .input-error {
+  white-space: pre-wrap;
   margin-top: 7px;
-  color: $font_color_red;
+  color: $font_color_soft;
+
+  &-list {
+    padding-left: 15px;
+    list-style: circle;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__submitted {
+    color: $font_color_red;
+  }
 }

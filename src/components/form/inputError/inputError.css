@@ -1,4 +1,4 @@
-@import "../../variables.css";
+@import "../../../variables.css";
 
 .input-error {
   white-space: pre-wrap;

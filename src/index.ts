@@ -5,10 +5,10 @@ import LoginPage from './pages/login';
 import RegistrationPage from './pages/registration';
 import ChatsPage from './pages/chats';
 import ProfilePage from './pages/profile';
-import { NetErrorPage, data404, data500 } from './pages/netError';
 import Logo from './components/logo';
 import Button from './components/button';
-import { Contact, ChatHeader, Message } from './components/chat';
+import { NetErrorPage, data404, data500 } from './pages/netError';
+import { Contact, ChatHeader, Message } from './components/chats';
 import {
   Form, Input, InputError, SendMessageForm,
 } from './components/form';

@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-import Form from './form';
-import './form.css';
+import Form from '../form';
+import '../form.css';
 import './sendMessageForm.css';
 
 export default class SendMessageForm extends Form {

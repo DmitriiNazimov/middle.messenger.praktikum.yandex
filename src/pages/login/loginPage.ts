@@ -25,12 +25,12 @@ export const data: object = {
     {
       typeFull: true,
       text: 'Войти',
-      link: './chats.html',
+      link: './chats',
     },
     {
       typeFull: false,
       text: 'Ещё не зарегистрированы?',
-      link: './registration.html',
+      link: './registration',
     },
   ],
 };

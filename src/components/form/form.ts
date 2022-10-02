@@ -27,19 +27,19 @@ export default class Form extends Block {
       sendMessageForm,
       events: {
         submit: (event: Event) => this.submitHandler(event),
-        blur: (event: Event) => this.inputChangeHandler(event.target as HTMLInputElement),
-        input: (event: Event) => this.inputChangeHandler(event.target as HTMLInputElement),
-        focus: (event: Event) => this.inputChangeHandler(event.target as HTMLInputElement),
+        blur: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
+        input: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
+        focus: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
       },
     });
 
     this.validator = new Validator();
 
-    // Добавляем инпутам наименования refs для элемента с ошибками
+    // Добавляем инпутам наименования refs для элемента с выводом ошибок
     if (inputs) this.addErrorRefNamesToProps();
   }
 
-  inputChangeHandler(target: HTMLInputElement) {
+  inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
       const errors: Object = this.validator.check([target] as HTMLInputElement[]);
 
@@ -67,11 +67,13 @@ export default class Form extends Block {
     }
 
     const errors: Object = this.validator.check(formItems as HTMLInputElement[]);
+
     this.updatePropsAfterValidation(errors);
     this.paintErrorsInRed(form);
   }
 
   updatePropsAfterValidation(errors: Object) {
+    // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(errors).forEach(([name, errorText]) => {
       this.refs[`${name}Error`].setProps({ error: errorText });
     });
@@ -92,40 +94,38 @@ export default class Form extends Block {
   }
 
   render() {
-    console.log(this.props);
-
     return `
     <form class="form">
-    {{#if header}}
-      <h1>{{ header }}</h1>
-    {{/if}} 
+      {{#if header}}
+        <h1>{{ header }}</h1>
+      {{/if}} 
 
-    {{#each inputs}}
-      {{#if header3}}
-        <h3 class="form__header3">{{header3}}</h3>
-      {{/if}}  
-      <div class="form__row">
-        <label class="form__label" for="{{ id }}">{{ title }}{{#if required}}<em>*</em>{{/if}}</label>
-          {{{ Input
-              placeholder="{{placeholder}}" 
-              title="{{title}}" 
-              type="{{type}}" 
-              id="{{id}}"
-              required=required
-              value=value
-          }}}
-          {{{ InputError error=error ref=errorRefName }}}
-      </div>
-    {{/each}}
-
-    {{#if buttons}}
-        <div class="form__buttons-wrapper">
-            {{#each buttons}}
-                {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}"}}}
-            {{/each}}
+      {{#each inputs}}
+        {{#if inputHeader}}
+          <h3 class="form__input-header">{{inputHeader}}</h3>
+        {{/if}}  
+        <div class="form__row">
+          <label class="form__label" for="{{ id }}">{{ title }}{{#if required}}<em>*</em>{{/if}}</label>
+            {{{ Input
+                placeholder="{{placeholder}}" 
+                title="{{title}}" 
+                type="{{type}}" 
+                id="{{id}}"
+                required=required
+                value=value
+            }}}
+            {{{ InputError error=error ref=errorRefName }}}
         </div>
-    {{/if}}
-</form>
+      {{/each}}
+
+      {{#if buttons}}
+          <div class="form__buttons-wrapper">
+              {{#each buttons}}
+                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}"}}}
+              {{/each}}
+          </div>
+      {{/if}}
+    </form>
      `;
   }
 }

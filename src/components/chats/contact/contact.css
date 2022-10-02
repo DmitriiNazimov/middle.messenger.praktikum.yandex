@@ -9,17 +9,26 @@
     &__active {
       background: rgb(101 72 35);
       background: linear-gradient(90deg, rgb(101 72 35 / 100%) 0%, rgb(0 212 255 / 0%) 85%);
-
-      /* stylelint-disable-next-line selector-class-pattern */
-      .contact__pointer {
-        width: 4px;
-        margin-right: 3px;
-        height: 100%;
-        background-color: $accent_color;
-        margin-top: -7px;
-        padding-bottom: 14px;
-      }
     }
+
+    &:hover {
+      cursor: pointer;
+      transition: 0.1s;
+      background: linear-gradient(90deg, rgb(101 72 35 / 100%) 0%, rgb(0 212 255 / 0%) 85%);
+      box-shadow: 0 0 20px $accent_color;
+      border-radius: 25px;
+      padding-right: 15px;
+      padding-left: 10px;
+    }
+  }
+
+  &__pointer {
+    width: 4px;
+    margin-right: 3px;
+    height: 100%;
+    background-color: $accent_color;
+    margin-top: -7px;
+    padding-bottom: 14px;
   }
 
   &__main-info {

@@ -10,7 +10,7 @@
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  cursor: contact-pointer;
+  cursor: pointer;
 
   &__full {
     background-color: $accent_color;

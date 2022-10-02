@@ -8,11 +8,11 @@ export default class Validator {
     const errors: Errors = {};
 
     formItems.forEach((item) => {
-      const validateRulesName = `${item.name}Rules` as keyof Validator;
+      const rules = `${item.name}Rules` as keyof Validator;
 
-      if (this[validateRulesName]) {
+      if (this[rules]) {
         // @ts-ignore
-        errors[item.name] = this[validateRulesName](item.value as InputValue);
+        errors[item.name] = this[rules](item.value as InputValue);
       }
     });
 

@@ -51,7 +51,7 @@ const data: object = {
       placeholder: 'ivanIvanov',
     },
     {
-      header3: 'Если хотите поменять пароль:',
+      inputHeader: 'Если хотите поменять пароль:',
       title: 'Пароль',
       type: 'password',
       id: 'password',
@@ -64,7 +64,7 @@ const data: object = {
       placeholder: 'Новый пароль',
     },
     {
-      header3: 'Если хотите поменять аватар:',
+      inputHeader: 'Если хотите поменять аватар:',
       title: 'Фото',
       type: 'file',
       id: 'avatar-input',

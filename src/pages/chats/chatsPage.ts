@@ -88,8 +88,8 @@ export class ChatsPage extends Block {
     <main>
       <div class="chat-side contacts-list">
         <p class="profile-link"><a href="./profile">Профиль ></a></p>
-        <form class="search-form round-form-wrapper">
-          <div class="round-form-wrapper__row">
+        <form class="search-form form__round-wrapper">
+          <div class="form__round-wrapper-row">
             {{{ Input
               type="text"
               id="search-contacts"

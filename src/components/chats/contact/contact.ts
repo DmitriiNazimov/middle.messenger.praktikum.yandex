@@ -29,7 +29,7 @@ export default class Contact extends Block {
     return `
         <div class="contact__row {{#if active}}contact__row__active{{/if}}">
             <div class="contact__avatar">
-                <div class="contact-pointer"></div>
+                <div class="contact__pointer {{#unless active}}hide{{/unless}}"></div>
                 <img src="{{ avatarPath }}" alt="{{ displayName }}">
             </div>
             <div class="contact__main-info">

@@ -6,9 +6,11 @@
   display: flex;
   flex-direction: column;
   align-self: center;
-  width: 400px;
+  min-width: 400px;
+
   @media (max-width: 420px) {
     max-width: 100%;
+    min-width: 355px;
   }
 
   &__label {
@@ -18,7 +20,7 @@
     color: $font_color_soft;
   }
 
-  &__header3 {
+  &__input-header {
     width: 80%;
     margin: 25px auto 10px;
   }
@@ -32,16 +34,16 @@
     width: 80%;
     margin: 0 auto 23px;
   }
-}
 
-.round-form-wrapper {
-  .standart-input {
-    border: 0;
-    border-radius: 10px;
-    text-align: center;
-  }
+  &__round-wrapper {
+    .standart-input {
+      border: 0;
+      border-radius: 10px;
+      text-align: center;
+    }
 
-  &__row {
-    width: 100%;
+    &-row {
+      width: 100%;
+    }
   }
 }

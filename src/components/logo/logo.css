@@ -10,11 +10,11 @@
     font-size: 50px;
   }
 
-  .accent-wrapper {
+  &__accent-wrapper {
     color: $accent_color;
   }
 
-  .logo-link {
+  &__link {
     text-decoration: none;
     color: $font_color_bright;
   }

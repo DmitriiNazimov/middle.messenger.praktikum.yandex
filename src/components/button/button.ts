@@ -23,9 +23,9 @@ export class Button extends Block {
   render() {
     return `
       {{#if typeFull}}
-        <button type="submit" class=" button-form button-form__full">{{text}}</button>
+        <button type="submit" class="button button__full">{{text}}</button>
       {{else}}
-        <a href="{{link}}" class="button-form button-form__empty">{{text}}</a>
+        <a href="{{link}}" class="button button__empty">{{text}}</a>
       {{/if}}
      `;
   }

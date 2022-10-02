@@ -1,4 +1,5 @@
 import Block from '../../utils/Block';
+import './message.css';
 
 interface Props {
   time: string;
@@ -26,7 +27,7 @@ export default class Message extends Block {
           <div class="msg__text">{{ text }}</div>
         {{/if}}
         {{#if imgPath }}
-          <img src="{{ imgPath }}" alt="Изображение от собеседника" class="chat-image">
+          <img src="{{ imgPath }}" alt="Изображение от собеседника" class="msg__image">
         {{/if}}
         <div class="msg__info">
             {{#if outgoing }}

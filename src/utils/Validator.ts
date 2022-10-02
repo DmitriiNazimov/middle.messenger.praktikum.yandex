@@ -129,6 +129,6 @@ export default class Validator {
 
   composeErrorString(errArr: string[]): string {
     const lines = errArr.map((string) => `<li>${string}</li>`).join('');
-    return `<ul class='input-error-list'>${lines}</ul>`;
+    return `<ul class='input-error__list'>${lines}</ul>`;
   }
 }

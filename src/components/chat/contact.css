@@ -1,0 +1,72 @@
+@import "../../variables.css";
+
+.contact {
+  &__row {
+    display: flex;
+    padding: 8px 3px 8px 0;
+    margin: -6px 0;
+
+    &__active {
+      background: rgb(101 72 35);
+      background: linear-gradient(90deg, rgb(101 72 35 / 100%) 0%, rgb(0 212 255 / 0%) 85%);
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .contact__pointer {
+        width: 4px;
+        margin-right: 3px;
+        height: 100%;
+        background-color: $accent_color;
+        margin-top: -7px;
+        padding-bottom: 14px;
+      }
+    }
+  }
+
+  &__main-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-right: 6px;
+    width: 100%;
+  }
+
+  &__username {
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+
+  &__message {
+    font-size: 13px;
+  }
+
+  &__extra-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__message-date {
+    font-size: 14px;
+  }
+
+  &__message-counter {
+    color: $font_color_dark;
+    background-color: $font_color_bright;
+    border-radius: 100px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__avatar {
+    display: flex;
+
+    img {
+      margin-right: 15px;
+      width: 55px;
+      height: 55px;
+      border-radius: 100px;
+    }
+  }
+}

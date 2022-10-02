@@ -34,7 +34,7 @@ h1 {
   height: 50px;
   border-radius: 100px;
 
-  &_big {
+  &__big {
     width: 150px;
     height: 150px;
     margin: 50px auto;
@@ -46,7 +46,7 @@ a {
 }
 
 .delimiter {
-  &_line {
+  &__line {
     margin: 15px auto;
     height: 1px;
     background-color: $border_color;

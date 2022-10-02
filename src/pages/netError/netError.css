@@ -6,20 +6,20 @@
   flex-direction: column;
   justify-content: center;
 
-  .err-paragraph {
+  &__paragraph {
     text-align: center;
   }
 
-  .err-header {
+  &__header {
     font-size: 50px;
     margin: 0;
   }
 
-  .err-msg {
+  &__msg {
     font-size: 20px;
   }
 
-  .err-link {
+  &__link {
     margin: 70px auto;
     width: 200px;
     color: $font_color_bright;

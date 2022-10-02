@@ -1,5 +1,5 @@
 import Block from '../../utils/Block';
-import './form.css';
+import './input.css';
 
 interface Props {
   id: string;

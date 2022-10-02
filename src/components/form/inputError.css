@@ -1,0 +1,22 @@
+@import "../../variables.css";
+
+.input-error {
+  white-space: pre-wrap;
+  margin-top: 7px;
+  color: $font_color_soft;
+  display: flex;
+
+  &__list {
+    padding-left: 15px;
+    list-style: circle;
+    margin-bottom: 0;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__submitted {
+    color: $font_color_red;
+  }
+}

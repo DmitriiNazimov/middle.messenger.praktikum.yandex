@@ -1,6 +1,6 @@
 @import "../../variables.css";
 
-.button-form {
+.button {
   width: 100%;
   display: flex;
   border-radius: 100px;

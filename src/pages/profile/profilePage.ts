@@ -95,16 +95,16 @@ export class ProfilePage extends Block {
     return `
     <span class="profile-wrapper">
       <div class="sidebar-left">
-        <a class="comeback-link" href="./chats">
-          <div class="icon-comeback">←</div>
-          <p class="comeback-note">Назад</p>
+        <a class="comeback__link" href="./chats">
+          <div class="comeback__icon">←</div>
+          <p class="comeback__note">Назад</p>
         </a>
       </div>
       <main>
         <img
           src="{{avatarPath}}"
           alt="Аватар пользователя {{header}}"
-          class="avatar avatar_big"
+          class="avatar avatar__big"
         />
         {{{ Form 
           header="{{header}}" 

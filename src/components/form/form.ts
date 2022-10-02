@@ -15,7 +15,7 @@ interface Props {
 type InputRef = { errorRefName: string; id: string; };
 
 export default class Form extends Block {
-  private validator: Validator;
+  protected validator: Validator;
 
   constructor({
     header, inputs, buttons, sendMessageForm,
@@ -92,6 +92,8 @@ export default class Form extends Block {
   }
 
   render() {
+    console.log(this.props);
+
     return `
     <form class="form">
     {{#if header}}
@@ -100,10 +102,10 @@ export default class Form extends Block {
 
     {{#each inputs}}
       {{#if header3}}
-        <h3 class="form_header3">{{header3}}</h3>
+        <h3 class="form__header3">{{header3}}</h3>
       {{/if}}  
-      <div class="form-row">
-        <label class="form_label" for="{{ id }}">{{ title }}{{#if required}}<em>*</em>{{/if}}</label>
+      <div class="form__row">
+        <label class="form__label" for="{{ id }}">{{ title }}{{#if required}}<em>*</em>{{/if}}</label>
           {{{ Input
               placeholder="{{placeholder}}" 
               title="{{title}}" 
@@ -117,29 +119,10 @@ export default class Form extends Block {
     {{/each}}
 
     {{#if buttons}}
-        <div class="form-buttons">
+        <div class="form__buttons-wrapper">
             {{#each buttons}}
                 {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}"}}}
             {{/each}}
-        </div>
-    {{/if}}
-
-    {{#if sendMessageForm }}
-        <div class="send-message-wrapper">
-          <span class="send-message-wrapper-inner">
-            <textarea
-              id="message"
-              name="message"
-              rows="1"
-              placeholder="Напишите ваше сообщение здесь..."
-            ></textarea>
-            <div class="button-wrapper">
-              <button type="submit" class="button-form button-form__full button-send-msg">
-                <span class="icon-send-msg">↳</span>
-              </button>
-            </div>
-          </span>
-        {{{ InputError error=error ref="messageError" messageError="true" }}}
         </div>
     {{/if}}
 </form>

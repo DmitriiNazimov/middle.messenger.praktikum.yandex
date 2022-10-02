@@ -1,21 +1,21 @@
 import Block from '../../utils/Block';
-import './form.css';
+import './inputError.css';
 
 interface Props {
   error: string;
-  messageError: boolean;
+  sendMessageError: boolean;
 }
 
 export default class InputError extends Block {
-  constructor({ error, messageError }: Props) {
-    super({ error, messageError });
+  constructor({ error, sendMessageError }: Props) {
+    super({ error, sendMessageError });
   }
 
   render() {
     return `
         <div class="input-error
         {{#unless error}} hide{{/unless}}
-        {{#if messageError}} message-validate-error{{/if}}">
+        {{#if sendMessageError}} send-message__validate-error{{/if}}">
           {{{error}}}
         </div>
      `;

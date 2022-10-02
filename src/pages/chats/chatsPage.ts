@@ -89,7 +89,7 @@ export class ChatsPage extends Block {
       <div class="chat-side contacts-list">
         <p class="profile-link"><a href="./profile">Профиль ></a></p>
         <form class="search-form round-form-wrapper">
-          <div class="form-row">
+          <div class="round-form-wrapper__row">
             {{{ Input
               type="text"
               id="search-contacts"
@@ -107,17 +107,14 @@ export class ChatsPage extends Block {
               lastMsgDate=lastMsgDate
               msgCounter=msgCounter
             }}}
-            <div class="delimiter_line"></div>
+            <div class="delimiter__line"></div>
           {{/each}}
         </div>
       </div>
       <div class="chat-side feed">
-        <div class="chat-header-wrapper">
         {{#each chatHeader}}
           {{{ ChatHeader avatarPath=avatarPath displayName=displayName }}}
         {{/each}}
-        <div class="delimiter_line"></div>
-        </div>
         <div class="messages">
           {{#if days}}
             {{#each days}}
@@ -139,7 +136,7 @@ export class ChatsPage extends Block {
             <p class="messages__empty">Начните беседу!</p>
         {{/if}}
         </div>
-        {{{ Form sendMessageForm="true" }}}
+        {{{ SendMessageForm sendMessageForm="true" }}}
       </div>
     </main>
     `;

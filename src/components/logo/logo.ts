@@ -6,7 +6,7 @@ export class Logo extends Block {
   render() {
     return `
     <div class="logo">
-      <a class="logo-link" href="/"><span class="accent-wrapper">EASY</span>TOUCH</a>
+      <a class="logo__link" href="/"><span class="logo__accent-wrapper">EASY</span>TOUCH</a>
     </div>
     `;
   }

@@ -14,17 +14,6 @@
   left: 0;
   bottom: 0;
 
-  .comeback-link {
-    text-decoration: none;
-    color: $font_color_bright;
-    margin: 7px;
-  }
-
-  .comeback-note {
-    text-align: center;
-    font-size: 14px;
-  }
-
   @media (max-width: 650px) {
     height: 80px;
     width: 70px;
@@ -33,17 +22,26 @@
   }
 }
 
-.icon-comeback {
-  width: 33px;
-  height: 33px;
-  background-color: #ffa826;
-  border-radius: 100px;
-  text-align: center;
-  color: #2b1c09;
-  margin: 12px;
-  font-size: 28px;
-}
+.comeback {
+  &__link {
+    text-decoration: none;
+    color: $font_color_bright;
+    margin: 7px;
+  }
 
-#avatar-input {
-  padding: 30px 5px;
+  &__note {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  &__icon {
+    width: 33px;
+    height: 33px;
+    background-color: #ffa826;
+    border-radius: 100px;
+    text-align: center;
+    color: #2b1c09;
+    margin: 12px;
+    font-size: 28px;
+  }
 }

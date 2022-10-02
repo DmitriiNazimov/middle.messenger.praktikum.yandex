@@ -6,10 +6,12 @@ import RegistrationPage from './pages/registration';
 import ChatsPage from './pages/chats';
 import ProfilePage from './pages/profile';
 import { NetErrorPage, data404, data500 } from './pages/netError';
-import { Form, Input, InputError } from './components/form';
 import Logo from './components/logo';
 import Button from './components/button';
 import { Contact, ChatHeader, Message } from './components/chat';
+import {
+  Form, Input, InputError, SendMessageForm,
+} from './components/form';
 
 // Страницы
 registerComponent(LoginPage);
@@ -22,6 +24,7 @@ registerComponent(ProfilePage);
 // Компоненты
 registerComponent(Logo);
 registerComponent(Form);
+registerComponent(SendMessageForm);
 registerComponent(Input);
 registerComponent(InputError);
 registerComponent(Button);

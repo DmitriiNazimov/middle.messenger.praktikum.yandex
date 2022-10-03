@@ -3,12 +3,14 @@ import Handlebars, { HelperOptions } from 'handlebars';
 import Block from './Block';
 
 interface BlockConstructable<Props = any> {
+  // eslint-disable-next-line no-unused-vars
   new(props: Props): Block;
+  componentName: string;
 }
 
 export default function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
   Handlebars.registerHelper(
-    Component.name,
+    Component.componentName || Component.name,
     function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       if (!data.root.children) {
         data.root.children = {};

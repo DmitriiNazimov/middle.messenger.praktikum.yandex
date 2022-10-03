@@ -10,6 +10,8 @@ interface Props {
 }
 
 export class Button extends Block {
+  static componentName: string = 'Button';
+
   constructor({
     text, typeFull, link,
   }: Props) {

@@ -7,6 +7,8 @@ interface Props {
 }
 
 export default class InputError extends Block {
+  static componentName: string = 'InputError';
+
   constructor({ error, sendMessageError }: Props) {
     super({ error, sendMessageError });
   }

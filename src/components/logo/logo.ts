@@ -3,6 +3,8 @@ import Block from '../../utils/Block';
 import './logo.css';
 
 export class Logo extends Block {
+  static componentName: string = 'Logo';
+
   render() {
     return `
     <div class="logo">

@@ -12,6 +12,8 @@ interface Props {
 }
 
 export default class Message extends Block {
+  static componentName: string = 'Message';
+
   constructor({
     time, text, imgPath, outgoing, delivered, readed,
   }: Props) {

@@ -15,6 +15,8 @@ interface Props {
 type InputRef = { errorRefName: string; id: string; };
 
 export default class Form extends Block {
+  static componentName: string = 'Form';
+
   protected validator: Validator;
 
   constructor({

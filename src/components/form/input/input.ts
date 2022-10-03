@@ -14,6 +14,8 @@ interface Props {
 }
 
 export default class Input extends Block {
+  static componentName: string = 'Input';
+
   constructor({
     id, title, required, type, pattern, placeholder, value, error,
   }: Props) {

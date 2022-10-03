@@ -14,6 +14,8 @@ export default class Block {
     FLOW_RENDER: 'flow:render',
   };
 
+  static componentName: string;
+
   protected children: {[id: string]: Block} = {};
 
   protected _element: HTMLElement | null = null;
@@ -194,19 +196,11 @@ export default class Block {
   _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
-    // console.log(fragment);
-
     const template = Handlebars.compile(this.render());
-
-    console.log(this.render());
-
-    // console.log(template);
 
     fragment.innerHTML = template({
       ...this.state, ...this.props, children: this.children, refs: this.refs,
     });
-
-    // console.log(fragment.innerHTML);
 
     // Заменяем заглушки на компоненты
     Object.entries(this.children).forEach(([id, component]) => {

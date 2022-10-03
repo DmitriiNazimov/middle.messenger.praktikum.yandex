@@ -12,6 +12,8 @@ interface Props {
 }
 
 export default class Contact extends Block {
+  static componentName: string = 'Contact';
+
   constructor({
     active, avatarPath, displayName, lastMsgText, lastMsgDate, msgCounter,
   }: Props) {

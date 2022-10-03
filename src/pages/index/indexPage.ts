@@ -6,7 +6,7 @@ import Block from '../../utils/Block';
 
 export class IndexPage extends Block {
   render() {
-    document.title = 'Главная страница';
+    document.title = 'Easy Touch - главная страница';
 
     return `
     <main>

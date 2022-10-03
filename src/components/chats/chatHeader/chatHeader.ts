@@ -8,6 +8,8 @@ interface Props {
 }
 
 export default class ChatHeader extends Block {
+  static componentName: string = 'ChatHeader';
+
   constructor({ avatarPath, displayName }: Props) {
     super({ avatarPath, displayName });
   }

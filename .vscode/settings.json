@@ -12,10 +12,10 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[handlebars]": {
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false
-  },
+  // "[handlebars]": {
+  //   "editor.formatOnSave": true,
+  //   "editor.formatOnPaste": true
+  // },
   "todo-tree.highlights.defaultHighlight": {},
   "html.format.enable": false,
   "prettier.printWidth": 100

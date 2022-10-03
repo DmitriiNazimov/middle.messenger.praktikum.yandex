@@ -9,9 +9,8 @@ export default class Validator {
 
     formItems.forEach((item) => {
       const rules = `${item.name}Rules` as keyof Validator;
-
       if (this[rules]) {
-        // @ts-ignore
+        // @ts-expect-error
         errors[item.name] = this[rules](item.value as InputValue);
       }
     });

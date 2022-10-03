@@ -1,7 +1,7 @@
 import Block from '../../../utils/Block';
 import './inputError.css';
 
-interface Props {
+type Props = {
   error: string;
   sendMessageError: boolean;
 }

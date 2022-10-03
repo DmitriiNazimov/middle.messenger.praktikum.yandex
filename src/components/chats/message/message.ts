@@ -1,7 +1,7 @@
 import Block from '../../../utils/Block';
 import './message.css';
 
-interface Props {
+type Props = {
   time: string;
   text: string;
   imgPath: string;

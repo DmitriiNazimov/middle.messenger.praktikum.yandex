@@ -1,7 +1,7 @@
 import Block from '../../../utils/Block';
 import './chatHeader.css';
 
-interface Props {
+type Props = {
   avatarPath: string;
   displayName: string;
   events: Object;

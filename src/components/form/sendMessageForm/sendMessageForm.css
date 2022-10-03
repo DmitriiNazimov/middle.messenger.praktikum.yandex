@@ -13,6 +13,7 @@
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 0 50px black;
+    width: auto;
 
     @media (max-width: 850px) {
       left: $left_shift_slim;

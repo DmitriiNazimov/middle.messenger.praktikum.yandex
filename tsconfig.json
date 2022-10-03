@@ -6,6 +6,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
 
+    "strict": true,
     "module": "commonjs",
     "outDir": "dist",
     "target": "es2017",

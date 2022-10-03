@@ -1,7 +1,7 @@
 import Block from '../../../utils/Block';
 import './input.css';
 
-interface Props {
+type Props = {
   id: string;
   title: string;
   required: boolean;

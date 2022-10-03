@@ -1,7 +1,7 @@
 import Block from '../../../utils/Block';
 import './contact.css';
 
-interface Props {
+type Props = {
   active: boolean;
   avatarPath: string;
   displayName: string;

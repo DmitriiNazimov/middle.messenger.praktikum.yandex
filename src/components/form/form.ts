@@ -4,7 +4,7 @@ import Block from '../../utils/Block';
 import Validator from '../../utils/Validator';
 import './form.css';
 
-interface Props {
+type Props = {
   header: string;
   inputs: unknown[];
   buttons: unknown[];

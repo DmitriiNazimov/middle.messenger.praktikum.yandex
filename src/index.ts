@@ -17,14 +17,6 @@ import { NetErrorPage, data404, data500 } from './pages/netError';
 import { Contact, ChatHeader, Message } from './components/chats';
 import { Form, Input, InputError, SendMessageForm } from './components/form';
 
-// Страницы
-registerComponent(LoginPage);
-registerComponent(IndexPage);
-registerComponent(RegistrationPage);
-registerComponent(NetErrorPage);
-registerComponent(ChatsPage);
-registerComponent(ProfilePage);
-
 // Компоненты
 registerComponent(Logo);
 registerComponent(Form);

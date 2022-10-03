@@ -20,7 +20,9 @@ function range(start: number, end?: number, step: number = 1): number[] {
 
   const result: number[] = [];
 
-  if (step < 0) step *= -1;
+  if (step < 0) {
+    step *= -1;
+  }
 
   if (typeof end !== 'number') {
     end = start;

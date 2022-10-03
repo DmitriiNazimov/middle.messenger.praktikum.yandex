@@ -6,11 +6,11 @@ import Block from '../../utils/Block';
 
 export class IndexPage extends Block {
   render() {
-    document.title = 'Easy Touch - главная страница';
+    document.title = 'Главная страница';
 
     return `
     <main>
-      {{{ Logo }}} 
+      {{{ Logo }}}
       <h1>Список страниц:</h1>
       <nav class="index-nav">
         <ul class="navigation-list">

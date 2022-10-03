@@ -36,7 +36,9 @@ export default class Form extends Block {
     this.validator = new Validator();
 
     // Добавляем инпутам наименования refs для элемента с выводом ошибок
-    if (inputs) this.addErrorRefNamesToProps();
+    if (inputs) {
+      this.addErrorRefNamesToProps();
+    }
   }
 
   inputFocusBlurHandler(target: HTMLInputElement) {

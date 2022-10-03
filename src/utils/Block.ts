@@ -162,7 +162,9 @@ export default class Block {
   _removeEvents() {
     const { events } = this.props as any;
 
-    if (!events || !this._element) return;
+    if (!events || !this._element) {
+      return;
+    }
 
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.removeEventListener(event, listener as any);
@@ -172,7 +174,9 @@ export default class Block {
   _addEvents() {
     const { events }: {[key: string]: Function} = this.props;
 
-    if (!events) return;
+    if (!events) {
+      return;
+    }
 
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.addEventListener(event, listener as any, true);
@@ -190,17 +194,27 @@ export default class Block {
   _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
+    // console.log(fragment);
+
     const template = Handlebars.compile(this.render());
+
+    console.log(this.render());
+
+    // console.log(template);
 
     fragment.innerHTML = template({
       ...this.state, ...this.props, children: this.children, refs: this.refs,
     });
 
+    // console.log(fragment.innerHTML);
+
     // Заменяем заглушки на компоненты
     Object.entries(this.children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
-      if (!stub) return;
+      if (!stub) {
+        return;
+      }
 
       const stubChilds = stub.childNodes.length ? stub.childNodes : [];
 

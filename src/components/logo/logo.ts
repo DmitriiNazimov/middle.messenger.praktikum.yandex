@@ -1,8 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import Block from '../../utils/Block';
 import './logo.css';
 
-export class Logo extends Block {
+export default class Logo extends Block {
   static componentName: string = 'Logo';
 
   render() {

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 import './netError.css';
 

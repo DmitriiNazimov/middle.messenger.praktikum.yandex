@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 
 import Block from '../../utils/Block';
@@ -70,7 +69,7 @@ export const data: object = {
   ],
 };
 
-export class RegistrationPage extends Block {
+export default class RegistrationPage extends Block {
   constructor() {
     super(data);
   }

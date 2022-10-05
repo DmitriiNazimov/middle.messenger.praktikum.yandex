@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 type Listener = {
   [key: string]: Function[]
 }

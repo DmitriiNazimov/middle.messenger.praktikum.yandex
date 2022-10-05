@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 import Form from '../form';
 import '../form.css';
 import './sendMessageForm.css';

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 import './profile.css';
 
@@ -84,7 +83,7 @@ const data: object = {
   ],
 };
 
-export class ProfilePage extends Block {
+export default class ProfilePage extends Block {
   constructor() {
     super(data);
   }

@@ -163,7 +163,7 @@ export default class Block {
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.addEventListener(event, listener as any, true);
+      this._element!.addEventListener(event, listener, true);
     });
   }
 

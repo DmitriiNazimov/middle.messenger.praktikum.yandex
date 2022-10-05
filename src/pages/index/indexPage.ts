@@ -1,10 +1,9 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 import './index.css';
 
 import Block from '../../utils/Block';
 
-export class IndexPage extends Block {
+export default class IndexPage extends Block {
   render() {
     document.title = 'Easy Touch - главная страница';
 

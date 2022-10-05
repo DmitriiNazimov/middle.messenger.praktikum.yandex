@@ -34,7 +34,7 @@ export default class Validator {
       errorArr.push('Логин не может состоять только из цифр.');
     }
 
-    if (errorArr.length) errorText = this.composeErrorString(errorArr);
+    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
 
     return errorText;
   }
@@ -55,7 +55,7 @@ export default class Validator {
       errorArr.push('Пароль должен содержать хотя бы одну заглавную букву.');
     }
 
-    if (errorArr.length) errorText = this.composeErrorString(errorArr);
+    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
 
     return errorText;
   }
@@ -72,7 +72,7 @@ export default class Validator {
       errorArr.push('Первая буква должна быть заглавной');
     }
 
-    if (errorArr.length) errorText = this.composeErrorString(errorArr);
+    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
 
     return errorText;
   }
@@ -94,7 +94,7 @@ export default class Validator {
       errorArr.push('Email должен быть указан в формате yyy<b>@</b>xxx<b>.</b>zz');
     }
 
-    if (errorArr.length) errorText = this.composeErrorString(errorArr);
+    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
 
     return errorText;
   }
@@ -111,7 +111,7 @@ export default class Validator {
       errorArr.push('Телефон может состоять только из цифр и знака + в начале.');
     }
 
-    if (errorArr.length) errorText = this.composeErrorString(errorArr);
+    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
 
     return errorText;
   }
@@ -126,7 +126,7 @@ export default class Validator {
     return errorText;
   }
 
-  composeErrorString(errArr: string[]): string {
+  stringifyErrors(errArr: string[]): string {
     const lines = errArr.map((string) => `<li>${string}</li>`).join('');
     return `<ul class='input-error__list'>${lines}</ul>`;
   }

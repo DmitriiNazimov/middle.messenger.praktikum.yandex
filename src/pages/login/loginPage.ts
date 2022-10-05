@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 
 import Block from '../../utils/Block';

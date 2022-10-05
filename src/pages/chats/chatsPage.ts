@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import '../../styles.css';
 import './chats.css';
 
@@ -9,7 +8,8 @@ const data: Object = {
     {
       avatarPath: '/img/dimon.jpg',
       displayName: 'Иван',
-    }],
+    },
+  ],
   contacts: [
     {
       avatarPath: '/img/dimon.jpg',
@@ -76,7 +76,7 @@ const data: Object = {
   ],
 };
 
-export class ChatsPage extends Block {
+export default class ChatsPage extends Block {
   constructor() {
     super(data);
   }

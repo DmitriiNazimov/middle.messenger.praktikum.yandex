@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-function last(list: any[]): unknown {
+function last(list: unknown[]): unknown {
   if (!Array.isArray(list) || !list.length) {
     return undefined;
   }
@@ -7,7 +7,7 @@ function last(list: any[]): unknown {
   return list[list.length - 1];
 }
 
-function first(list: any[]): unknown {
+function first(list: unknown[]): unknown {
   if (!Array.isArray(list) || !list.length) {
     return undefined;
   }

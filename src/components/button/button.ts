@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import Block from '../../utils/Block';
 import './button.css';
 
@@ -9,7 +8,7 @@ interface Props {
   events: Object;
 }
 
-export class Button extends Block {
+export default class Button extends Block {
   static componentName: string = 'Button';
 
   constructor({

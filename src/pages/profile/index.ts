@@ -1,2 +1,2 @@
-// eslint-disable-next-line no-restricted-exports
-export { ProfilePage as default } from './profilePage';
+/* eslint-disable no-restricted-exports */
+export { default } from './profilePage';

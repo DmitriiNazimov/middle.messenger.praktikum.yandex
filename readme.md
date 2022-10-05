@@ -1,3 +1,6 @@
+# Ссылка на pull-request
+
+https://github.com/DmitriiNazimov/middle.messenger.praktikum.yandex/pull/2
 
 # Задание на разработку веб-приложения «Чат»
 

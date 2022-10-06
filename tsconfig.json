@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+
+    "strict": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "target": "es2017",
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "typings/app.d.ts"]
+  }
+}

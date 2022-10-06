@@ -1,0 +1,84 @@
+@import "../../../variables.css";
+
+.send-message {
+  &__form {
+    position: fixed;
+    right: 2px;
+    left: $left_shift_wide;
+    margin: 0 30px;
+    bottom: 0;
+    border-radius: 100px;
+    background-color: $section_background_color;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 50px black;
+    width: auto;
+
+    @media (max-width: 850px) {
+      left: $left_shift_slim;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    align-items: center;
+
+    .button-send-msg {
+      font-size: 22px;
+      margin: 0;
+      margin-right: 10px;
+      font-weight: normal;
+
+      .icon-send-msg {
+        margin-bottom: -5px;
+      }
+    }
+  }
+
+  &__validate-error {
+    font-size: 13px;
+    position: absolute;
+    bottom: 55px;
+  }
+}
+
+/* textarea */
+#message {
+  background-color: $section_background_color;
+  border: 0;
+  color: $font_color_bright;
+  font-size: 15px;
+  padding: 5px 0 5px 10px;
+  margin: 15px;
+  width: 100%;
+
+  &:focus {
+    transition: 0.2s;
+    box-shadow: 0 0 20px #ffa825;
+  }
+
+  &::placeholder {
+    color: $font_color_bright;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: $background_color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background-color: $border_color;
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgb(0 0 0 / 20%);
+    border-radius: 1px;
+    background-color: $background_color;
+  }
+}

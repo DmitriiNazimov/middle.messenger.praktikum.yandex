@@ -1,0 +1,13 @@
+@import "../../variables.css";
+
+.index-nav {
+  margin: 0 auto;
+
+  .navigation-list {
+    padding: 0;
+
+    li {
+      margin: 20px 0;
+    }
+  }
+}

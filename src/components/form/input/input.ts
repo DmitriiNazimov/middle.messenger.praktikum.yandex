@@ -10,26 +10,11 @@ type Props = {
   placeholder: string;
   value: string;
   error: string;
-  events: Object;
+  events?: Object;
 }
 
-export default class Input extends Block {
+export default class Input extends Block<Props> {
   static componentName: string = 'Input';
-
-  constructor({
-    id, title, required, type, pattern, placeholder, value, error,
-  }: Props) {
-    super({
-      placeholder,
-      id,
-      title,
-      required,
-      type,
-      pattern,
-      value,
-      error,
-    });
-  }
 
   render() {
     return `

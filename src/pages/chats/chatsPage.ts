@@ -3,7 +3,33 @@ import './chats.css';
 
 import Block from '../../utils/Block';
 
-const data: Object = {
+type Props = {
+  chatHeader: {
+    avatarPath: string,
+    displayName: string
+  }[],
+  contacts: {
+    avatarPath: string,
+    displayName: string,
+    lastMsgText: string,
+    lastMsgDate: string,
+    msgCounter: number,
+    active: boolean,
+  }[],
+  days: {
+    date: string,
+    messages: {
+      time: string,
+      text: string,
+      imgPath?: string
+      outgoing?: boolean,
+      delivered?: boolean
+      readed?: boolean
+    }[]
+  }[]
+};
+
+const data: Props = {
   chatHeader: [
     {
       avatarPath: '/img/dimon.jpg',
@@ -76,7 +102,7 @@ const data: Object = {
   ],
 };
 
-export default class ChatsPage extends Block {
+export default class ChatsPage extends Block<Props> {
   constructor() {
     super(data);
   }

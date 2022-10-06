@@ -2,23 +2,23 @@ import Block from '../../../utils/Block';
 import './inputError.css';
 
 type Props = {
-  error: string;
+  errors: string[];
   sendMessageError: boolean;
 }
 
-export default class InputError extends Block {
+export default class InputError extends Block<Props> {
   static componentName: string = 'InputError';
-
-  constructor({ error, sendMessageError }: Props) {
-    super({ error, sendMessageError });
-  }
 
   render() {
     return `
-        <div class="input-error
-        {{#unless error}} hide{{/unless}}
-        {{#if sendMessageError}} send-message__validate-error{{/if}}">
-          {{{error}}}
+        <div class="input-error{{#unless errors}} hide{{/unless}}{{#if sendMessageError}} send-message__validate-error{{/if}}">
+          {{#if errors}}
+            <ul class='input-error__list'>
+              {{#each errors}}
+                <li class="input-error__list-row">{{{ [] }}}</li>
+              {{/each}}
+            </ul> 
+          {{/if}}
         </div>
      `;
   }

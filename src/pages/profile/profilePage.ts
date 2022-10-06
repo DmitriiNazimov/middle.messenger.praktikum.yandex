@@ -3,7 +3,26 @@ import './profile.css';
 
 import Block from '../../utils/Block';
 
-const data: object = {
+type Props = {
+  header: string,
+  avatarPath: string,
+  inputs: {
+    title: string,
+    type: string,
+    id: string,
+    placeholder?: string,
+    value?: string,
+    required?: boolean
+    inputHeader?: string,
+  }[],
+  buttons: {
+    typeFull: boolean,
+    text: string,
+    link: string
+  }[]
+};
+
+const data: Props = {
   header: 'Иван',
   avatarPath: '/img/dimon.jpg',
   inputs: [
@@ -76,14 +95,14 @@ const data: object = {
       link: './chats',
     },
     {
-      typeEmpty: true,
+      typeFull: false,
       text: 'Выйти из аккаунта',
       link: './',
     },
   ],
 };
 
-export default class ProfilePage extends Block {
+export default class ProfilePage extends Block<Props> {
   constructor() {
     super(data);
   }

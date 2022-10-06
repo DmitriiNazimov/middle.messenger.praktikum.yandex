@@ -10,8 +10,10 @@
     padding-left: 15px;
     list-style: circle;
     margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
 
-    li {
+    &-row {
       margin-bottom: 10px;
     }
   }

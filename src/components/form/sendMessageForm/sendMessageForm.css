@@ -59,7 +59,7 @@
 
   &:focus {
     transition: 0.2s;
-    box-shadow: 0 0 20px #ffa825;
+    box-shadow: 0 0 20px $accent_color;
   }
 
   &::placeholder {

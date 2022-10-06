@@ -5,28 +5,35 @@ import Validator from '../../utils/Validator';
 import './form.css';
 
 type Props = {
-  header: string;
-  inputs: unknown[];
-  buttons: unknown[];
-  sendMessageForm: boolean;
-  events: Object;
+  header: string,
+  inputs: {
+    title: string,
+    type: string,
+    id: string,
+    placeholder?: string,
+    value?: string,
+    required?: boolean
+    inputHeader?: string,
+    errorRefName: string
+  }[],
+  buttons: {
+    typeFull: boolean,
+    text: string,
+    link: string
+  }[]
+  events?: {};
 }
 
 type InputRef = { errorRefName: string; id: string; };
 
-export default class Form extends Block {
+export default class Form extends Block<Props> {
   static componentName: string = 'Form';
 
   protected validator: Validator;
 
-  constructor({
-    header, inputs, buttons, sendMessageForm,
-  }: Props) {
+  constructor(props: Props) {
     super({
-      header,
-      inputs,
-      buttons,
-      sendMessageForm,
+      ...props,
       events: {
         submit: (event: Event) => this.submitHandler(event),
         blur: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
@@ -38,16 +45,16 @@ export default class Form extends Block {
     this.validator = new Validator();
 
     // Добавляем инпутам наименования refs для элемента с выводом ошибок
-    if (inputs) {
+    if (props.inputs) {
       this.addErrorRefNamesToProps();
     }
   }
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const errors: Object = this.validator.check([target] as HTMLInputElement[]);
+      const validationProps: Object = this.validator.check([target] as HTMLInputElement[]);
 
-      this.updatePropsAfterValidation(errors);
+      this.updatePropsAfterValidation(validationProps);
     }
   }
 
@@ -76,10 +83,10 @@ export default class Form extends Block {
     this.paintErrorsInRed(form);
   }
 
-  updatePropsAfterValidation(errors: Object) {
+  updatePropsAfterValidation(validationProps: Object) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
-    Object.entries(errors).forEach(([name, errorText]) => {
-      this.refs[`${name}Error`].setProps({ error: errorText });
+    Object.entries(validationProps).forEach(([name, errors]) => {
+      this.refs[`${name}Error`].setProps({ errors });
     });
   }
 
@@ -118,7 +125,7 @@ export default class Form extends Block {
                 required=required
                 value=value
             }}}
-            {{{ InputError error=error ref=errorRefName }}}
+            {{{ InputError errors=errors ref=errorRefName }}}
         </div>
       {{/each}}
 

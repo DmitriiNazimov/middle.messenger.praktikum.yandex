@@ -18,7 +18,7 @@
     height: 80px;
     width: 70px;
     border-radius: 0 0 10px;
-    box-shadow: 0 0 8px #727476;
+    box-shadow: 0 0 8px $section_light_shadow;
   }
 }
 
@@ -37,10 +37,10 @@
   &__icon {
     width: 33px;
     height: 33px;
-    background-color: #ffa826;
+    background-color: $accent_color;
     border-radius: 100px;
     text-align: center;
-    color: #2b1c09;
+    color: $font_color_dark;
     margin: 12px;
     font-size: 28px;
   }

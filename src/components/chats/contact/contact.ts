@@ -8,24 +8,11 @@ type Props = {
   lastMsgText: string;
   lastMsgDate: string;
   msgCounter: number;
-  events: Object;
+  events?: Object;
 }
 
-export default class Contact extends Block {
+export default class Contact extends Block<Props> {
   static componentName: string = 'Contact';
-
-  constructor({
-    active, avatarPath, displayName, lastMsgText, lastMsgDate, msgCounter,
-  }: Props) {
-    super({
-      active,
-      avatarPath,
-      displayName,
-      lastMsgText,
-      lastMsgDate,
-      msgCounter,
-    });
-  }
 
   render() {
     return `

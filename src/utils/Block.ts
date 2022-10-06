@@ -6,7 +6,7 @@ import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import EventBus from './EventBus';
 
-export default class Block {
+export default class Block<Props extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -16,58 +16,58 @@ export default class Block {
 
   static componentName: string;
 
-  protected children: {[id: string]: Block} = {};
+  protected children: {[id: string]: Block<Props>} = {};
 
   protected _element: HTMLElement | null = null;
 
   public id = nanoid(6);
 
-  protected props: any;
+  protected props: Props;
 
-  protected refs: {[key: string]: Block} = {};
+  protected refs: Record<string, Block<Props>> = {};
 
   private eventBus: () => EventBus<string, Function>;
 
-  constructor(props?: any) {
+  constructor(props?: Props) {
     const eventBus = new EventBus();
 
-    this.props = this._makePropsProxy(props);
+    this.props = this.makePropsProxy(props) as Props;
 
     this.eventBus = () => eventBus;
 
-    this._registerEvents(eventBus);
+    this.registerEvents(eventBus);
 
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
-  _registerEvents(eventBus: EventBus<string, Function>) {
+  private registerEvents(eventBus: EventBus<string, Function>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
-    this._element = this._createDocumentElement('div');
+  private createResources() {
+    this._element = this.createDocumentElement('div');
   }
 
-  init() {
-    this._createResources();
+  protected init() {
+    this.createResources();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: any) {
+  private _componentDidMount(props: any) {
     this.componentDidMount(props);
   }
 
   // Может переопределять пользователь
-  componentDidMount(props: any) {}
+  protected componentDidMount(props: any) {}
 
-  dispatchComponentDidMount() {
+  public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: Object, newProps: Object) {
+  private _componentDidUpdate(oldProps: Object, newProps: Object) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -76,11 +76,11 @@ export default class Block {
   }
 
   // Может переопределять пользователь
-  componentDidUpdate(oldProps: Object, newProps: Object) {
+  protected componentDidUpdate(oldProps: Object, newProps: Object) {
     return true;
   }
 
-  setProps = (nextProps: Object) => {
+  public setProps = (nextProps: Object) => {
     if (!nextProps) {
       return;
     }
@@ -88,37 +88,35 @@ export default class Block {
     Object.assign(this.props, nextProps);
   };
 
-  get element(): HTMLElement {
-    return this._element!;
-  }
+  private _render() {
+    const fragment = this.compile();
 
-  _render() {
-    const fragment = this._compile();
-
-    this._removeEvents();
+    this.removeEvents();
 
     const newElement = fragment.firstElementChild!;
 
     this._element!.replaceWith(newElement);
 
     this._element = newElement as HTMLElement;
-    this._addEvents();
+    this.addEvents();
   }
 
   // Может переопределять пользователь
-  protected render():string {
+  protected render(): string {
     return '';
   }
 
-  getContent(): HTMLElement {
+  get element(): HTMLElement {
+    return this._element!;
+  }
+
+  protected getContent(): HTMLElement {
     return this.element;
   }
 
-  _makePropsProxy(props: Object = {}) {
-    const self = this;
-
+  private makePropsProxy(props: Object = {}) {
     return new Proxy(props, {
-      get(objProps: Object, prop: keyof Object) {
+      get: (objProps: Object, prop: keyof Object) => {
         if (typeof objProps[prop] === 'function') {
           return objProps[prop].bind(objProps);
         }
@@ -126,24 +124,24 @@ export default class Block {
         return objProps[prop];
       },
 
-      set(objProps: Object, prop: keyof Object, value) {
+      set: (objProps: Object, prop: keyof Object, value) => {
         // eslint-disable-next-line no-param-reassign
         objProps[prop] = value;
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
         return true;
       },
 
-      deleteProperty() {
+      deleteProperty: () => {
         throw new Error('Нет доступа');
       },
     });
   }
 
-  _createDocumentElement(tagName: string) {
+  private createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _removeEvents() {
+  private removeEvents() {
     const { events } = this.props as any;
 
     if (!events || !this._element) {
@@ -155,8 +153,8 @@ export default class Block {
     });
   }
 
-  _addEvents() {
-    const { events }: {[key: string]: Function} = this.props;
+  private addEvents() {
+    const { events }: Record<string, Function> = this.props;
 
     if (!events) {
       return;
@@ -167,15 +165,15 @@ export default class Block {
     });
   }
 
-  show() {
+  public show() {
     this._element?.classList.remove('hide');
   }
 
-  hide() {
+  public hide() {
     this._element?.classList.add('hide');
   }
 
-  _compile(): DocumentFragment {
+  private compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
     const template = Handlebars.compile(this.render());

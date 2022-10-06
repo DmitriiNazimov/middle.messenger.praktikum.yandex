@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-shadow
-enum METHOD {
+enum Method {
         GET = 'GET',
         POST = 'POST',
         PUT = 'PUT',
@@ -9,46 +9,38 @@ enum METHOD {
 }
 
 type Options = {
-    method?: METHOD;
-    headers?: { [key: string]: string };
+    method?: Method;
+    headers?: Record<string, string>;
     data?: {};
     timeout?: number;
 };
-
-function queryStringify(data: {}): string {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  return Object.entries(data).map(([key, value]) => `${key}=${value}&`).join('').slice(0, -1);
-}
 
 class HTTPTransport {
   public get(url:string, options: Options): Promise<XMLHttpRequest> {
     let urlWithParams;
 
     if (options.data && Object.keys(options.data).length) {
-      urlWithParams = `${url}?${queryStringify(options.data)}`;
+      urlWithParams = `${url}?${this.queryStringify(options.data)}`;
     }
 
-    return this.request(urlWithParams ?? url, { ...options, method: METHOD.GET }, options.timeout);
+    return this.request(urlWithParams ?? url, { ...options, method: Method.GET });
   }
 
   public post(url:string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+    return this.request(url, { ...options, method: Method.POST });
   }
 
   public put(url:string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
+    return this.request(url, { ...options, method: Method.PUT });
   }
 
   public delete(url:string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
+    return this.request(url, { ...options, method: Method.DELETE });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private request(url: string, options: Options, timeout: number = 5000): Promise<XMLHttpRequest> {
-    const { method, data, headers = {} } = options;
+  private request(url: string, options: Options): Promise<XMLHttpRequest> {
+    const { method, data, headers = {}, timeout = 5000 } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -70,11 +62,20 @@ class HTTPTransport {
         xhr.setRequestHeader(key, headers[key]);
       });
 
-      if (method === METHOD.GET || !data) {
+      if (method === Method.GET || !data) {
         xhr.send();
       } else {
         xhr.send(data as any);
       }
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private queryStringify(data: {}): string {
+    if (typeof data !== 'object') {
+      throw new Error('Data must be object');
+    }
+
+    return Object.entries(data).map(([key, value]) => `${key}=${value}&`).join('').slice(0, -1);
   }
 }

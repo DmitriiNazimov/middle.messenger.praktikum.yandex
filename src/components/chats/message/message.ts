@@ -8,19 +8,11 @@ type Props = {
   outgoing: boolean;
   delivered: boolean;
   readed: boolean;
-  events: Object;
+  events?: Object;
 }
 
-export default class Message extends Block {
+export default class Message extends Block<Props> {
   static componentName: string = 'Message';
-
-  constructor({
-    time, text, imgPath, outgoing, delivered, readed,
-  }: Props) {
-    super({
-      time, text, imgPath, outgoing, delivered, readed,
-    });
-  }
 
   render() {
     return `

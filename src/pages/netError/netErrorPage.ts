@@ -3,7 +3,14 @@ import './netError.css';
 
 import Block from '../../utils/Block';
 
-export const data404: object = {
+type Props = {
+  code: string,
+  message: string,
+  url: string,
+  linkText: string,
+};
+
+export const data404: Props = {
   code: '404',
   message: 'Не туда попали',
   url: '/',
@@ -17,7 +24,7 @@ export const data500: object = {
   linkText: 'На главную',
 };
 
-export class NetErrorPage extends Block {
+export class NetErrorPage extends Block<Props> {
   render() {
     document.title = `Easy Touch - ошибка ${this.props.code}`;
 

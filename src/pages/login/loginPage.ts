@@ -2,7 +2,23 @@ import '../../styles.css';
 
 import Block from '../../utils/Block';
 
-export const data: object = {
+type Props = {
+  header: string,
+  inputs: {
+    title: string,
+    type: string,
+    id: string,
+    placeholder: string,
+    required: boolean
+  }[],
+  buttons: {
+    typeFull: boolean,
+    text: string,
+    link: string
+  }[]
+};
+
+export const data: Props = {
   header: 'Вход',
   inputs: [
     {
@@ -34,7 +50,7 @@ export const data: object = {
   ],
 };
 
-export class LoginPage extends Block {
+export default class LoginPage extends Block<Props> {
   constructor() {
     super(data);
   }

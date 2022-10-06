@@ -27,7 +27,7 @@
     margin-left: -6px;
 
     &__active {
-      color: #00aaf3;
+      color: $msg_readed_delivered_color;
     }
   }
 

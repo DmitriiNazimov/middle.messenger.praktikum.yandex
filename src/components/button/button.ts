@@ -5,21 +5,11 @@ interface Props {
   text: string;
   typeFull: boolean;
   link: string;
-  events: Object;
+  events?: Object;
 }
 
-export default class Button extends Block {
+export default class Button extends Block<Props> {
   static componentName: string = 'Button';
-
-  constructor({
-    text, typeFull, link,
-  }: Props) {
-    super({
-      text,
-      typeFull,
-      link,
-    });
-  }
 
   render() {
     return `

@@ -10,12 +10,12 @@
 
   &:hover {
     transition: 0.2s;
-    border-color: #ffa825;
+    border-color: $accent_color;
   }
 
   &:focus {
     transition: 0.2s;
-    box-shadow: 0 0 20px #ffa825;
+    box-shadow: 0 0 20px $accent_color;
   }
 }
 

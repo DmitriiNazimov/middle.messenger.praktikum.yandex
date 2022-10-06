@@ -4,15 +4,11 @@ import './chatHeader.css';
 type Props = {
   avatarPath: string;
   displayName: string;
-  events: Object;
+  events?: Object;
 }
 
-export default class ChatHeader extends Block {
+export default class ChatHeader extends Block<Props> {
   static componentName: string = 'ChatHeader';
-
-  constructor({ avatarPath, displayName }: Props) {
-    super({ avatarPath, displayName });
-  }
 
   render() {
     return `

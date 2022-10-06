@@ -1,6 +1,4 @@
-type Listener = {
-  [key: string]: Function[]
-}
+type Listener = Record<string, Function[]>
 
 export default class EventBus<Key extends string, Func extends Function> {
   private listeners: Listener = {};

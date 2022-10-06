@@ -1,8 +1,10 @@
 $background_color: #020717;
 $section_background_color: #151928;
+$section_light_shadow: #727476;
 
 $accent_color: #ffa825;
 $border_color: #737477;
+$msg_readed_delivered_color: #00aaf3;
 
 $font_color_bright: #e3e4e6;
 $font_color_soft: #afb2b6;

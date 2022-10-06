@@ -1,133 +1,127 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable class-methods-use-this */
 
 type InputValue = HTMLInputElement[] & string;
-type Errors = {[key: string]: string };
+type Errors = Record<string, string[]>;
+
+// eslint-disable-next-line no-shadow
+enum Rules {
+        login = 'loginRules',
+        password = 'passwordRules',
+        first_name = 'firstNameRules',
+        second_name = 'secondNameRules',
+        email = 'emailRules',
+        phone = 'phoneRules',
+        message = 'messageRules'
+}
+
+type Rule = keyof typeof Rules;
 
 export default class Validator {
   check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): {} {
     const errors: Errors = {};
 
     formItems.forEach((item) => {
-      const rules = `${item.name}Rules` as keyof Validator;
+      const rules = `${Rules[item.name as Rule]}` as keyof Validator;
+
       if (this[rules]) {
-        // @ts-expect-error
-        errors[item.name] = this[rules](item.value as InputValue);
+        errors[item.name] = this[rules](item.value as InputValue) as string[];
       }
     });
 
     return errors;
   }
 
-  loginRules(value: string) {
-    let errorText: string = '';
-    const errorArr: string[] = [];
+  loginRules(value: string): string[] {
+    const errors: string[] = [];
 
     if (!/^(?=.{3,20}$)/.test(value)) {
-      errorArr.push('Логин должен быть от 3 до 20 символов.');
+      errors.push('Логин должен быть от 3 до 20 символов.');
     }
 
     if (!/^[a-zA-Z0-9\-_]+$/i.test(value)) {
-      errorArr.push('Логин может состоять только из латинских символов, цифр, знаков дефиса и нижнего подчеркивания.');
+      errors.push('Логин может состоять только из латинских символов, цифр, знаков дефиса и нижнего подчеркивания.');
     }
 
     if (/^[\d]+$/.test(value)) {
-      errorArr.push('Логин не может состоять только из цифр.');
+      errors.push('Логин не может состоять только из цифр.');
     }
 
-    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
-
-    return errorText;
+    return errors;
   }
 
-  passwordRules(value: string) {
-    let errorText: string = '';
-    const errorArr: string[] = [];
+  passwordRules(value: string): string[] {
+    const errors: string[] = [];
 
     if (!/^(?=.{8,40}$)/.test(value)) {
-      errorArr.push('Пароль должен быть от 8 до 40 символов.');
+      errors.push('Пароль должен быть от 8 до 40 символов.');
     }
 
     if (!/\d{1,}/.test(value)) {
-      errorArr.push('Пароль должен содержать хотя бы одну цифру.');
+      errors.push('Пароль должен содержать хотя бы одну цифру.');
     }
 
     if (!/[A-ZА-ЯЁ]{1,}/.test(value)) {
-      errorArr.push('Пароль должен содержать хотя бы одну заглавную букву.');
+      errors.push('Пароль должен содержать хотя бы одну заглавную букву.');
     }
 
-    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
-
-    return errorText;
+    return errors;
   }
 
-  first_nameRules(value: string) {
-    let errorText: string = '';
-    const errorArr: string[] = [];
+  firstNameRules(value: string): string[] {
+    const errors: string[] = [];
 
     if (!/^[а-яёА-ЯЁa-zA-Z-]+$/i.test(value)) {
-      errorArr.push('Имя и фамилия могут состоять только из русских или латинских букв, а также дефиса.\r\n');
+      errors.push('Имя и фамилия могут состоять только из русских или латинских букв, а также дефиса.');
     }
 
     if (!/^[A-ZА-ЯЁ]{1}/.test(value)) {
-      errorArr.push('Первая буква должна быть заглавной');
+      errors.push('Первая буква должна быть заглавной');
     }
 
-    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
-
-    return errorText;
+    return errors;
   }
 
-  second_nameRules(value: string) {
-    return this.first_nameRules(value);
+  secondNameRules(value: string): string[] {
+    return this.firstNameRules(value);
   }
 
   emailRules(value: string) {
-    let errorText: string = '';
-    const errorArr: string[] = [];
+    const errors: string[] = [];
 
     if (!/^[a-zA-Z0-9\-.@]+$/i.test(value)) {
-      errorArr.push('Email может состоять только из латинских символов, цифр, дефиса, точки и символа @');
+      errors.push('Email может состоять только из латинских символов, цифр, дефиса, точки и символа @');
     }
 
     // После собаки обязательно точка, а перед точкой обязательно буквы
     if (!/@\w+\./.test(value)) {
-      errorArr.push('Email должен быть указан в формате yyy<b>@</b>xxx<b>.</b>zz');
+      errors.push('Email должен быть указан в формате yyy<b>@</b>xxx<b>.</b>zz');
     }
 
-    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
-
-    return errorText;
+    return errors;
   }
 
-  phoneRules(value: string) {
-    let errorText: string = '';
-    const errorArr: string[] = [];
+  phoneRules(value: string): string[] {
+    const errors: string[] = [];
 
     if (!/^(?=.{10,15}$)/.test(value)) {
-      errorArr.push('Длина номера телефона должна быть от 10 до 15 символов.');
+      errors.push('Длина номера телефона должна быть от 10 до 15 символов.');
     }
 
     if (!/^(\+|\d)[0-9]+$/i.test(value)) {
-      errorArr.push('Телефон может состоять только из цифр и знака + в начале.');
+      errors.push('Телефон может состоять только из цифр и знака + в начале.');
     }
 
-    if (errorArr.length) errorText = this.stringifyErrors(errorArr);
-
-    return errorText;
+    return errors;
   }
 
-  messageRules(value: string) {
-    let errorText: string = '';
+  messageRules(value: string): string[] {
+    const errors: string[] = [];
 
     if (!value.length) {
-      errorText = 'Поле для отправки сообщения не может быть пустым.';
+      errors.push('Поле для отправки сообщения не может быть пустым.');
     }
 
-    return errorText;
-  }
-
-  stringifyErrors(errArr: string[]): string {
-    const lines = errArr.map((string) => `<li>${string}</li>`).join('');
-    return `<ul class='input-error__list'>${lines}</ul>`;
+    return errors;
   }
 }

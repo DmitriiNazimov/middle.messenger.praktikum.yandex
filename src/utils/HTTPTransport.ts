@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-shadow
 enum Method {
-        GET = 'GET',
-        POST = 'POST',
-        PUT = 'PUT',
-        PATCH = 'PATCH',
-        DELETE = 'DELETE'
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
 }
 
 type Options = {
-    method?: Method;
-    headers?: Record<string, string>;
-    data?: {};
-    timeout?: number;
+  method?: Method;
+  headers?: Record<string, string>;
+  data?: {};
+  timeout?: number;
 };
 
 class HTTPTransport {

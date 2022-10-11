@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import '../../styles.css';
 import './netError.css';
 
-import Block from '../../utils/Block';
+import Block from '../../utils/Rendering/Block';
 
 type Props = {
   code: string,
@@ -17,7 +18,7 @@ export const data404: Props = {
   linkText: 'На главную',
 };
 
-export const data500: object = {
+export const data500: Props = {
   code: '500',
   message: 'Мы уже чиним',
   url: '/',
@@ -26,7 +27,7 @@ export const data500: object = {
 
 export class NetErrorPage extends Block<Props> {
   render() {
-    document.title = `Easy Touch - ошибка ${this.props.code}`;
+    document.title = `Easy Touch - ошибка ${this._props.code}`;
 
     return `
     <main>

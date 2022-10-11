@@ -15,8 +15,8 @@ type Options = {
   timeout?: number;
 };
 
-class HTTPTransport {
-  public get(url:string, options: Options): Promise<XMLHttpRequest> {
+export default class HTTPTransport {
+  public get(url: string, options: Options): Promise<XMLHttpRequest> {
     let urlWithParams;
 
     if (options.data && Object.keys(options.data).length) {
@@ -26,15 +26,15 @@ class HTTPTransport {
     return this.request(urlWithParams ?? url, { ...options, method: Method.GET });
   }
 
-  public post(url:string, options: Options): Promise<XMLHttpRequest> {
+  public post(url: string, options: Options): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: Method.POST });
   }
 
-  public put(url:string, options: Options): Promise<XMLHttpRequest> {
+  public put(url: string, options: Options): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: Method.PUT });
   }
 
-  public delete(url:string, options: Options): Promise<XMLHttpRequest> {
+  public delete(url: string, options: Options): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: Method.DELETE });
   }
 
@@ -76,6 +76,9 @@ class HTTPTransport {
       throw new Error('Data must be object');
     }
 
-    return Object.entries(data).map(([key, value]) => `${key}=${value}&`).join('').slice(0, -1);
+    return Object.entries(data)
+      .map(([key, value]) => `${key}=${value}&`)
+      .join('')
+      .slice(0, -1);
   }
 }

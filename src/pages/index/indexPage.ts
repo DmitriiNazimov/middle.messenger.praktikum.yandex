@@ -1,7 +1,7 @@
 import '../../styles.css';
 import './index.css';
 
-import Block from '../../utils/Block';
+import Block from '../../utils/Rendering/Block';
 
 type Props = {};
 

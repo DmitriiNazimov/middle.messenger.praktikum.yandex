@@ -1,4 +1,4 @@
-import Block from '../../utils/Block';
+import Block from '../../utils/Rendering/Block';
 import './logo.css';
 
 type Props = {};

@@ -1,6 +1,6 @@
 import '../../styles.css';
 
-import Block from '../../utils/Block';
+import Block from '../../utils/Rendering/Block';
 
 type Props = {
   header: string,

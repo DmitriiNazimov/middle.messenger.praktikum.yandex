@@ -16,28 +16,28 @@ export default class Block<Props extends {}> {
 
   static componentName: string;
 
-  protected children: {[id: string]: Block<Props>} = {};
+  protected _children: {[id: string]: Block<Props>} = {};
 
   protected _element: HTMLElement | null = null;
 
   public id = nanoid(6);
 
-  protected props: Props;
+  protected _props: Props;
 
-  protected refs: Record<string, Block<Props>> = {};
+  protected _refs: Record<string, Block<Props>> = {};
 
-  private eventBus: () => EventBus<string, Function>;
+  private _eventBus: () => EventBus<string, Function>;
 
   constructor(props?: Props) {
     const eventBus = new EventBus();
 
-    this.props = this.makePropsProxy(props) as Props;
+    this._props = this.makePropsProxy(props) as Props;
 
-    this.eventBus = () => eventBus;
+    this._eventBus = () => eventBus;
 
     this.registerEvents(eventBus);
 
-    eventBus.emit(Block.EVENTS.INIT, this.props);
+    eventBus.emit(Block.EVENTS.INIT, this._props);
   }
 
   private registerEvents(eventBus: EventBus<string, Function>) {
@@ -53,7 +53,7 @@ export default class Block<Props extends {}> {
 
   protected init() {
     this.createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
+    this._eventBus().emit(Block.EVENTS.FLOW_RENDER, this._props);
   }
 
   private _componentDidMount(props: any) {
@@ -64,7 +64,7 @@ export default class Block<Props extends {}> {
   protected componentDidMount(props: any) {}
 
   public dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    this._eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   private _componentDidUpdate(oldProps: Object, newProps: Object) {
@@ -85,7 +85,7 @@ export default class Block<Props extends {}> {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    Object.assign(this._props, nextProps);
   };
 
   private _render() {
@@ -110,7 +110,7 @@ export default class Block<Props extends {}> {
     return this._element!;
   }
 
-  protected getContent(): HTMLElement {
+  getContent(): HTMLElement {
     return this.element;
   }
 
@@ -127,7 +127,7 @@ export default class Block<Props extends {}> {
       set: (objProps: Object, prop: keyof Object, value) => {
         // eslint-disable-next-line no-param-reassign
         objProps[prop] = value;
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
+        this._eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
         return true;
       },
 
@@ -142,7 +142,7 @@ export default class Block<Props extends {}> {
   }
 
   private removeEvents() {
-    const { events } = this.props as any;
+    const { events } = this._props as any;
 
     if (!events || !this._element) {
       return;
@@ -154,7 +154,7 @@ export default class Block<Props extends {}> {
   }
 
   private addEvents() {
-    const { events }: Record<string, Function> = this.props;
+    const { events }: Record<string, Function> = this._props;
 
     if (!events) {
       return;
@@ -179,11 +179,11 @@ export default class Block<Props extends {}> {
     const template = Handlebars.compile(this.render());
 
     fragment.innerHTML = template({
-      ...this.props, children: this.children, refs: this.refs,
+      ...this._props, children: this._children, refs: this._refs,
     });
 
     // Заменяем заглушки на компоненты
-    Object.entries(this.children).forEach(([id, component]) => {
+    Object.entries(this._children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
       if (!stub) {

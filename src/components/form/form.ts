@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-import Block from '../../utils/Block';
-import Validator from '../../utils/Validator';
+import Block from '../../utils/Rendering/Block';
+import Validator from '../../utils/Helpers/Validator';
 import './form.css';
 
 type Props = {
@@ -73,7 +73,7 @@ export default class Form extends Block<Props> {
 
     let formItems: Element[] = Array.from(form.querySelectorAll('INPUT'));
 
-    if (!this.props.inputs) {
+    if (!this._props.inputs) {
       formItems = Array.from(form.querySelectorAll('TEXTAREA'));
     }
 
@@ -86,12 +86,12 @@ export default class Form extends Block<Props> {
   updatePropsAfterValidation(validationProps: Object) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(validationProps).forEach(([name, errors]) => {
-      this.refs[`${name}Error`].setProps({ errors });
+      this._refs[`${name}Error`].setProps({ errors });
     });
   }
 
   addErrorRefNamesToProps() {
-    const newProps = this.props;
+    const newProps = this._props;
     // eslint-disable-next-line no-param-reassign
     newProps.inputs.forEach((input: InputRef) => { input.errorRefName = `${input.id}Error`; });
     this.setProps(newProps);

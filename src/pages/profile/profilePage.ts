@@ -1,7 +1,7 @@
 import '../../styles.css';
 import './profile.css';
 
-import Block from '../../utils/Block';
+import Block from '../../utils/Rendering/Block';
 
 type Props = {
   header: string,

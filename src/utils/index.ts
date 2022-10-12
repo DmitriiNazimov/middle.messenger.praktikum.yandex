@@ -9,4 +9,6 @@ export { default as HTTPTransport } from './HTTP/HTTPTransport';
 // Вспомогательные утилиты
 export { default as Validator } from './Helpers/Validator';
 
-// TODO Роутинг
+// Роутинг
+export { default as Router } from './Routing/Router';
+export { default as Route } from './Routing/Route';

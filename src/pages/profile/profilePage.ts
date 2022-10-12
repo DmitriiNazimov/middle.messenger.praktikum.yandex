@@ -1,7 +1,7 @@
 import '../../styles.css';
 import './profile.css';
 
-import Block from '../../utils/Rendering/Block';
+import { Block } from '../../utils';
 
 type Props = {
   header: string,
@@ -92,7 +92,7 @@ const data: Props = {
     {
       typeFull: true,
       text: 'Сохранить изменения',
-      link: './chats',
+      link: './messenger',
     },
     {
       typeFull: false,
@@ -108,12 +108,10 @@ export default class ProfilePage extends Block<Props> {
   }
 
   render() {
-    document.title = 'Профиль пользователя';
-
     return `
     <span class="profile-wrapper">
       <div class="sidebar-left">
-        <a class="comeback__link" href="./chats">
+        <a class="comeback__link" href="/messenger">
           <div class="comeback__icon">←</div>
           <p class="comeback__note">Назад</p>
         </a>

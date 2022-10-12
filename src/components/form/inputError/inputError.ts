@@ -10,8 +10,12 @@ export default class InputError extends Block<Props> {
   static componentName: string = 'InputError';
 
   render() {
-    return `
-        <div class="input-error{{#unless errors}} hide{{/unless}}{{#if sendMessageError}} send-message__validate-error{{/if}}">
+    return (
+      '<div class="input-error'
+      + '{{#unless errors}} hide{{/unless}}'
+      + '{{#if sendMessageError}} send-message__validate-error{{/if}}'
+      + '{{#if formSubmitted}} input-error__submitted{{/if}}'
+      + `">
           {{#if errors}}
             <ul class='input-error__list'>
               {{#each errors}}
@@ -20,6 +24,7 @@ export default class InputError extends Block<Props> {
             </ul> 
           {{/if}}
         </div>
-     `;
+     `
+    );
   }
 }

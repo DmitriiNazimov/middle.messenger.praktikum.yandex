@@ -13,6 +13,7 @@
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-import"],
   "rules": {
+    "no-underscore-dangle": "off",
     "object-curly-newline": [
       "error",
       {
@@ -36,5 +37,13 @@
     "browser": true,
     "commonjs": true
   },
-  "extends": ["airbnb", "plugin:import/recommended", "plugin:import/typescript"]
+  "extends": ["airbnb", "plugin:import/recommended", "plugin:import/typescript"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

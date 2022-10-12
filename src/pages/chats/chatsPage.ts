@@ -1,7 +1,7 @@
 import '../../styles.css';
 import './chats.css';
 
-import Block from '../../utils/Rendering/Block';
+import { Block } from '../../utils';
 
 type Props = {
   chatHeader: {
@@ -108,12 +108,10 @@ export default class ChatsPage extends Block<Props> {
   }
 
   render() {
-    document.title = 'Список чатов';
-
     return `
     <main>
       <div class="chat-side contacts-list">
-        <p class="profile-link"><a href="./profile">Профиль ></a></p>
+        <p class="profile-link"><a href="./settings">Профиль ></a></p>
         <form class="search-form form__round-wrapper">
           <div class="form__round-wrapper-row">
             {{{ Input

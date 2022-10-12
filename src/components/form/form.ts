@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-import Block from '../../utils/Rendering/Block';
+import { Block } from '../../utils';
 import Validator from '../../utils/Helpers/Validator';
 import './form.css';
 
@@ -52,9 +53,9 @@ export default class Form extends Block<Props> {
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const validationProps: Object = this.validator.check([target] as HTMLInputElement[]);
+      const errors: Object = this.validator.check([target] as HTMLInputElement[]);
 
-      this.updatePropsAfterValidation(validationProps);
+      this.updatePropsAfterValidation(errors);
     }
   }
 
@@ -79,29 +80,23 @@ export default class Form extends Block<Props> {
 
     const errors: Object = this.validator.check(formItems as HTMLInputElement[]);
 
-    this.updatePropsAfterValidation(errors);
-    this.paintErrorsInRed(form);
+    this.updatePropsAfterValidation(errors, true);
   }
 
-  updatePropsAfterValidation(validationProps: Object) {
+  updatePropsAfterValidation(props: Object, formSubmitted: boolean = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
-    Object.entries(validationProps).forEach(([name, errors]) => {
-      this._refs[`${name}Error`].setProps({ errors });
+    Object.entries(props).forEach(([name, errors]) => {
+      this._refs[`${name}Error`].setProps({ errors, formSubmitted });
     });
   }
 
   addErrorRefNamesToProps() {
     const newProps = this._props;
+
     // eslint-disable-next-line no-param-reassign
     newProps.inputs.forEach((input: InputRef) => { input.errorRefName = `${input.id}Error`; });
-    this.setProps(newProps);
-  }
 
-  paintErrorsInRed(form: HTMLFormElement) {
-    const errElems = Array.from(form.querySelectorAll('.input-error'));
-    errElems.forEach((elem) => {
-      elem.classList.add('input-error__submitted');
-    });
+    this.setProps(newProps.inputs);
   }
 
   render() {
@@ -125,7 +120,7 @@ export default class Form extends Block<Props> {
                 required=required
                 value=value
             }}}
-            {{{ InputError errors=errors ref=errorRefName }}}
+            {{{ InputError errors=errors formSubmitted=formSubmitted ref=errorRefName }}}
         </div>
       {{/each}}
 

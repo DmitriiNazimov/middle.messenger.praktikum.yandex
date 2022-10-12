@@ -1,7 +1,7 @@
-import Block from '../../utils/Block';
+import { Block } from '../../utils';
 import './button.css';
 
-interface Props {
+type Props = {
   text: string;
   typeFull: boolean;
   link: string;

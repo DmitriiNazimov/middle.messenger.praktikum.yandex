@@ -27,8 +27,6 @@ export const data500: Props = {
 
 export class NetErrorPage extends Block<Props> {
   render() {
-    document.title = `Easy Touch - ошибка ${this._props.code}`;
-
     return `
     <main>
     {{{ Logo }}}

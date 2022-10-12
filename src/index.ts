@@ -1,7 +1,7 @@
 import './styles.css';
 
 // Утилиты
-import { renderDOM, registerComponent } from './utils';
+import { Router, registerComponent } from './utils';
 
 // Страницы
 import IndexPage from './pages/index';
@@ -28,28 +28,58 @@ registerComponent(Contact);
 registerComponent(ChatHeader);
 registerComponent(Message);
 
-// Зародыш роутинга
+const routes: Routes = {
+  index: {
+    pathname: '/',
+    blockClass: IndexPage,
+    requestAuthorization: false,
+    title: 'Easy Touch - главная страница',
+  },
+  login: {
+    pathname: '/sign-in',
+    blockClass: LoginPage,
+    requestAuthorization: false,
+    title: 'Авторизация',
+  },
+  registration: {
+    pathname: '/sign-up',
+    blockClass: RegistrationPage,
+    requestAuthorization: false,
+    title: 'Регистрация',
+  },
+  chats: {
+    pathname: '/messenger',
+    blockClass: ChatsPage,
+    requestAuthorization: true,
+    title: 'Чаты',
+  },
+  profile: {
+    pathname: '/settings',
+    blockClass: ProfilePage,
+    requestAuthorization: true,
+    title: 'Профиль пользователя',
+  },
+  page500: {
+    pathname: '/500',
+    blockClass: NetErrorPage,
+    requestAuthorization: false,
+
+    title: 'Ошибка 500',
+    data: data500,
+  },
+  page404: {
+    pathname: '/404',
+    blockClass: NetErrorPage,
+    requestAuthorization: false,
+    title: 'Ошибка 404',
+    data: data404,
+  },
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-  switch (window.location.pathname) {
-    case '/':
-      renderDOM(new IndexPage());
-      break;
-    case '/login':
-      renderDOM(new LoginPage());
-      break;
-    case '/registration':
-      renderDOM(new RegistrationPage());
-      break;
-    case '/500':
-      renderDOM(new NetErrorPage(data500));
-      break;
-    case '/chats':
-      renderDOM(new ChatsPage());
-      break;
-    case '/profile':
-      renderDOM(new ProfilePage());
-      break;
-    default:
-      renderDOM(new NetErrorPage(data404));
-  }
+  const router = new Router('#app');
+
+  Object.keys(routes).forEach((item) => { router.use(routes[item]); });
+
+  router.start();
 });

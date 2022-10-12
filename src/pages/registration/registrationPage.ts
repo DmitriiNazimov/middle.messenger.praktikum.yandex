@@ -1,6 +1,6 @@
 import '../../styles.css';
 
-import Block from '../../utils/Rendering/Block';
+import { Block } from '../../utils';
 
 type Props = {
   header: string,
@@ -77,12 +77,12 @@ export const data: Props = {
     {
       typeFull: true,
       text: 'Зарегистрироваться',
-      link: './chats',
+      link: './messenger',
     },
     {
       typeFull: false,
       text: 'Вход',
-      link: './login',
+      link: './sign-in',
     },
   ],
 };
@@ -93,8 +93,6 @@ export default class RegistrationPage extends Block<Props> {
   }
 
   render() {
-    document.title = 'Регистрация';
-
     return `
     <main>
       {{{ Logo }}}

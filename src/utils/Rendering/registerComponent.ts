@@ -4,7 +4,7 @@ import Block from './Block';
 
 type BlockConstructable<Props = any> = {
   // eslint-disable-next-line no-unused-vars
-  new(props: Props): Block;
+  new(props: Props): Block<{}>;
   componentName: string;
 }
 

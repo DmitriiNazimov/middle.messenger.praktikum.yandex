@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { queryStringify } from '../Helpers/myDash';
+
 // eslint-disable-next-line no-shadow
 enum Method {
   GET = 'GET',
@@ -20,7 +22,7 @@ export default class HTTPTransport {
     let urlWithParams;
 
     if (options.data && Object.keys(options.data).length) {
-      urlWithParams = `${url}?${this.queryStringify(options.data)}`;
+      urlWithParams = `${url}?${queryStringify(options.data)}`;
     }
 
     return this.request(urlWithParams ?? url, { ...options, method: Method.GET });
@@ -68,17 +70,5 @@ export default class HTTPTransport {
         xhr.send(data as any);
       }
     });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private queryStringify(data: {}): string {
-    if (typeof data !== 'object') {
-      throw new Error('Data must be object');
-    }
-
-    return Object.entries(data)
-      .map(([key, value]) => `${key}=${value}&`)
-      .join('')
-      .slice(0, -1);
   }
 }

@@ -1,4 +1,4 @@
-@import "../../../variables.css";
+@import '../../../variables.css';
 
 .send-message {
   &__form {
@@ -44,6 +44,11 @@
     font-size: 13px;
     position: absolute;
     bottom: 55px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .input-error__list {
+      list-style: none;
+    }
   }
 }
 

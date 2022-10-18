@@ -53,14 +53,13 @@ export default class Form extends Block<Props> {
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const errors: Object = this.validator.check([target] as HTMLInputElement[]);
-
-      this.updatePropsAfterValidation(errors);
+      const validateData: Object = this.validator.check([target] as HTMLInputElement[]);
+      this.updatePropsAfterValidation(validateData);
     }
   }
 
   submitHandler(event: Event) {
-    if (document.querySelectorAll('.input-error-list')?.length) {
+    if (document.querySelectorAll('.input-error__list')?.length) {
       event.preventDefault();
     }
 
@@ -72,20 +71,20 @@ export default class Form extends Block<Props> {
     // Проводим валидацию всех элементов формы
     const form = event.target as HTMLFormElement;
 
-    let formItems: Element[] = Array.from(form.querySelectorAll('INPUT'));
+    const formItems: Element[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
 
-    if (!this._props.inputs) {
-      formItems = Array.from(form.querySelectorAll('TEXTAREA'));
-    }
+    const validateData: Object = this.validator.check(formItems as HTMLInputElement[]);
 
-    const errors: Object = this.validator.check(formItems as HTMLInputElement[]);
-
-    this.updatePropsAfterValidation(errors, true);
+    this.updatePropsAfterValidation(validateData, true);
   }
 
   updatePropsAfterValidation(props: Object, formSubmitted: boolean = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(props).forEach(([name, errors]) => {
+      if (name === 'isCorrect') {
+        return;
+      }
+
       this._refs[`${name}Error`].setProps({ errors, formSubmitted });
     });
   }

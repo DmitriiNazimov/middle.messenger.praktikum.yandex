@@ -2,7 +2,7 @@
 /* eslint-disable class-methods-use-this */
 
 type InputValue = HTMLInputElement[] & string;
-type Errors = Record<string, string[]>;
+type Result = Record<string, string[] | boolean>;
 
 // eslint-disable-next-line no-shadow
 enum Rules {
@@ -19,17 +19,19 @@ type Rule = keyof typeof Rules;
 
 export default class Validator {
   check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): {} {
-    const errors: Errors = {};
+    const result: Result = { isCorrect: true };
 
     formItems.forEach((item) => {
       const rules = `${Rules[item.name as Rule]}` as keyof Validator;
 
       if (this[rules]) {
-        errors[item.name] = this[rules](item.value as InputValue) as string[];
+        const ruleChecked = this[rules](item.value as InputValue) as string[];
+        result[item.name] = ruleChecked;
+        if (ruleChecked.length) result.isCorrect = false;
       }
     });
 
-    return errors;
+    return result;
   }
 
   loginRules(value: string): string[] {

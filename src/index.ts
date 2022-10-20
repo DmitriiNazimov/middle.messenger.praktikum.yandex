@@ -63,7 +63,6 @@ const routes: Routes = {
     pathname: '/500',
     blockClass: NetErrorPage,
     requestAuthorization: false,
-
     title: 'Ошибка 500',
     data: data500,
   },

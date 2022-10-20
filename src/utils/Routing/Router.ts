@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 
 import Route from './Route';
+import { sanitizeUrl } from '../Helpers/myDash';
 
 export default class Router {
   _routes: RouteType[] = [];
@@ -9,7 +10,7 @@ export default class Router {
 
   private _currentRoute: RouteType = null;
 
-  private _rootSelector?: string;
+  private _rootSelector: string = '#app';
 
   static __instance: Router;
 
@@ -26,7 +27,9 @@ export default class Router {
 
   // Регистрирует роуты связывая их с компонентами.
   use(props: RouteProps) {
-    Object.assign(props, { rootSelector: this._rootSelector });
+    if (!Object.prototype.hasOwnProperty.call(props, 'rootSelector')) {
+      Object.assign(props, { rootSelector: this._rootSelector });
+    }
 
     const route: RouteType = new Route(props);
 
@@ -36,20 +39,19 @@ export default class Router {
 
   // Запускает роутинг и потом реагирует на изменения в адресной строке вызывая перерисовку
   start() {
-    // eslint-disable-next-line no-unused-vars
-    window.onpopstate = (event: Event) => {
+    window.onpopstate = () => {
       this._onRoute(window.location.pathname);
     };
 
     this._onRoute(window.location.pathname);
 
     // Отменяем дефолтный переход по ссылкам. Активируем переход через router.go()
-    document.querySelector(this._rootSelector!)?.addEventListener('click', this.сlickLinkHandler);
+    document.querySelector(this._rootSelector)?.addEventListener('click', this.сlickLinkHandler);
   }
 
   private _onRoute(locationPathname: string) {
-    const route = this.getRoute(locationPathname) || this.getRoute('/404');
-
+    const sanitizedPath = sanitizeUrl(locationPathname);
+    const route = this.getRoute(sanitizedPath) || this.getRoute('/404');
 
     // TODO сделать проверку нужна ли роуту авторизация и првоеритть авторизован ли юзер
     // Если не авторизован - отправлять юзера на страницу с ошибкой "401 - требуется авторизация".
@@ -64,12 +66,14 @@ export default class Router {
 
   // Переходит на нужный роут и отображает нужный блок
   go(pathname: string) {
-    if (this._currentRoute?.pathname === pathname) {
+    const sanitizedPath = sanitizeUrl(pathname);
+
+    if (this._currentRoute?.pathname === sanitizedPath) {
       return;
     }
 
-    this.history.pushState({}, '', pathname);
-    this._onRoute(pathname);
+    this.history.pushState({}, '', sanitizedPath);
+    this._onRoute(sanitizedPath);
   }
 
   // Возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию
@@ -90,12 +94,12 @@ export default class Router {
 
   // Отменяет дефолтный переход по ссылке. Активирует переход через router.go().
   сlickLinkHandler = (event: Event) => {
-    const target = event.target as HTMLElement;
-    const link = (target.tagName === 'A') ? target : target.parentNode;
+    const link = (event.target as HTMLElement).closest('A');
 
     if (link instanceof HTMLAnchorElement) {
       event.preventDefault();
-      this.go(link.pathname);
+      const sanitizedPath = sanitizeUrl(link.pathname);
+      this.go(sanitizedPath);
     }
   };
 }

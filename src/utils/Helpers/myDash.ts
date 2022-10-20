@@ -267,3 +267,25 @@ export function queryStringify(data: StringIndexed): string | never {
     return `${result}${key}=${value}${endLine}`;
   }, '');
 }
+
+export function sanitizeString(string: string): string {
+  const unsafeChars: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '/': '&#x2F;',
+  };
+  return string.replace(/[&<>"'/]/ig, (match) => (unsafeChars[match]));
+}
+
+export function sanitizeUrl(string: string): string {
+  const unsafeChars: Record<string, string> = {
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+  };
+  return string.replace(/[<>"']/gi, (match) => unsafeChars[match]);
+}

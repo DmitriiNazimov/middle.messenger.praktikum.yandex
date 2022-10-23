@@ -149,6 +149,7 @@ export function set(object: {}, path: string, value: unknown) {
   return object;
 }
 
+// Глубокое сравнение объектов
 export function isEqual<Obj extends Object>(a: Obj, b: Obj): boolean {
   const compares: boolean[] = [];
 

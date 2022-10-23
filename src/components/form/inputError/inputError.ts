@@ -1,3 +1,4 @@
+import { SELECTORS } from '../../../consts';
 import Block from '../../../utils/Rendering/Block';
 import './inputError.css';
 
@@ -17,9 +18,9 @@ export default class InputError extends Block<Props> {
       + '{{#if formSubmitted}} input-error__submitted{{/if}}'
       + `">
           {{#if errors}}
-            <ul class='input-error__list'>
+            <ul class='${SELECTORS.INPUT_ERROR_LIST}'>
               {{#each errors}}
-                <li class="input-error__list-row">{{{ [] }}}</li>
+                <li class="${SELECTORS.INPUT_ERROR_LIST}-row">{{{ [] }}}</li>
               {{/each}}
             </ul> 
           {{/if}}

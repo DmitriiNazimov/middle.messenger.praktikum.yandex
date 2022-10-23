@@ -17,6 +17,7 @@ export default class IndexPage extends Block<Props> {
           <li class="navigation-list__row"><a href="./sign-up">Регистрация</a></li>
           <li class="navigation-list__row"><a href="./messenger">Чаты</a></li>
           <li class="navigation-list__row"><a href="./settings">Профиль</a></li>
+          <li class="navigation-list__row"><a href="./401">Ошибка 401</a></li>
           <li class="navigation-list__row"><a href="./404">Ошибка 404</a></li>
           <li class="navigation-list__row"><a href="./500">Ошибка 500</a></li>
         </ul>

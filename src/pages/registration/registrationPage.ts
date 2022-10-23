@@ -1,6 +1,9 @@
+import { SignUp } from '../../api';
+import authController from '../../controllers';
 import '../../styles.css';
 
 import { Block } from '../../utils';
+import { formIsValid } from '../../utils/Helpers/domHelpers';
 
 type Props = {
   header: string,
@@ -17,7 +20,8 @@ type Props = {
     typeFull: boolean,
     text: string,
     link: string
-  }[]
+  }[],
+  events?: {}
 };
 
 export const data: Props = {
@@ -89,7 +93,19 @@ export const data: Props = {
 
 export default class RegistrationPage extends Block<Props> {
   constructor() {
-    super(data);
+    super({
+      ...data,
+      events: { submit: (event: Event) => this.submitHandler(event) },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  submitHandler(event: Event) {
+    const form = event.target;
+    if (form instanceof HTMLFormElement && formIsValid(form)) {
+      const formData = Object.fromEntries(new FormData(form)) as SignUp;
+      authController.signUp(formData);
+    }
   }
 
   render() {

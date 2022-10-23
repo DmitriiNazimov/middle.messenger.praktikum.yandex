@@ -2,8 +2,10 @@
 
 import Route from './Route';
 import { sanitizeUrl } from '../Helpers/myDash';
+import { store } from '..';
+import authController from '../../controllers';
 
-export default class Router {
+class Router {
   _routes: RouteType[] = [];
 
   history: History = window.history;
@@ -49,22 +51,28 @@ export default class Router {
     document.querySelector(this._rootSelector)?.addEventListener('click', this.сlickLinkHandler);
   }
 
-  private _onRoute(locationPathname: string) {
+  private async _onRoute(locationPathname: string) {
     const sanitizedPath = sanitizeUrl(locationPathname);
-    const route = this.getRoute(sanitizedPath) || this.getRoute('/404');
-
-    // TODO сделать проверку нужна ли роуту авторизация и првоеритть авторизован ли юзер
-    // Если не авторизован - отправлять юзера на страницу с ошибкой "401 - требуется авторизация".
+    const route = this._getRoute(sanitizedPath) || this._getRoute('/404');
 
     if (!route) {
       return;
+    }
+
+    // Проверка авторизации.
+    if (route.requestAuthorization && store.state.isAuthenticated === false) {
+      const response: boolean = await authController.getUser();
+
+      if (!response) {
+        return;
+      }
     }
 
     this._currentRoute = route;
     route.render();
   }
 
-  // Переходит на нужный роут и отображает нужный блок
+  // Переходит на роут и отображает нужный блок
   go(pathname: string) {
     const sanitizedPath = sanitizeUrl(pathname);
 
@@ -87,9 +95,10 @@ export default class Router {
   }
 
   // Возвращает конкретный роут
-  getRoute(pathname: string): RouteType {
+  private _getRoute(pathname: string): RouteType {
+    const sanitizedPath = sanitizeUrl(pathname);
     // @ts-expect-error
-    return this._routes.find((route: RouteType) => route.match(pathname));
+    return this._routes.find((route: RouteType) => route.match(sanitizedPath));
   }
 
   // Отменяет дефолтный переход по ссылке. Активирует переход через router.go().
@@ -103,3 +112,5 @@ export default class Router {
     }
   };
 }
+
+export default new Router();

@@ -1,21 +1,24 @@
 import '../../styles.css';
-
+import authController from '../../controllers';
+import { formIsValid } from '../../utils/Helpers/domHelpers';
 import { Block } from '../../utils';
+import { SignIn } from '../../api';
 
 type Props = {
-  header: string,
+  header: string;
   inputs: {
-    title: string,
-    type: string,
-    id: string,
-    placeholder: string,
-    required: boolean
-  }[],
+    title: string;
+    type: string;
+    id: string;
+    placeholder: string;
+    required: boolean;
+  }[];
   buttons: {
-    typeFull: boolean,
-    text: string,
-    link: string
-  }[]
+    typeFull: boolean;
+    text: string;
+    link: string;
+  }[];
+  events?: {};
 };
 
 export const data: Props = {
@@ -52,7 +55,20 @@ export const data: Props = {
 
 export default class LoginPage extends Block<Props> {
   constructor() {
-    super(data);
+    super({
+      ...data,
+      events: { submit: (event: Event) => this.submitHandler(event) },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  submitHandler(event: Event) {
+    const form = event.target;
+
+    if (form instanceof HTMLFormElement && formIsValid(form)) {
+      const formData = Object.fromEntries(new FormData(form)) as SignIn;
+      authController.signIn(formData);
+    }
   }
 
   render() {

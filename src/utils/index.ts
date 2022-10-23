@@ -10,5 +10,10 @@ export { default as HTTPTransport } from './HTTP/HTTPTransport';
 export { default as Validator } from './Helpers/Validator';
 
 // Роутинг
-export { default as Router } from './Routing/Router';
+// eslint-disable-next-line import/no-cycle
+export { default as router } from './Routing/Router';
 export { default as Route } from './Routing/Route';
+
+// Store
+export { default as store } from './Store/Store';
+export { defaultState, DefaultState } from './Store/defaultState';

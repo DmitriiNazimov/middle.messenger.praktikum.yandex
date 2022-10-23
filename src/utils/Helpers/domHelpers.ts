@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -16,31 +17,31 @@ export function addNotice(text: string = 'Возникла ошибка', type: 
   notice.classList.add('notice', noticeSelector);
 
   notice.addEventListener('click', () => {
-    notice.classList.add('notice-remove');
-    setTimeout(() => {
-      notice.remove();
-    }, 600);
+    noticeRemove(notice);
   });
 
   setTimeout(() => {
-    notice.classList.add('notice-remove');
+    noticeRemove(notice);
   }, 3500);
 
+  document.getElementsByClassName('notice-wrapper')[0].append(notice);
+}
+
+function noticeRemove(notice: HTMLElement) {
+  notice.classList.add('notice-remove');
   setTimeout(() => {
     notice.remove();
-  }, 4100);
-
-  document.getElementsByClassName('notice-wrapper')[0].append(notice);
+  }, 600);
 }
 
 export function formIsValid(form: HTMLFormElement) {
   return form.querySelectorAll(`.${SELECTORS.INPUT_ERROR_LIST}`)?.length === 0;
 }
 
-export function loaderToggle(type: string = 'hide') {
+export function loaderToggle({ show = false } = {}) {
   const loader = document.querySelector('.loader__wrapper');
 
-  if (type === 'show') {
+  if (show) {
     loader?.classList.remove('hide');
     return;
   }

@@ -59,14 +59,7 @@ export default class Form extends Block<Props> {
   }
 
   submitHandler(event: Event) {
-    if (document.querySelectorAll('.input-error__list')?.length) {
-      event.preventDefault();
-    }
-
-    // Выводим данные формы в консоль.
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    console.log(Object.fromEntries(formData));
 
     // Проводим валидацию всех элементов формы
     const form = event.target as HTMLFormElement;
@@ -126,7 +119,7 @@ export default class Form extends Block<Props> {
       {{#if buttons}}
           <div class="form__buttons-wrapper">
               {{#each buttons}}
-                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}"}}}
+                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}" id="{{id}}"}}}
               {{/each}}
           </div>
       {{/if}}

@@ -3,9 +3,7 @@ import './index.css';
 
 import { Block } from '../../utils';
 
-type Props = {};
-
-export default class IndexPage extends Block<Props> {
+export default class IndexPage extends Block<{}> {
   render() {
     return `
     <main>

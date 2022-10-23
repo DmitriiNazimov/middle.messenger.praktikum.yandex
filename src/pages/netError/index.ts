@@ -1,1 +1,3 @@
-export { NetErrorPage, data404, data500 } from './netErrorPage';
+export {
+  NetErrorPage, data404, data500, data401,
+} from './netErrorPage';

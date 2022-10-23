@@ -1,4 +1,6 @@
-export default function renderDOM(block: BlockComponent, title?: string, selector: string = '#app') {
+import { DEFAULT_TITLE } from '../../consts';
+
+export default async function renderDOM(block: BlockComponent, title?: string, selector: string = '#app') {
   const root = document.querySelector(selector);
 
   if (!root) {
@@ -7,7 +9,7 @@ export default function renderDOM(block: BlockComponent, title?: string, selecto
 
   root!.innerHTML = '';
 
-  document.title = title || 'Easy Touch';
+  document.title = title || DEFAULT_TITLE;
 
   root!.appendChild(block.getContent());
   return root;

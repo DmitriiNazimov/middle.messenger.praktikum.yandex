@@ -1,7 +1,7 @@
 import './styles.css';
 
 // Утилиты
-import { Router, registerComponent } from './utils';
+import { router, registerComponent } from './utils';
 
 // Страницы
 import IndexPage from './pages/index';
@@ -13,7 +13,7 @@ import ProfilePage from './pages/profile';
 // Компоненты
 import Logo from './components/logo';
 import Button from './components/button';
-import { NetErrorPage, data404, data500 } from './pages/netError';
+import { NetErrorPage, data404, data500, data401 } from './pages/netError';
 import { Contact, ChatHeader, Message } from './components/chats';
 import { Form, Input, InputError, SendMessageForm } from './components/form';
 
@@ -73,11 +73,16 @@ const routes: Routes = {
     title: 'Ошибка 404',
     data: data404,
   },
+  page401: {
+    pathname: '/401',
+    blockClass: NetErrorPage,
+    requestAuthorization: false,
+    title: 'Ошибка 401',
+    data: data401,
+  },
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const router = new Router('#app');
-
   Object.keys(routes).forEach((item) => { router.use(routes[item]); });
 
   router.start();

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { queryStringify } from '../Helpers/myDash';
-import { PATH, HEADERS } from '../../constants';
+import { PATH, HEADERS } from '../../consts';
 
 // eslint-disable-next-line no-shadow
 enum Method {
@@ -16,6 +16,7 @@ export type Options = {
   headers?: Record<string, string>;
   data?: {};
   timeout?: number;
+  withCredentials?: boolean;
 };
 
 export default class HTTPTransport {
@@ -49,7 +50,11 @@ export default class HTTPTransport {
 
   // eslint-disable-next-line class-methods-use-this
   private request(url: string, options: Options): Promise<XMLHttpRequest> {
-    const { method, data, headers = HEADERS.JSON, timeout = 2000 } = options;
+    const { method,
+      data,
+      headers = HEADERS.JSON,
+      timeout = 2000,
+      withCredentials = true } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -62,10 +67,14 @@ export default class HTTPTransport {
 
       xhr.timeout = timeout;
 
-      xhr.onload = () => resolve(xhr);
+      xhr.onload = () => (xhr.status >= 300 ? reject(xhr) : resolve(xhr));
       xhr.onabort = () => reject(new Error(`aborted query to ${url}`));
       xhr.onerror = () => reject(new Error(`HTTP query to ${url}`));
       xhr.ontimeout = () => reject(new Error(`query to ${url} timed out ${timeout} ms`));
+
+      if (withCredentials) {
+        xhr.withCredentials = true;
+      }
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
@@ -74,7 +83,13 @@ export default class HTTPTransport {
       if (method === Method.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(data as any);
+        let outputData = data;
+
+        if (headers['Content-Type'] === 'application/json') {
+          outputData = JSON.stringify(data);
+        }
+
+        xhr.send(outputData as any);
       }
     });
   }

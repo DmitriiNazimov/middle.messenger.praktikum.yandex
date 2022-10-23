@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import BaseApi from './baseApi';
 
-type SignUp = {
+export type SignUp = {
   email: string;
   login: string;
   first_name: string;
@@ -10,7 +10,7 @@ type SignUp = {
   password: string;
 }
 
-type SignIn = {
+export type SignIn = {
   login: string;
   password: string;
 }
@@ -20,19 +20,21 @@ class AuthAPI extends BaseApi {
     super('/auth');
   }
 
-  public signUp(data: SignUp): Promise<XMLHttpRequest> {
+  public signUpApi(data: SignUp): Promise<XMLHttpRequest> {
     return this.http.post('/signup', { data });
   }
 
-  public signIn(data: SignIn): Promise<XMLHttpRequest> {
+  public signInApi(data: SignIn): Promise<XMLHttpRequest> {
     return this.http.post('/signin', { data });
   }
 
-  public getUser(): Promise<XMLHttpRequest> {
+  public getUserApi(): Promise<XMLHttpRequest> {
     return this.http.get('/user', {});
   }
 
-  public signOut(): Promise<XMLHttpRequest> {
+  public logoutApi(): Promise<XMLHttpRequest> {
     return this.http.post('/logout', {});
   }
 }
+
+export default new AuthAPI();

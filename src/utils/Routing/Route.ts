@@ -13,6 +13,8 @@ export default class Route {
 
   private _blockData: {};
 
+  requestAuthorization: boolean;
+
   constructor(props: RouteProps) {
     this.pathname = props.pathname;
     this._blockClass = props.blockClass;
@@ -20,6 +22,7 @@ export default class Route {
     this._rootSelector = props.rootSelector;
     this._title = props.title;
     this._block = null;
+    this.requestAuthorization = props.requestAuthorization;
   }
 
   navigate(pathname: string) {
@@ -29,7 +32,6 @@ export default class Route {
     }
   }
 
-  // Уйти со страницы (скрыть блок)
   leave() {
     if (this._block) {
       this._block.hide();

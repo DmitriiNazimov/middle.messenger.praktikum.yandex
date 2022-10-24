@@ -1,4 +1,4 @@
-@import "../../../variables.css";
+@import '../../../variables.css';
 
 .standart-input {
   background-color: $section_background_color;
@@ -19,6 +19,6 @@
   }
 }
 
-#avatar-input {
+#avatar {
   padding: 30px 5px;
 }

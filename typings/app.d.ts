@@ -16,5 +16,8 @@ declare global {
 
   export type BlockComponent = Block<{}>;
   export type BlockClass = typeof Block<{}>;
+
+  export type ValidateResult = Record<string, string[] | boolean>;
+
 }
 export {};

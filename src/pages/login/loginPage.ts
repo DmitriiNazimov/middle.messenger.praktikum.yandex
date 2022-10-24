@@ -1,5 +1,5 @@
 import '../../styles.css';
-import authController from '../../controllers';
+import { authController } from '../../controllers';
 import { formIsValid } from '../../utils/Helpers/domHelpers';
 import { Block } from '../../utils';
 import { SignIn } from '../../api';

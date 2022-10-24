@@ -1,5 +1,5 @@
 import { SignUp } from '../../api';
-import authController from '../../controllers';
+import { authController } from '../../controllers';
 import '../../styles.css';
 
 import { Block } from '../../utils';

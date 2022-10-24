@@ -3,7 +3,7 @@
 import Route from './Route';
 import { sanitizeUrl } from '../Helpers/myDash';
 import { store } from '..';
-import authController from '../../controllers';
+import { authController } from '../../controllers';
 
 class Router {
   _routes: RouteType[] = [];
@@ -56,7 +56,7 @@ class Router {
     const route = this._getRoute(sanitizedPath) || this._getRoute('/404');
 
     if (!route) {
-      return;
+      throw new Error(`Route по пути ${sanitizedPath} не обнаружен.`);
     }
 
     // Проверка авторизации.
@@ -82,6 +82,11 @@ class Router {
 
     this.history.pushState({}, '', sanitizedPath);
     this._onRoute(sanitizedPath);
+  }
+
+  // Обновляет содержимое страницы переходом на текущий роут.
+  refresh() {
+    this._onRoute(this._currentRoute?.pathname!);
   }
 
   // Возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию

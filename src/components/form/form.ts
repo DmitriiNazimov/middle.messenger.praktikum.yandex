@@ -2,6 +2,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import { Block } from '../../utils';
+import { addNotice } from '../../utils/Helpers/domHelpers';
 import Validator from '../../utils/Helpers/Validator';
 import './form.css';
 
@@ -66,7 +67,11 @@ export default class Form extends Block<Props> {
 
     const formItems: Element[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
 
-    const validateData: Object = this.validator.check(formItems as HTMLInputElement[]);
+    const validateData: ValidateResult = this.validator.check(formItems as HTMLInputElement[]);
+
+    if (!validateData.isCorrect) {
+      addNotice('Данные формы заполнены некорректно', 'error');
+    }
 
     this.updatePropsAfterValidation(validateData, true);
   }

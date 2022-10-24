@@ -17,13 +17,14 @@ export type Options = {
   data?: {};
   timeout?: number;
   withCredentials?: boolean;
+  id?: number;
 };
 
 export default class HTTPTransport {
   baseUrl: string;
 
   constructor(pathName?: string) {
-    this.baseUrl = pathName ? PATH.BASEURL + pathName : PATH.BASEURL;
+    this.baseUrl = pathName ? PATH.baseurl + pathName : PATH.baseurl;
   }
 
   public get(url: string, options: Options): Promise<XMLHttpRequest> {
@@ -40,7 +41,7 @@ export default class HTTPTransport {
     return this.request(this.baseUrl + url, { ...options, method: Method.POST });
   }
 
-  public put(url: string, options: Options): Promise<XMLHttpRequest> {
+  public put(url: string, options: Options | FormData): Promise<XMLHttpRequest> {
     return this.request(this.baseUrl + url, { ...options, method: Method.PUT });
   }
 

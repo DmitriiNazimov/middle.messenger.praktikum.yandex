@@ -2,8 +2,8 @@
 /* eslint-disable class-methods-use-this */
 
 import { router, store } from '../utils';
-import authAPI, { SignUp, SignIn } from '../api';
-import { addNotice, loaderToggle } from '../utils/Helpers/domHelpers';
+import { authAPI, SignUp, SignIn } from '../api';
+import { addNotice, loaderToggle } from '../utils/Helpers/viewHelpers';
 import { DefaultState } from '../utils/Store/defaultState';
 
 class AuthController {

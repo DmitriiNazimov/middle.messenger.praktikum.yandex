@@ -1,113 +1,13 @@
+/* eslint-disable class-methods-use-this */
 import '../../styles.css';
 import './profile.css';
-import authController from '../../controllers';
+import { authController, userController } from '../../controllers';
 import { Block, store, DefaultState } from '../../utils';
-import { StoreEvents } from '../../consts';
-import { isEqual } from '../../utils/Helpers/myDash';
-
-type Props = {
-  header: string;
-  avatarPath: string;
-  inputs: {
-    title: string;
-    type: string;
-    id: string;
-    placeholder?: string;
-    value?: string | number | null;
-    required?: boolean;
-    inputHeader?: string;
-  }[];
-  buttons: {
-    typeFull: boolean;
-    text: string;
-    link: string;
-    id?: string;
-  }[];
-  events?: {};
-};
-
-type propsUpdate = {
-  inputs: Props['inputs'];
-  header: string;
-  avatarPath: string;
-};
-
-const data: Props = {
-  header: ' ',
-  avatarPath: '/img/default-avatar.png',
-  inputs: [
-    {
-      title: 'Email',
-      type: 'email',
-      id: 'email',
-      placeholder: 'ivan@mail.ru',
-    },
-    {
-      title: 'Логин',
-      type: 'text',
-      id: 'login',
-      placeholder: 'Логин',
-    },
-    {
-      title: 'Имя',
-      type: 'text',
-      id: 'first_name',
-      placeholder: 'Имя',
-    },
-    {
-      title: 'Фамилия',
-      type: 'text',
-      id: 'second_name',
-      placeholder: 'Фамилия',
-    },
-    {
-      title: 'Имя в чате',
-      type: 'text',
-      id: 'display_name',
-      placeholder: 'Имя в чате',
-    },
-    {
-      title: 'Телефон',
-      type: 'tel',
-      id: 'phone',
-      placeholder: 'ivanIvanov',
-    },
-    {
-      inputHeader: 'Если хотите поменять пароль:',
-      title: 'Пароль',
-      type: 'password',
-      id: 'password',
-      placeholder: 'Старый пароль',
-    },
-    {
-      title: 'Пароль (ещё раз)',
-      type: 'password',
-      id: 'passwordAgain',
-      placeholder: 'Новый пароль',
-    },
-    {
-      inputHeader: 'Если хотите поменять аватар:',
-      title: 'Фото',
-      type: 'file',
-      id: 'avatar-input',
-    },
-  ],
-  buttons: [
-    {
-      typeFull: true,
-      text: 'Сохранить изменения',
-      link: './messenger',
-    },
-    {
-      typeFull: false,
-      text: 'Выйти из аккаунта',
-      link: './',
-      id: 'logout-buton',
-    },
-  ],
-};
-
-let oldStateUser = store.state.user!;
+import { PATH, SELECTOR, StoreEvents } from '../../consts';
+import { cloneDeep, isEqual } from '../../utils/Helpers/myDash';
+import { addNotice, formIsValid } from '../../utils/Helpers/viewHelpers';
+import { UpdateProfile } from '../../api';
+import { data, Props, propsUpdate } from './defaultProps';
 
 export default class ProfilePage extends Block<Props> {
   constructor() {
@@ -119,60 +19,87 @@ export default class ProfilePage extends Block<Props> {
       },
     });
 
+    // Не присваиваем сразу store.state.user чтобы отработал !isEqual(userOldState, userFreshState)
+    let userOldState = {};
+
     store.on(StoreEvents.updated, () => {
-      // TODO это сделать хоком ЕСЛИ еще где-то будут нужны данные юзера из стейт.
+      const userFreshState: DefaultState['user'] = store.state.user!;
+      const newProps: propsUpdate = this.transformStateToProps(userFreshState);
 
-      const freshStateUser = store.state.user!;
-
-      const newProps: propsUpdate = {
-        inputs: data.inputs,
-        header: freshStateUser.first_name || ' ',
-        avatarPath: freshStateUser.avatar || data.avatarPath,
-      };
-
-      newProps.inputs.map((item) => {
-        const stateKey = item.id as keyof DefaultState['user'];
-        // eslint-disable-next-line no-param-reassign
-        item.value = freshStateUser[stateKey];
-        return item;
-      });
-
-      if (!isEqual(oldStateUser, freshStateUser)) {
+      if (!isEqual(userOldState, userFreshState)) {
         this.setProps(newProps);
-        oldStateUser = freshStateUser;
+        userOldState = cloneDeep(userFreshState) as UserData;
       }
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  transformStateToProps(freshState: DefaultState['user']): propsUpdate {
+    const props: propsUpdate = {
+      inputs: data.inputs,
+      header: freshState?.first_name || ' ',
+      avatarPath: freshState?.avatar ? PATH.avatarBase + freshState.avatar : data.avatarPath,
+    };
+
+    props.inputs.map((item) => {
+      const key = item.id as keyof DefaultState['user'];
+      // eslint-disable-next-line no-param-reassign
+      item.value = freshState![key];
+      return item;
+    });
+
+    return props;
+  }
+
   clickHandler(event: Event) {
     const target = event.target as HTMLElement;
-    if (target.id === 'logout-buton') {
+    if (target.id === SELECTOR.logoutBtn) {
       authController.logout();
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   submitHandler(event: Event) {
-    const target = event.target as HTMLElement;
-    console.log(target);
+    const form = event.target as HTMLElement;
 
-    // TODO изменение профиля сделать
+    if (!(form instanceof HTMLFormElement) || !formIsValid(form)) {
+      return;
+    }
+
+    // Обновление пароля
+    const oldPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.oldPassword}`)!;
+    const newPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.newPassword}`)!;
+
+    if (oldPasswordInput.value && newPasswordInput.value) {
+      const formDataPassword = {
+        oldPassword: oldPasswordInput.value,
+        newPassword: newPasswordInput.value,
+      };
+      userController.updateUserPassword(formDataPassword);
+    } else if (oldPasswordInput.value && !newPasswordInput.value) {
+      addNotice('Для изменения пароля необходимо указать старый и новый пароль.', 'error');
+      return;
+    }
+
+    // Обновление аватара
+    const avatarInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.avatar}`)!;
+
+    if (avatarInput.value) {
+      userController.updateUserAvatar(new FormData(form));
+    }
+
+    // Обновление данных пользователя
+    const formData = Object.fromEntries(new FormData(form)) as UpdateProfile;
+    userController.updateUserProfileData(formData);
   }
 
   getContent(): HTMLElement {
-    if (!this.propsIsFilled()) {
-      authController.getUser();
-    } else {
-      authController.getUser({ withLoader: false });
-    }
+    authController.getUser({ withLoader: !this.propsIsFilled() });
 
     return this.element;
   }
 
   propsIsFilled() {
     // Если логин в хедере не указан - значит данные пользователя недостаточны.
-    return (this._props.header.length > 2);
+    return this._props.header!.length > 2;
   }
 
   render() {
@@ -188,13 +115,13 @@ export default class ProfilePage extends Block<Props> {
         <img
           src="{{avatarPath}}"
           alt="Аватар пользователя {{header}}"
-          class="avatar avatar__big"
+          class="avatar-img avatar-img__big"
         />
         {{{ Form 
           header="{{header}}" 
           inputs=inputs 
           buttons=buttons
-      }}}
+        }}}
       </main>
     </span>
     `;

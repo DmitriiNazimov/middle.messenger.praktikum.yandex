@@ -2,12 +2,13 @@
 /* eslint-disable class-methods-use-this */
 
 type InputValue = HTMLInputElement[] & string;
-type Result = Record<string, string[] | boolean>;
 
 // eslint-disable-next-line no-shadow
 enum Rules {
         login = 'loginRules',
         password = 'passwordRules',
+        oldPassword = 'passwordRules',
+        newPassword = 'passwordRules',
         first_name = 'firstNameRules',
         second_name = 'secondNameRules',
         email = 'emailRules',
@@ -19,9 +20,13 @@ type Rule = keyof typeof Rules;
 
 export default class Validator {
   check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): {} {
-    const result: Result = { isCorrect: true };
+    const result: ValidateResult = { isCorrect: true };
 
     formItems.forEach((item) => {
+      if (!item.hasAttribute('required') && !item.value) {
+        return;
+      }
+
       const rules = `${Rules[item.name as Rule]}` as keyof Validator;
 
       if (this[rules]) {

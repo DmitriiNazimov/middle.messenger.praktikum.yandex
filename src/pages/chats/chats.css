@@ -1,4 +1,4 @@
-@import "../../variables.css";
+@import '../../variables.css';
 
 body {
   margin: 0;
@@ -26,12 +26,17 @@ body {
     border-radius: 1px;
     background-color: $background_color;
   }
+
+  &__profile-link {
+    text-align: right;
+  }
 }
 
 .feed {
   right: 2px;
   left: $left_shift_wide;
   padding: 10px 30px;
+  overflow: hidden;
 
   @media (max-width: 850px) {
     left: $left_shift_slim;
@@ -40,30 +45,42 @@ body {
   @media (max-width: 730px) {
     display: none;
   }
+
+  &__opened {
+    &__mobile {
+      @media (max-width: 420px) {
+        left: 0 !important;
+        display: block !important;
+      }
+    }
+  }
 }
 
-.contacts-list {
-  width: 350px;
-  border-right: 1px solid $border_color;
-  padding: 10px 15px 10px 10px;
-  left: 0;
+.contacts {
+  &-list {
+    width: 350px;
+    border-right: 1px solid $border_color;
+    padding: 10px 15px 10px 10px;
+    left: 0;
 
-  @media (max-width: 850px) {
-    width: 300px;
+    @media (max-width: 850px) {
+      width: 300px;
+    }
+
+    @media (max-width: 730px) {
+      width: 94%;
+      border-right: 0;
+    }
+
+    .search-form {
+      text-align: center;
+      margin: 40px 20px;
+    }
   }
 
-  @media (max-width: 730px) {
-    width: 94%;
-    border-right: 0;
-  }
-
-  .profile-link {
-    text-align: right;
-  }
-
-  .search-form {
+  &__empty {
     text-align: center;
-    margin: 40px 20px;
+    margin-top: 50px;
   }
 }
 
@@ -74,6 +91,33 @@ body {
 .messages {
   margin: 110px 0 80px;
   background-color: $background_color;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  transform: rotate(180deg);
+  height: 80%;
+  text-align: left;
+  direction: rtl;
+  padding-left: 28px;
+  margin-right: -30px;
+
+  &::-webkit-scrollbar {
+    margin: 50px;
+    width: 3px;
+    background-color: $background_color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    margin: 50px;
+    background-color: $border_color;
+  }
+
+  &::-webkit-scrollbar-track {
+    margin: 50px;
+    box-shadow: inset 0 0 6px rgb(0 0 0 / 20%);
+    border-radius: 1px;
+    background-color: $background_color;
+  }
 
   &__empty {
     height: 70vh;
@@ -81,6 +125,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transform: rotate(180deg);
+    direction: ltr;
   }
 }
 
@@ -89,6 +135,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  direction: ltr;
+  transform: rotate(180deg);
 }
 
 .correspondence-date {

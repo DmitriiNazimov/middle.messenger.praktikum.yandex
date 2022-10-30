@@ -1,7 +1,7 @@
 type Listener = Record<string, Function[]>
 
 export default class EventBus<Key extends string, Func extends Function> {
-  private listeners: Listener = {};
+  listeners: Listener = {};
 
   on(event: Key, callback: Func): void {
     if (!this.listeners[event]) {
@@ -11,16 +11,34 @@ export default class EventBus<Key extends string, Func extends Function> {
     this.listeners[event].push(callback);
   }
 
-  off(event: Key, callback: Func): void {
+  // Удаляет все экземпляры callback из listeners
+  offAll(event: Key, callback: Func): void {
     if (!this.listeners[event]) {
       throw new Error(`Не зарегистрировано событие: ${String(event)}`);
     }
 
     this.listeners[event] = this.listeners[event].filter((listener: Function) => {
-      if (listener === callback) {
+      if (listener.toString() === callback.toString()) {
         return false;
       }
+
       return true;
+    });
+  }
+
+  // Удаляет один экземпляр callback из listeners
+  offOne(event: Key, callback: Func): void {
+    if (!this.listeners[event]) {
+      throw new Error(`Не зарегистрировано событие: ${String(event)}`);
+    }
+
+    this.listeners[event].some((listener: Function, i: number) => {
+      if (listener.toString() === callback.toString()) {
+        this.listeners[event].splice(i, 1);
+        return true;
+      }
+
+      return false;
     });
   }
 

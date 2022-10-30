@@ -5,15 +5,16 @@ type InputValue = HTMLInputElement[] & string;
 
 // eslint-disable-next-line no-shadow
 enum Rules {
-        login = 'loginRules',
-        password = 'passwordRules',
-        oldPassword = 'passwordRules',
-        newPassword = 'passwordRules',
-        first_name = 'firstNameRules',
-        second_name = 'secondNameRules',
-        email = 'emailRules',
-        phone = 'phoneRules',
-        message = 'messageRules'
+  login = 'loginRules',
+  password = 'passwordRules',
+  oldPassword = 'passwordRules',
+  newPassword = 'passwordRules',
+  first_name = 'firstNameRules',
+  second_name = 'secondNameRules',
+  email = 'emailRules',
+  phone = 'phoneRules',
+  message = 'notEmptyRules',
+  title = 'notEmptyRules',
 }
 
 type Rule = keyof typeof Rules;
@@ -122,11 +123,11 @@ export default class Validator {
     return errors;
   }
 
-  messageRules(value: string): string[] {
+  notEmptyRules(value: string): string[] {
     const errors: string[] = [];
 
     if (!value.length) {
-      errors.push('Поле для отправки сообщения не может быть пустым.');
+      errors.push('Поле не может быть пустым.');
     }
 
     return errors;

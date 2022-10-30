@@ -1,4 +1,4 @@
-@import "../../../variables.css";
+@import '../../../variables.css';
 
 .chat-header {
   display: flex;
@@ -29,9 +29,18 @@
     background-color: $background_color;
     top: 0;
     padding-top: 10px;
+    z-index: 900;
 
     @media (max-width: 850px) {
       left: $left_shift_slim;
+    }
+  }
+
+  &__back-link {
+    display: none;
+    @media (max-width: 420px) {
+      display: block !important;
+      margin: 5px 0 35px !important;
     }
   }
 }

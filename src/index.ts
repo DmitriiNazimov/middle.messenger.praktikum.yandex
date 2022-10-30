@@ -1,5 +1,7 @@
 import './styles.css';
 
+import Handlebars from 'handlebars';
+
 // Утилиты
 import { router, registerComponent } from './utils';
 
@@ -14,8 +16,8 @@ import ProfilePage from './pages/profile';
 import Logo from './components/logo';
 import Button from './components/button';
 import { NetErrorPage, data404, data500, data401 } from './pages/netError';
-import { Contact, ChatHeader, Message } from './components/chats';
-import { Form, Input, InputError, SendMessageForm } from './components/form';
+import { Contact, ChatHeader, Message, ChatMenu } from './components/chats';
+import { CreateChatForm, Form, Input, InputError, SendMessageForm } from './components/form';
 
 // Компоненты
 registerComponent(Logo);
@@ -27,7 +29,14 @@ registerComponent(Button);
 registerComponent(Contact);
 registerComponent(ChatHeader);
 registerComponent(Message);
+registerComponent(CreateChatForm);
+registerComponent(ChatMenu);
 
+// Хелперы Handlebars
+Handlebars.registerHelper('eq', (a, b) => a === b);
+Handlebars.registerHelper('notEq', (a, b) => a !== b);
+
+// Пути к страницам
 const routes: Routes = {
   index: {
     pathname: '/',

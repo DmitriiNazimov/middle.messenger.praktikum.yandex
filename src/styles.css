@@ -28,6 +28,12 @@ h1 {
 
 .hide {
   display: none !important;
+
+  &__mobile {
+    @media (max-width: 420px) {
+      display: none !important;
+    }
+  }
 }
 
 .avatar-img {
@@ -51,14 +57,6 @@ a {
     margin: 15px auto;
     height: 1px;
     background-color: $border_color;
-  }
-}
-
-.dotsmenu {
-  &__large {
-    font-size: 40px;
-    line-height: 0.25;
-    margin-top: -18px;
   }
 }
 
@@ -98,9 +96,9 @@ textarea {
   }
 
   &-remove {
-    transition: 1.5s;
+    transition: 1s;
     opacity: 0;
-    margin-left: 300px;
+    margin-left: -300px;
   }
 }
 
@@ -144,4 +142,9 @@ textarea {
     top: 0;
     bottom: 0;
   }
+}
+
+.destroy {
+  opacity: 0.1;
+  transition: 0.1s;
 }

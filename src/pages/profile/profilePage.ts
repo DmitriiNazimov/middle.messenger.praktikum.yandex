@@ -24,7 +24,7 @@ export default class ProfilePage extends Block<Props> {
 
     store.on(StoreEvents.updated, () => {
       const userFreshState: DefaultState['user'] = store.state.user!;
-      const newProps: propsUpdate = this.transformStateToProps(userFreshState);
+      const newProps: propsUpdate = this.convertStateToProps(userFreshState);
 
       if (!isEqual(userOldState, userFreshState)) {
         this.setProps(newProps);
@@ -33,7 +33,7 @@ export default class ProfilePage extends Block<Props> {
     });
   }
 
-  transformStateToProps(freshState: DefaultState['user']): propsUpdate {
+  convertStateToProps(freshState: DefaultState['user']): propsUpdate {
     const props: propsUpdate = {
       inputs: data.inputs,
       header: freshState?.first_name || ' ',

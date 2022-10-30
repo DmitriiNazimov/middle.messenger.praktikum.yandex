@@ -6,7 +6,6 @@ type Props = {
   text: string;
   imgPath: string;
   outgoing: boolean;
-  delivered: boolean;
   readed: boolean;
   events?: Object;
 }
@@ -16,7 +15,7 @@ export default class Message extends Block<Props> {
 
   render() {
     return `
-     <div class="msg {{#if outgoing }} msg__outgoing {{else}} msg__incoming {{/if}}">
+     <div class="msg{{#if outgoing }} msg__outgoing {{else}} msg__incoming{{/if}}{{#if isLast }} msg__last-msg{{/if}}">
         {{#if text }}
           <div class="msg__text">{{ text }}</div>
         {{/if}}
@@ -25,7 +24,6 @@ export default class Message extends Block<Props> {
         {{/if}}
         <div class="msg__info">
             {{#if outgoing }}
-                <span class="msg__delivered {{#if delivered }} msg__delivered__active {{/if}}">.</span>
                 <span class="msg__readed {{#if readed }} msg__readed__active {{/if}} ">.</span>
             {{/if}}
             <span class="msg__time">{{ time }}</span>

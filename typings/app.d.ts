@@ -34,7 +34,6 @@ declare global {
     avatarPath: string;
     displayName: string;
     chatId: number;
-    chatsPage: Block<{}>;
     events?: Object;
   };
 
@@ -91,6 +90,32 @@ declare global {
     };
     title: '';
     unread_count: 0;
+  };
+
+  export type MessageServer = {
+    chat_id: number;
+    content: string;
+    file: null | {};
+    id: number;
+    is_read: boolean;
+    time: string;
+    type: string;
+    user_id: number;
+  };
+
+  export type MessageToProps = {
+    date: string;
+    time: string;
+    outgoing: boolean;
+    text: string;
+    readed?: boolean;
+    imgPath?: string;
+    isLast?: boolean;
+  };
+
+  export type Day = {
+    date: string;
+    messages: MessageToProps[];
   };
 }
 export {};

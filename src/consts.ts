@@ -6,7 +6,10 @@ export const SELECTOR = {
     newPassword: 'newPassword',
     avatar: 'avatar',
   },
-  chatHeaderWrapper: 'chat-header__wrapper',
+  chatHeader: {
+    wrapper: 'chat-header__wrapper',
+    backLink: 'chat-header__back-link',
+  },
   loader: { wrapper: 'loader__wrapper' },
   contact: { row: 'contact__row' },
   logoutBtn: 'logout-buton',
@@ -23,6 +26,7 @@ export const PATH = {
   baseurl: 'https://ya-praktikum.tech/api/v2',
   avatarBase: 'https://ya-praktikum.tech/api/v2/resources',
   defaultAvatar: '/img/default-avatar.png',
+  socket: 'wss://ya-praktikum.tech/ws/chats',
 };
 
 export const HEADERS = { JSON: { 'Content-Type': 'application/json' } };

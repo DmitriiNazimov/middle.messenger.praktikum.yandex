@@ -138,7 +138,7 @@ export default class Block<Props extends {}> {
             this._eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
             this._propsNeedUpdate = false;
           }
-        }, 25);
+        }, 50);
 
         return true;
       },

@@ -1,4 +1,4 @@
-@import "../../../variables.css";
+@import '../../../variables.css';
 
 .msg {
   background-color: $section_background_color;
@@ -41,5 +41,23 @@
   &__image {
     width: 100%;
     margin: 10px 0 20px;
+  }
+
+  &__last-msg {
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 500ms;
+  }
+}
+
+@keyframes example {
+  0% {
+    opacity: 0;
+    margin-bottom: -50px;
+  }
+
+  100% {
+    opacity: 1;
+    margin-bottom: 30px;
   }
 }

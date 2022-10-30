@@ -150,28 +150,22 @@ export function set(object: {}, path: string, value: unknown) {
 }
 
 // Глубокое сравнение объектов
-export function isEqual<Obj extends Object>(a: Obj, b: Obj): boolean {
-  const compares: boolean[] = [];
-
-  if (Object.keys(a).length !== Object.keys(b).length) {
+export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
     return false;
   }
 
-  for (const item in a) {
-    if (!isObject(a[item]) && !isObject(b[item])) {
-      if (Array.isArray(a[item])) {
-        return (a[item] as any[]).toString() === (b[item] as any[]).toString();
-      }
-
-      return a[item] === b[item];
+  for (const key of keys1) {
+    const val1 = object1[key as keyof Obj];
+    const val2 = object2[key as keyof Obj];
+    const areObjects = isObject(val1) && isObject(val2);
+    if ((areObjects && !isEqual(val1 as Obj, val2 as Obj))
+    || (!areObjects && val1 !== val2)) {
+      return false;
     }
-    compares.push(isEqual(a[item] as Obj, b[item] as Obj));
   }
-
-  if (compares.find((item: boolean) : boolean => item === false) === false) {
-    return false;
-  }
-
   return true;
 }
 

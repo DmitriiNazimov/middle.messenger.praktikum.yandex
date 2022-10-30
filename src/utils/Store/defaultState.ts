@@ -1,24 +1,22 @@
-/* eslint-disable import/prefer-default-export */
+import { MENU_CHAT_SCREEN } from '../../consts';
+
 export type DefaultState = {
   isAuthenticated?: boolean;
-  chats?: unknown[];
-  user?: {
-    first_name?: string;
-    avatar?: string;
-    display_name?: string;
-    email?: string;
-    login?: string;
-    phone?: string;
-    second_name?: string;
-    id?: number | null;
-  };
-  usersFromChats?: string;
-  users?: string;
-  messages?: any;
+  chatMenuScreen?: string;
+  activeChat?: number | null;
+  lastMessageEffect?: boolean;
+  isLoading?: boolean;
+  chats?: Chat[];
+  user?: UserData;
+  users?: UserData[];
+  messages?: MessageServer[];
 };
 
 export const defaultState: DefaultState = {
   isAuthenticated: false,
+  chatMenuScreen: MENU_CHAT_SCREEN.start,
+  activeChat: null,
+  isLoading: true,
   chats: [
     {
       avatar: null,
@@ -53,7 +51,6 @@ export const defaultState: DefaultState = {
     second_name: '',
     id: null,
   },
-  usersFromChats: '',
-  users: '',
+  users: [],
   messages: [],
 };

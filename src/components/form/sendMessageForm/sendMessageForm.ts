@@ -1,3 +1,4 @@
+import { messagesController } from '../../../controllers';
 import Form from '../form';
 import '../form.css';
 import './sendMessageForm.css';
@@ -5,11 +6,31 @@ import './sendMessageForm.css';
 export default class SendMessageForm extends Form {
   static componentName: string = 'SendMessageForm';
 
+  constructor(props: FormProps) {
+    super({
+      ...props,
+      events: { submit: (event: Event) => this.submitHandler(event) },
+    });
+  }
+
+  async submitHandler(event: Event) {
+    super.submitHandler(event);
+
+    const form = event.target as HTMLFormElement;
+    const textArea = form.querySelector('#message') as HTMLTextAreaElement;
+
+    const response = await messagesController.sendMessage(textArea.value);
+
+    if (response) {
+      textArea.value = '';
+    }
+  }
+
   render() {
     return `
-    <form class="form send-message__form">
+    <form class="form send-message__form feed__opened__mobile">
       <span class="send-message__wrapper">
-        <textarea
+        <textarea required
           id="message"
           name="message"
           rows="1"

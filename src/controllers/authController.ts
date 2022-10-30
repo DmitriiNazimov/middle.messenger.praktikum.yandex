@@ -29,7 +29,6 @@ class AuthController {
     authAPI
       .signInApi(data)
       .then(() => {
-        store.setState({ isAuthenticated: true });
         router.go('/messenger');
         addNotice('Успешная авторизация!', 'success');
       })

@@ -2,38 +2,18 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import { Block } from '../../utils';
-import { addNotice } from '../../utils/Helpers/domHelpers';
+import { addNotice } from '../../utils/Helpers/viewHelpers';
 import Validator from '../../utils/Helpers/Validator';
 import './form.css';
 
-type Props = {
-  header: string,
-  inputs: {
-    title: string,
-    type: string,
-    id: string,
-    placeholder?: string,
-    value?: string,
-    required?: boolean
-    inputHeader?: string,
-    errorRefName: string
-  }[],
-  buttons: {
-    typeFull: boolean,
-    text: string,
-    link: string
-  }[]
-  events?: {};
-}
+type InputRef = { errorRefName?: string; id: string; };
 
-type InputRef = { errorRefName: string; id: string; };
-
-export default class Form extends Block<Props> {
+export default class Form extends Block<FormProps> {
   static componentName: string = 'Form';
 
   protected validator: Validator;
 
-  constructor(props: Props) {
+  constructor(props: FormProps) {
     super({
       ...props,
       events: {
@@ -91,7 +71,10 @@ export default class Form extends Block<Props> {
     const newProps = this._props;
 
     // eslint-disable-next-line no-param-reassign
-    newProps.inputs.forEach((input: InputRef) => { input.errorRefName = `${input.id}Error`; });
+    newProps.inputs.forEach((input: InputRef) => {
+      // eslint-disable-next-line no-param-reassign
+      input.errorRefName = `${input.id}Error`;
+    });
 
     this.setProps(newProps.inputs);
   }
@@ -124,7 +107,7 @@ export default class Form extends Block<Props> {
       {{#if buttons}}
           <div class="form__buttons-wrapper">
               {{#each buttons}}
-                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}" id="{{id}}"}}}
+                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}" id=id}}}
               {{/each}}
           </div>
       {{/if}}

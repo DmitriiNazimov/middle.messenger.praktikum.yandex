@@ -1,6 +1,55 @@
 import { Block, Route } from '../src/utils';
 
 declare global {
+  export type InputProps = {
+    title: string;
+    type: string;
+    id: string;
+    placeholder?: string;
+    value?: string;
+    required?: boolean;
+    inputHeader?: string;
+    errorRefName?: string;
+    pattern?: string;
+    error?: string;
+    events?: Object;
+  };
+
+  export type ButtonProps = {
+    typeFull: boolean;
+    text: string;
+    link?: string;
+    id?: string;
+    events?: Object;
+  };
+
+  export type FormProps = {
+    header?: string;
+    inputs: InputProps[];
+    buttons: ButtonProps[];
+    events?: {}
+  };
+
+  export type ChatHeaderProps = {
+    avatarPath: string;
+    displayName: string;
+    chatId: number;
+    chatsPage: Block<{}>;
+    events?: Object;
+  };
+
+  export type ContactProps = {
+    active: boolean;
+    avatarPath: string;
+    displayName: string;
+    lastMsgPrefix: string;
+    lastMsgText: string;
+    lastMsgDate: string;
+    msgCounter: number;
+    chatId: number;
+    events?: Object;
+  };
+
   export type RouteType = null | Route;
 
   export type RouteProps = {
@@ -19,5 +68,29 @@ declare global {
 
   export type ValidateResult = Record<string, string[] | boolean>;
 
+  export type UserData = {
+    first_name?: string;
+    avatar?: string;
+    display_name?: string;
+    email?: string;
+    login?: string;
+    phone?: string;
+    second_name?: string;
+    id?: number | null;
+  }
+
+  export type Chat = {
+    avatar: null | string;
+    created_by: number;
+    id: number;
+    last_message: {
+      content: string;
+      id: number;
+      time: string;
+      user: UserData;
+    };
+    title: '';
+    unread_count: 0;
+  };
 }
 export {};

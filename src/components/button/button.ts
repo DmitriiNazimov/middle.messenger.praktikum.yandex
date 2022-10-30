@@ -1,14 +1,7 @@
 import { Block } from '../../utils';
 import './button.css';
 
-type Props = {
-  text: string;
-  typeFull: boolean;
-  link: string;
-  events?: Object;
-}
-
-export default class Button extends Block<Props> {
+export default class Button extends Block<ButtonProps> {
   static componentName: string = 'Button';
 
   render() {

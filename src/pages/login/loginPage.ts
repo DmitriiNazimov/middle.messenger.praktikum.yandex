@@ -1,27 +1,10 @@
 import '../../styles.css';
 import { authController } from '../../controllers';
-import { formIsValid } from '../../utils/Helpers/domHelpers';
+import { formIsValid } from '../../utils/Helpers/viewHelpers';
 import { Block } from '../../utils';
 import { SignIn } from '../../api';
 
-type Props = {
-  header: string;
-  inputs: {
-    title: string;
-    type: string;
-    id: string;
-    placeholder: string;
-    required: boolean;
-  }[];
-  buttons: {
-    typeFull: boolean;
-    text: string;
-    link: string;
-  }[];
-  events?: {};
-};
-
-export const data: Props = {
+export const data: FormProps = {
   header: 'Вход',
   inputs: [
     {
@@ -53,7 +36,7 @@ export const data: Props = {
   ],
 };
 
-export default class LoginPage extends Block<Props> {
+export default class LoginPage extends Block<FormProps> {
   constructor() {
     super({
       ...data,

@@ -12,5 +12,6 @@ export default async function renderDOM(block: BlockComponent, title?: string, s
   document.title = title || DEFAULT_TITLE;
 
   root!.appendChild(block.getContent());
+
   return root;
 }

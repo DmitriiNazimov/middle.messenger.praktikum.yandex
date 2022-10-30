@@ -3,28 +3,9 @@ import { authController } from '../../controllers';
 import '../../styles.css';
 
 import { Block } from '../../utils';
-import { formIsValid } from '../../utils/Helpers/domHelpers';
+import { formIsValid } from '../../utils/Helpers/viewHelpers';
 
-type Props = {
-  header: string,
-  inputs: {
-    title: string,
-    type: string,
-    id: string,
-    placeholder?: string,
-    value?: string,
-    required?: boolean
-    inputHeader?: string,
-  }[],
-  buttons: {
-    typeFull: boolean,
-    text: string,
-    link: string
-  }[],
-  events?: {}
-};
-
-export const data: Props = {
+export const data: FormProps = {
   header: 'Регистрация',
   inputs: [
     {
@@ -91,7 +72,7 @@ export const data: Props = {
   ],
 };
 
-export default class RegistrationPage extends Block<Props> {
+export default class RegistrationPage extends Block<FormProps> {
   constructor() {
     super({
       ...data,

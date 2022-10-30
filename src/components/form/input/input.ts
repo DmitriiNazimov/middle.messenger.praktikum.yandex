@@ -1,19 +1,7 @@
 import Block from '../../../utils/Rendering/Block';
 import './input.css';
 
-type Props = {
-  id: string;
-  title: string;
-  required: boolean;
-  type: string;
-  pattern: string;
-  placeholder: string;
-  value: string;
-  error: string;
-  events?: Object;
-}
-
-export default class Input extends Block<Props> {
+export default class Input extends Block<InputProps> {
   static componentName: string = 'Input';
 
   render() {

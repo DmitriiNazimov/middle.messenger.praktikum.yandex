@@ -1,9 +1,7 @@
 import Block from '../../utils/Rendering/Block';
 import './logo.css';
 
-type Props = {};
-
-export default class Logo extends Block<Props> {
+export default class Logo extends Block<{}> {
   static componentName: string = 'Logo';
 
   render() {

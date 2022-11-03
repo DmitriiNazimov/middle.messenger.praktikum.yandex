@@ -1,4 +1,4 @@
-@import "../../../variables.css";
+@import '../../../variables.css';
 
 .send-message {
   &__form {
@@ -22,6 +22,7 @@
 
   &__wrapper {
     display: flex;
+    z-index: 800;
   }
 
   &__button-wrapper {
@@ -44,6 +45,11 @@
     font-size: 13px;
     position: absolute;
     bottom: 55px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .input-error__list {
+      list-style: none;
+    }
   }
 }
 
@@ -59,7 +65,7 @@
 
   &:focus {
     transition: 0.2s;
-    box-shadow: 0 0 20px #ffa825;
+    box-shadow: 0 0 20px $accent_color;
   }
 
   &::placeholder {

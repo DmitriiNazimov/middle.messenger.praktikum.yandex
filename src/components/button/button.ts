@@ -1,32 +1,15 @@
-import Block from '../../utils/Block';
+import { Block } from '../../utils';
 import './button.css';
 
-interface Props {
-  text: string;
-  typeFull: boolean;
-  link: string;
-  events: Object;
-}
-
-export default class Button extends Block {
+export default class Button extends Block<ButtonProps> {
   static componentName: string = 'Button';
-
-  constructor({
-    text, typeFull, link,
-  }: Props) {
-    super({
-      text,
-      typeFull,
-      link,
-    });
-  }
 
   render() {
     return `
       {{#if typeFull}}
-        <button type="submit" class="button button__full">{{text}}</button>
+        <button type="submit"{{#if id}} id="{{id}}"{{/if}} class="button button__full">{{text}}</button>
       {{else}}
-        <a href="{{link}}" class="button button__empty">{{text}}</a>
+        <a href="{{link}}"{{#if id}} id="{{id}}"{{/if}} class="button button__empty">{{text}}</a>
       {{/if}}
      `;
   }

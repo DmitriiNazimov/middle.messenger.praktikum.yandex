@@ -1,25 +1,31 @@
-import Block from '../../../utils/Block';
+import { SELECTOR } from '../../../consts';
+import Block from '../../../utils/Rendering/Block';
 import './inputError.css';
 
 type Props = {
-  error: string;
+  errors: string[];
   sendMessageError: boolean;
 }
 
-export default class InputError extends Block {
+export default class InputError extends Block<Props> {
   static componentName: string = 'InputError';
 
-  constructor({ error, sendMessageError }: Props) {
-    super({ error, sendMessageError });
-  }
-
   render() {
-    return `
-        <div class="input-error
-        {{#unless error}} hide{{/unless}}
-        {{#if sendMessageError}} send-message__validate-error{{/if}}">
-          {{{error}}}
+    return (
+      '<div class="input-error'
+      + '{{#unless errors}} hide{{/unless}}'
+      + '{{#if sendMessageError}} send-message__validate-error{{/if}}'
+      + '{{#if formSubmitted}} input-error__submitted{{/if}}'
+      + `">
+          {{#if errors}}
+            <ul class='${SELECTOR.input.errorList}'>
+              {{#each errors}}
+                <li class="${SELECTOR.input.errorList}-row">{{{ [] }}}</li>
+              {{/each}}
+            </ul> 
+          {{/if}}
         </div>
-     `;
+     `
+    );
   }
 }

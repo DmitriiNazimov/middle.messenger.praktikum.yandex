@@ -1,100 +1,112 @@
+/* eslint-disable class-methods-use-this */
 import '../../styles.css';
 import './profile.css';
+import { authController, userController } from '../../controllers';
+import { Block, store, DefaultState } from '../../utils';
+import { PATH, SELECTOR, StoreEvents } from '../../consts';
+import { cloneDeep, isEqual } from '../../utils/Helpers/myDash';
+import { addNotice, formIsValid } from '../../utils/Helpers/viewHelpers';
+import { UpdateProfile } from '../../api';
+import { data, Props, propsUpdate } from './defaultProps';
 
-import Block from '../../utils/Block';
-
-const data: object = {
-  header: 'Иван',
-  avatarPath: '/img/dimon.jpg',
-  inputs: [
-    {
-      title: 'Email',
-      type: 'email',
-      id: 'email',
-      value: 'ivan@mail.ru',
-      placeholder: 'ivan@mail.ru',
-    },
-    {
-      title: 'Логин',
-      type: 'text',
-      id: 'login',
-      value: 'ivanIvanov',
-      placeholder: 'Логин',
-    },
-    {
-      title: 'Имя',
-      type: 'text',
-      id: 'first_name',
-      value: 'Иван',
-      placeholder: 'Имя',
-    },
-    {
-      title: 'Фамилия',
-      type: 'text',
-      id: 'second_name',
-      value: 'Иванов',
-      placeholder: 'Фамилия',
-    },
-    {
-      title: 'Имя в чате',
-      type: 'text',
-      id: 'display_name',
-      value: 'Иван Грозный',
-      placeholder: 'Имя в чате',
-    },
-    {
-      title: 'Телефон',
-      type: 'tel',
-      id: 'phone',
-      value: '+79886663311',
-      placeholder: 'ivanIvanov',
-    },
-    {
-      inputHeader: 'Если хотите поменять пароль:',
-      title: 'Пароль',
-      type: 'password',
-      id: 'password',
-      placeholder: 'Старый пароль',
-    },
-    {
-      title: 'Пароль (ещё раз)',
-      type: 'password',
-      id: 'passwordAgain',
-      placeholder: 'Новый пароль',
-    },
-    {
-      inputHeader: 'Если хотите поменять аватар:',
-      title: 'Фото',
-      type: 'file',
-      id: 'avatar-input',
-    },
-  ],
-  buttons: [
-    {
-      typeFull: true,
-      text: 'Сохранить изменения',
-      link: './chats',
-    },
-    {
-      typeEmpty: true,
-      text: 'Выйти из аккаунта',
-      link: './',
-    },
-  ],
-};
-
-export default class ProfilePage extends Block {
+export default class ProfilePage extends Block<Props> {
   constructor() {
-    super(data);
+    super({
+      ...data,
+      events: {
+        click: (event: Event) => this.clickHandler(event),
+        submit: (event: Event) => this.submitHandler(event),
+      },
+    });
+
+    // Не присваиваем сразу store.state.user чтобы отработал !isEqual(userOldState, userFreshState)
+    let userOldState = {};
+
+    store.on(StoreEvents.updated, () => {
+      const userFreshState: DefaultState['user'] = store.state.user!;
+      const newProps: propsUpdate = this.convertStateToProps(userFreshState);
+
+      if (!isEqual(userOldState, userFreshState)) {
+        this.setProps(newProps);
+        userOldState = cloneDeep(userFreshState) as UserData;
+      }
+    });
+  }
+
+  convertStateToProps(freshState: DefaultState['user']): propsUpdate {
+    const props: propsUpdate = {
+      inputs: data.inputs,
+      header: freshState?.first_name || ' ',
+      avatarPath: freshState?.avatar ? PATH.avatarBase + freshState.avatar : data.avatarPath,
+    };
+
+    props.inputs.map((item) => {
+      const key = item.id as keyof DefaultState['user'];
+      // eslint-disable-next-line no-param-reassign
+      item.value = freshState![key];
+      return item;
+    });
+
+    return props;
+  }
+
+  clickHandler(event: Event) {
+    const target = event.target as HTMLElement;
+    if (target.id === SELECTOR.logoutBtn) {
+      authController.logout();
+    }
+  }
+
+  submitHandler(event: Event) {
+    const form = event.target as HTMLElement;
+
+    if (!(form instanceof HTMLFormElement) || !formIsValid(form)) {
+      return;
+    }
+
+    // Обновление пароля
+    const oldPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.oldPassword}`)!;
+    const newPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.newPassword}`)!;
+
+    if (oldPasswordInput.value && newPasswordInput.value) {
+      const formDataPassword = {
+        oldPassword: oldPasswordInput.value,
+        newPassword: newPasswordInput.value,
+      };
+      userController.updateUserPassword(formDataPassword);
+    } else if (oldPasswordInput.value && !newPasswordInput.value) {
+      addNotice('Для изменения пароля необходимо указать старый и новый пароль.', 'error');
+      return;
+    }
+
+    // Обновление аватара
+    const avatarInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.avatar}`)!;
+
+    if (avatarInput.value) {
+      userController.updateUserAvatar(new FormData(form));
+    }
+
+    // Обновление данных пользователя
+    const formData = Object.fromEntries(new FormData(form)) as UpdateProfile;
+    userController.updateUserProfileData(formData);
+  }
+
+  getContent(): HTMLElement {
+    authController.getUser({ withLoader: !this.propsIsFilled() });
+
+    return this.element;
+  }
+
+  propsIsFilled() {
+    // Если логин в хедере не указан - значит данные пользователя недостаточны.
+    return this._props.header!.length > 2;
   }
 
   render() {
-    document.title = 'Профиль пользователя';
-
     return `
     <span class="profile-wrapper">
       <div class="sidebar-left">
-        <a class="comeback__link" href="./chats">
+        <a class="comeback__link" href="/messenger">
           <div class="comeback__icon">←</div>
           <p class="comeback__note">Назад</p>
         </a>
@@ -103,13 +115,13 @@ export default class ProfilePage extends Block {
         <img
           src="{{avatarPath}}"
           alt="Аватар пользователя {{header}}"
-          class="avatar avatar__big"
+          class="avatar-img avatar-img__big"
         />
         {{{ Form 
           header="{{header}}" 
           inputs=inputs 
-          buttons=buttons 
-      }}}
+          buttons=buttons
+        }}}
       </main>
     </span>
     `;

@@ -1,32 +1,21 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-import Block from '../../utils/Block';
-import Validator from '../../utils/Validator';
+import { Block } from '../../utils';
+import { addNotice } from '../../utils/Helpers/viewHelpers';
+import Validator from '../../utils/Helpers/Validator';
 import './form.css';
 
-type Props = {
-  header: string;
-  inputs: unknown[];
-  buttons: unknown[];
-  sendMessageForm: boolean;
-  events: Object;
-}
+type InputRef = { errorRefName?: string; id: string; };
 
-type InputRef = { errorRefName: string; id: string; };
-
-export default class Form extends Block {
+export default class Form extends Block<FormProps> {
   static componentName: string = 'Form';
 
   protected validator: Validator;
 
-  constructor({
-    header, inputs, buttons, sendMessageForm,
-  }: Props) {
+  constructor(props: FormProps) {
     super({
-      header,
-      inputs,
-      buttons,
-      sendMessageForm,
+      ...props,
       events: {
         submit: (event: Event) => this.submitHandler(event),
         blur: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
@@ -38,63 +27,56 @@ export default class Form extends Block {
     this.validator = new Validator();
 
     // Добавляем инпутам наименования refs для элемента с выводом ошибок
-    if (inputs) {
+    if (props.inputs) {
       this.addErrorRefNamesToProps();
     }
   }
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const errors: Object = this.validator.check([target] as HTMLInputElement[]);
-
-      this.updatePropsAfterValidation(errors);
+      const validateData: Object = this.validator.check([target] as HTMLInputElement[]);
+      this.updatePropsAfterValidation(validateData);
     }
   }
 
   submitHandler(event: Event) {
-    if (document.querySelectorAll('.input-error-list')?.length) {
-      event.preventDefault();
-    }
-
-    // Выводим данные формы в консоль.
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    console.log(Object.fromEntries(formData));
 
     // Проводим валидацию всех элементов формы
     const form = event.target as HTMLFormElement;
 
-    let formItems: Element[] = Array.from(form.querySelectorAll('INPUT'));
+    const formItems: Element[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
 
-    if (!this.props.inputs) {
-      formItems = Array.from(form.querySelectorAll('TEXTAREA'));
+    const validateData: ValidateResult = this.validator.check(formItems as HTMLInputElement[]);
+
+    if (!validateData.isCorrect) {
+      addNotice('Данные формы заполнены некорректно', 'error');
     }
 
-    const errors: Object = this.validator.check(formItems as HTMLInputElement[]);
-
-    this.updatePropsAfterValidation(errors);
-    this.paintErrorsInRed(form);
+    this.updatePropsAfterValidation(validateData, true);
   }
 
-  updatePropsAfterValidation(errors: Object) {
+  updatePropsAfterValidation(props: Object, formSubmitted: boolean = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
-    Object.entries(errors).forEach(([name, errorText]) => {
-      this.refs[`${name}Error`].setProps({ error: errorText });
+    Object.entries(props).forEach(([name, errors]) => {
+      if (name === 'isCorrect') {
+        return;
+      }
+
+      this._refs[`${name}Error`].setProps({ errors, formSubmitted });
     });
   }
 
   addErrorRefNamesToProps() {
-    const newProps = this.props;
-    // eslint-disable-next-line no-param-reassign
-    newProps.inputs.forEach((input: InputRef) => { input.errorRefName = `${input.id}Error`; });
-    this.setProps(newProps);
-  }
+    const newProps = this._props;
 
-  paintErrorsInRed(form: HTMLFormElement) {
-    const errElems = Array.from(form.querySelectorAll('.input-error'));
-    errElems.forEach((elem) => {
-      elem.classList.add('input-error__submitted');
+    // eslint-disable-next-line no-param-reassign
+    newProps.inputs.forEach((input: InputRef) => {
+      // eslint-disable-next-line no-param-reassign
+      input.errorRefName = `${input.id}Error`;
     });
+
+    this.setProps(newProps.inputs);
   }
 
   render() {
@@ -118,14 +100,14 @@ export default class Form extends Block {
                 required=required
                 value=value
             }}}
-            {{{ InputError error=error ref=errorRefName }}}
+            {{{ InputError errors=errors formSubmitted=formSubmitted ref=errorRefName }}}
         </div>
       {{/each}}
 
       {{#if buttons}}
           <div class="form__buttons-wrapper">
               {{#each buttons}}
-                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}"}}}
+                  {{{ Button text="{{text}}" typeFull=typeFull link="{{link}}" id=id}}}
               {{/each}}
           </div>
       {{/if}}

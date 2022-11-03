@@ -1,8 +1,11 @@
+import { SignUp } from '../../api';
+import { authController } from '../../controllers';
 import '../../styles.css';
 
-import Block from '../../utils/Block';
+import { Block } from '../../utils';
+import { formIsValid } from '../../utils/Helpers/viewHelpers';
 
-export const data: object = {
+export const data: FormProps = {
   header: 'Регистрация',
   inputs: [
     {
@@ -59,24 +62,34 @@ export const data: object = {
     {
       typeFull: true,
       text: 'Зарегистрироваться',
-      link: './chats',
+      link: './messenger',
     },
     {
-      typeEmpty: true,
+      typeFull: false,
       text: 'Вход',
-      link: './login',
+      link: './sign-in',
     },
   ],
 };
 
-export default class RegistrationPage extends Block {
+export default class RegistrationPage extends Block<FormProps> {
   constructor() {
-    super(data);
+    super({
+      ...data,
+      events: { submit: (event: Event) => this.submitHandler(event) },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  submitHandler(event: Event) {
+    const form = event.target;
+    if (form instanceof HTMLFormElement && formIsValid(form)) {
+      const formData = Object.fromEntries(new FormData(form)) as SignUp;
+      authController.signUp(formData);
+    }
   }
 
   render() {
-    document.title = 'Регистрация';
-
     return `
     <main>
       {{{ Logo }}}

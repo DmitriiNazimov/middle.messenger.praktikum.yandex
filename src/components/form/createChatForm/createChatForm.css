@@ -1,0 +1,36 @@
+@import '../../../variables.css';
+
+.create-chat {
+  &__form-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__wrapper {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    .form {
+      width: 90%;
+      min-width: 300px;
+
+      &__row {
+        margin: 23px auto;
+      }
+
+      &__buttons-wrapper {
+        margin: 0 auto 30px;
+      }
+
+      button {
+        margin: 10px auto;
+      }
+    }
+  }
+
+  &__button {
+    width: auto !important;
+    margin: 20px !important;
+  }
+}

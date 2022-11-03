@@ -6,7 +6,7 @@
   .navigation-list {
     padding: 0;
 
-    li {
+    &__row {
       margin: 20px 0;
     }
   }

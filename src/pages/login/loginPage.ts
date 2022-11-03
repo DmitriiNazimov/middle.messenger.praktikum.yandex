@@ -1,8 +1,10 @@
 import '../../styles.css';
+import { authController } from '../../controllers';
+import { formIsValid } from '../../utils/Helpers/viewHelpers';
+import { Block } from '../../utils';
+import { SignIn } from '../../api';
 
-import Block from '../../utils/Block';
-
-export const data: object = {
+export const data: FormProps = {
   header: 'Вход',
   inputs: [
     {
@@ -24,24 +26,35 @@ export const data: object = {
     {
       typeFull: true,
       text: 'Войти',
-      link: './chats',
+      link: './messenger',
     },
     {
       typeFull: false,
       text: 'Ещё не зарегистрированы?',
-      link: './registration',
+      link: './sign-up',
     },
   ],
 };
 
-export class LoginPage extends Block {
+export default class LoginPage extends Block<FormProps> {
   constructor() {
-    super(data);
+    super({
+      ...data,
+      events: { submit: (event: Event) => this.submitHandler(event) },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  submitHandler(event: Event) {
+    const form = event.target;
+
+    if (form instanceof HTMLFormElement && formIsValid(form)) {
+      const formData = Object.fromEntries(new FormData(form)) as SignIn;
+      authController.signIn(formData);
+    }
   }
 
   render() {
-    document.title = 'Авторизация';
-
     return `
     <main>
       {{{ Logo }}} 

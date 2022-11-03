@@ -1,0 +1,135 @@
+@import '../../../variables.css';
+
+.chat-menu {
+  &__icon {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__dot {
+    background-color: #fff;
+    border-radius: 100px;
+    width: 5px;
+    height: 5px;
+    margin: 5px;
+  }
+
+  &__wrapper {
+    width: 260px;
+    margin-top: 10px;
+    z-index: 900;
+    background-color: #151928;
+    position: fixed;
+    right: 30px;
+    padding: 0 30px;
+    border-radius: 15px 0 15px 15px;
+    box-shadow: 0 0 50px $section_light_shadow;
+    overflow-y: overlay;
+    max-height: 75%;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+      background-color: $background_color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background-color: $border_color;
+    }
+
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgb(0 0 0 / 20%);
+      border-radius: 1px;
+      background-color: $background_color;
+    }
+  }
+
+  &__item {
+    margin: 30px auto;
+    text-align: center;
+
+    &__add {
+      color: $font_color_positive;
+    }
+
+    &__delete {
+      margin-top: 30px;
+      color: $font_color_red;
+    }
+  }
+
+  &__users-wrapper {
+    .form {
+      width: auto;
+      margin: 0;
+      min-width: 260px;
+
+      &__row {
+        width: 100%;
+      }
+
+      &__buttons-wrapper {
+        margin: 0 auto 20px;
+      }
+
+      button {
+        margin: 10px auto;
+      }
+    }
+  }
+
+  &__users {
+    .contact {
+      &__user-item {
+        display: flex;
+        padding: 8px 3px 8px 0;
+        margin: -6px 0;
+
+        &__active {
+          background: $font_color_positive;
+          background: linear-gradient(90deg, #003a53 0%, rgb(0 212 255 / 0%) 85%);
+        }
+
+        &__delete {
+          box-shadow: 0 0 5px $font_color_red;
+          border: 2px solid $font_color_red;
+        }
+
+        &:hover {
+          cursor: pointer;
+          transition: 0.1s;
+          border-radius: 25px;
+          padding-right: 15px;
+          padding-left: 10px;
+          box-shadow: 0 0 5px $font_color_positive;
+          border: 2px solid $font_color_positive;
+        }
+      }
+
+      &__pointer {
+        width: 4px;
+        margin-right: 3px;
+        height: 100%;
+        margin-top: -7px;
+        padding-bottom: 14px;
+        background-color: $font_color_positive;
+      }
+    }
+
+    &__delete {
+      .contact {
+        &__user-item:hover {
+          box-shadow: 0 0 5px $font_color_red;
+          border: 2px solid $font_color_red;
+
+          .contact {
+            &__pointer {
+              background-color: $font_color_red;
+            }
+          }
+        }
+      }
+    }
+  }
+}

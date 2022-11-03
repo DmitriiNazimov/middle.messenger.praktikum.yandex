@@ -1,12 +1,11 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import EventBus from './EventBus';
 
-export default class Block {
+export default class Block<Props extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -16,58 +15,61 @@ export default class Block {
 
   static componentName: string;
 
-  protected children: {[id: string]: Block} = {};
+  protected _children: { [id: string]: Block<Props> } = {};
 
   protected _element: HTMLElement | null = null;
 
-  public id = nanoid(6);
+  public id: string = nanoid(6);
 
-  protected props: any;
+  protected _props: Props;
 
-  protected refs: {[key: string]: Block} = {};
+  protected _refs: Record<string, Block<Props>> = {};
 
-  private eventBus: () => EventBus<string, Function>;
+  private _eventBus: () => EventBus<string, Function>;
 
-  constructor(props?: any) {
+  // Переключается на true после изменения props и на false после вызова EVENTS.FLOW_CDU
+  private _propsNeedUpdate: boolean = false;
+
+  constructor(props: Props) {
     const eventBus = new EventBus();
 
-    this.props = this._makePropsProxy(props);
+    this._props = this._makePropsProxy(props) as Props;
 
-    this.eventBus = () => eventBus;
+    this._eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
 
-    eventBus.emit(Block.EVENTS.INIT, this.props);
+    eventBus.emit(Block.EVENTS.INIT, this._props);
   }
 
-  _registerEvents(eventBus: EventBus<string, Function>) {
+  private _registerEvents(eventBus: EventBus<string, Function>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
+  private _createResources() {
     this._element = this._createDocumentElement('div');
   }
 
-  init() {
+  protected init() {
     this._createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
+    this._eventBus().emit(Block.EVENTS.FLOW_RENDER, this._props);
   }
 
-  _componentDidMount(props: any) {
+  private _componentDidMount(props: any) {
     this.componentDidMount(props);
   }
 
   // Может переопределять пользователь
-  componentDidMount(props: any) {}
+  protected componentDidMount(props: any) {}
 
-  dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  public dispatchComponentDidMount() {
+    this._eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: Object, newProps: Object) {
+  private _componentDidUpdate(oldProps: Object, newProps: Object) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -76,23 +78,20 @@ export default class Block {
   }
 
   // Может переопределять пользователь
-  componentDidUpdate(oldProps: Object, newProps: Object) {
+  protected componentDidUpdate(oldProps: Object, newProps: Object) {
+    this._children = {};
     return true;
   }
 
-  setProps = (nextProps: Object) => {
+  public setProps = (nextProps: Object) => {
     if (!nextProps) {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    Object.assign(this._props, nextProps);
   };
 
-  get element(): HTMLElement {
-    return this._element!;
-  }
-
-  _render() {
+  private _render() {
     const fragment = this._compile();
 
     this._removeEvents();
@@ -106,19 +105,21 @@ export default class Block {
   }
 
   // Может переопределять пользователь
-  protected render():string {
+  protected render(): string {
     return '';
+  }
+
+  get element(): HTMLElement {
+    return this._element!;
   }
 
   getContent(): HTMLElement {
     return this.element;
   }
 
-  _makePropsProxy(props: Object = {}) {
-    const self = this;
-
+  private _makePropsProxy(props: Object = {}) {
     return new Proxy(props, {
-      get(objProps: Object, prop: keyof Object) {
+      get: (objProps: Object, prop: keyof Object) => {
         if (typeof objProps[prop] === 'function') {
           return objProps[prop].bind(objProps);
         }
@@ -126,25 +127,34 @@ export default class Block {
         return objProps[prop];
       },
 
-      set(objProps: Object, prop: keyof Object, value) {
+      set: (objProps: Object, prop: keyof Object, value) => {
         // eslint-disable-next-line no-param-reassign
         objProps[prop] = value;
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
+        this._propsNeedUpdate = true;
+
+        // Задержка чтобы перерендер был один раз, а не при обновлении каждого отдельного пропса.
+        setTimeout(() => {
+          if (this._propsNeedUpdate) {
+            this._eventBus().emit(Block.EVENTS.FLOW_CDU, { ...objProps }, objProps);
+            this._propsNeedUpdate = false;
+          }
+        }, 50);
+
         return true;
       },
 
-      deleteProperty() {
+      deleteProperty: () => {
         throw new Error('Нет доступа');
       },
     });
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _removeEvents() {
-    const { events } = this.props as any;
+  private _removeEvents() {
+    const { events } = this._props as any;
 
     if (!events || !this._element) {
       return;
@@ -155,8 +165,8 @@ export default class Block {
     });
   }
 
-  _addEvents() {
-    const { events }: {[key: string]: Function} = this.props;
+  private _addEvents() {
+    const { events }: Record<string, Function> = this._props;
 
     if (!events) {
       return;
@@ -167,25 +177,27 @@ export default class Block {
     });
   }
 
-  show() {
+  public show() {
     this._element?.classList.remove('hide');
   }
 
-  hide() {
+  public hide() {
     this._element?.classList.add('hide');
   }
 
-  _compile(): DocumentFragment {
+  private _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
     const template = Handlebars.compile(this.render());
 
     fragment.innerHTML = template({
-      ...this.props, children: this.children, refs: this.refs,
+      ...this._props,
+      children: this._children,
+      refs: this._refs,
     });
 
     // Заменяем заглушки на компоненты
-    Object.entries(this.children).forEach(([id, component]) => {
+    Object.entries(this._children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
       if (!stub) {

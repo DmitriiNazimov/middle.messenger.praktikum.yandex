@@ -1,4 +1,4 @@
-import Block from '../../../utils/Block';
+import Block from '../../../utils/Rendering/Block';
 import './message.css';
 
 type Props = {
@@ -6,25 +6,16 @@ type Props = {
   text: string;
   imgPath: string;
   outgoing: boolean;
-  delivered: boolean;
   readed: boolean;
-  events: Object;
+  events?: Object;
 }
 
-export default class Message extends Block {
+export default class Message extends Block<Props> {
   static componentName: string = 'Message';
-
-  constructor({
-    time, text, imgPath, outgoing, delivered, readed,
-  }: Props) {
-    super({
-      time, text, imgPath, outgoing, delivered, readed,
-    });
-  }
 
   render() {
     return `
-     <div class="msg {{#if outgoing }} msg__outgoing {{else}} msg__incoming {{/if}}">
+     <div class="msg{{#if outgoing }} msg__outgoing {{else}} msg__incoming{{/if}}{{#if isLast }} msg__last-msg{{/if}}">
         {{#if text }}
           <div class="msg__text">{{ text }}</div>
         {{/if}}
@@ -33,7 +24,6 @@ export default class Message extends Block {
         {{/if}}
         <div class="msg__info">
             {{#if outgoing }}
-                <span class="msg__delivered {{#if delivered }} msg__delivered__active {{/if}}">.</span>
                 <span class="msg__readed {{#if readed }} msg__readed__active {{/if}} ">.</span>
             {{/if}}
             <span class="msg__time">{{ time }}</span>

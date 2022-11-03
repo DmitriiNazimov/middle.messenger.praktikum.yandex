@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-restricted-exports
 export { default as authAPI, SignUp, SignIn } from './authApi';
 
 export {

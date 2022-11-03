@@ -23,7 +23,7 @@ import {
 } from './supportMethods';
 
 export default class ChatMenu extends Block<Props> {
-  static componentName: string = 'ChatMenu';
+  static componentName = 'ChatMenu';
 
   private _screenOldState: DefaultState['chatMenuScreen'] = store.state.chatMenuScreen;
 
@@ -62,11 +62,11 @@ export default class ChatMenu extends Block<Props> {
       this._screenOldState = screenFreshState;
     }
 
-    if (!isEqual(this._usersOldState!, usersFreshState!)) {
-      trimLongEmails(usersFreshState!);
+    if (!isEqual(this._usersOldState as UserData, usersFreshState as UserData)) {
+      trimLongEmails(usersFreshState as UserData[]);
 
       this.setProps({ users: usersFreshState });
-      this._usersOldState = cloneDeep(usersFreshState!) as UserData[];
+      this._usersOldState = cloneDeep(usersFreshState as UserData) as UserData[];
     }
   }
 

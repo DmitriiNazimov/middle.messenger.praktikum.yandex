@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 import { Block } from '../../utils';
 import { addNotice } from '../../utils/Helpers/viewHelpers';
 import Validator from '../../utils/Helpers/Validator';
@@ -9,7 +6,7 @@ import './form.css';
 type InputRef = { errorRefName?: string; id: string; };
 
 export default class Form extends Block<FormProps> {
-  static componentName: string = 'Form';
+  static componentName = 'Form';
 
   protected validator: Validator;
 
@@ -34,7 +31,7 @@ export default class Form extends Block<FormProps> {
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const validateData: Object = this.validator.check([target] as HTMLInputElement[]);
+      const validateData: UnknownObj = this.validator.check([target] as HTMLInputElement[]);
       this.updatePropsAfterValidation(validateData);
     }
   }
@@ -56,7 +53,7 @@ export default class Form extends Block<FormProps> {
     this.updatePropsAfterValidation(validateData, true);
   }
 
-  updatePropsAfterValidation(props: Object, formSubmitted: boolean = false) {
+  updatePropsAfterValidation(props: Record<string, unknown>, formSubmitted = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(props).forEach(([name, errors]) => {
       if (name === 'isCorrect') {
@@ -70,9 +67,7 @@ export default class Form extends Block<FormProps> {
   addErrorRefNamesToProps() {
     const newProps = this._props;
 
-    // eslint-disable-next-line no-param-reassign
     newProps.inputs.forEach((input: InputRef) => {
-      // eslint-disable-next-line no-param-reassign
       input.errorRefName = `${input.id}Error`;
     });
 

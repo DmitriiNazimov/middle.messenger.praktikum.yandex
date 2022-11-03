@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 export const SELECTOR = {
   input: {
     errorList: 'input-error__list',
@@ -13,6 +12,7 @@ export const SELECTOR = {
   loader: { wrapper: 'loader__wrapper' },
   contact: { row: 'contact__row' },
   logoutBtn: 'logout-buton',
+  message: 'message',
 };
 
 export const MENU_CHAT_SCREEN = {
@@ -33,7 +33,6 @@ export const HEADERS = { JSON: { 'Content-Type': 'application/json' } };
 
 export const DEFAULT_TITLE = 'Easy Touch';
 
-// eslint-disable-next-line no-shadow
 export enum StoreEvents {
   updated = 'updated',
 }

@@ -11,7 +11,7 @@ export default class Route {
 
   private _title?: string;
 
-  private _blockData: {};
+  private _blockData: Record<string, unknown>;
 
   requestAuthorization: boolean;
 

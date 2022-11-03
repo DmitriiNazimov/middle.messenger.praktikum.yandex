@@ -1,9 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-
 type InputValue = HTMLInputElement[] & string;
 
-// eslint-disable-next-line no-shadow
 enum Rules {
   login = 'loginRules',
   password = 'passwordRules',
@@ -20,7 +16,7 @@ enum Rules {
 type Rule = keyof typeof Rules;
 
 export default class Validator {
-  check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): {} {
+  check(formItems: HTMLInputElement[] | HTMLTextAreaElement[]): ValidateResult {
     const result: ValidateResult = { isCorrect: true };
 
     formItems.forEach((item) => {

@@ -1,7 +1,5 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
+
 import { SELECTOR } from '../../consts';
 
 export enum NoticeSelectors {
@@ -12,7 +10,7 @@ export enum NoticeSelectors {
 }
 
 // Показываем уведомление об успешной операции или провале.
-export function addNotice(text: string = 'Возникла ошибка', type: string = 'error') {
+export function addNotice(text = 'Возникла ошибка', type = 'error') {
   const notice = document.createElement('div');
   const noticeSelector = NoticeSelectors[type as keyof typeof NoticeSelectors];
 

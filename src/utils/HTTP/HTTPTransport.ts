@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { queryStringify } from '../Helpers/myDash';
 import { PATH, HEADERS } from '../../consts';
 
-// eslint-disable-next-line no-shadow
 enum Method {
   GET = 'GET',
   POST = 'POST',
@@ -14,7 +12,7 @@ enum Method {
 export type Options = {
   method?: Method;
   headers?: Record<string, string>;
-  data?: {};
+  data?: Record<string, unknown> | string | FormData;
   timeout?: number;
   withCredentials?: boolean;
   id?: number;
@@ -27,30 +25,29 @@ export default class HTTPTransport {
     this.baseUrl = pathName ? PATH.baseurl + pathName : PATH.baseurl;
   }
 
-  public get(url: string, options: Options): Promise<XMLHttpRequest> {
+  public get(url: string, options: Options = {}): Promise<XMLHttpRequest> {
     let urlWithParams = url;
 
     if (options.data && Object.keys(options.data).length) {
-      urlWithParams = `${url}?${queryStringify(options.data)}`;
+      urlWithParams = `${url}?${queryStringify(options.data as Record<string, unknown>)}`;
     }
 
     return this.request(this.baseUrl + urlWithParams, { ...options, method: Method.GET });
   }
 
-  public post(url: string, options: Options): Promise<XMLHttpRequest> {
+  public post(url: string, options: Options = {}): Promise<XMLHttpRequest> {
     return this.request(this.baseUrl + url, { ...options, method: Method.POST });
   }
 
-  public put(url: string, options: Options | FormData): Promise<XMLHttpRequest> {
+  public put(url: string, options: Options | FormData = {}): Promise<XMLHttpRequest> {
     return this.request(this.baseUrl + url, { ...options, method: Method.PUT });
   }
 
-  public delete(url: string, options: Options): Promise<XMLHttpRequest> {
+  public delete(url: string, options: Options = {}): Promise<XMLHttpRequest> {
     return this.request(this.baseUrl + url, { ...options, method: Method.DELETE });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private request(url: string, options: Options): Promise<XMLHttpRequest> {
+  private request(url: string, options: Options = {}): Promise<XMLHttpRequest> {
     const { method,
       data,
       headers = HEADERS.JSON,

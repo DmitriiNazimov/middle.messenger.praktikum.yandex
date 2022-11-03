@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 import { router, store } from '../utils';
 import { userAPI, UpdateProfile, UpdatePassword, SearchUserByLogin, UpdateAvatar } from '../api';
 import { addNotice, loaderToggle } from '../utils/Helpers/viewHelpers';
@@ -44,7 +42,7 @@ class UserController {
   }
 
   // Обновление пароля пользователя.
-  updateUserPassword(data: UpdatePassword) {
+  updateUserPassword(data: UpdatePassword): void {
     loaderToggle({ show: true });
 
     userAPI
@@ -59,16 +57,18 @@ class UserController {
   }
 
   // Получение данных пользователя по id
-  getUserById(data: number) {
+  getUserById(data: number): Promise<UserData> {
     return userAPI
       .getUserByIdApi(data)
       .then(({ response }) => JSON.parse(response))
-      .catch(({ response }) => { throw new Error(response); });
+      .catch(({ response }) => {
+        throw new Error(response);
+      });
   }
 
   // Получение данных пользователей по логину (отдает до 10 пользователей)
   // Учитывает регистр ('Ivan' !== 'ivan')
-  getUsersByLogin(data: SearchUserByLogin): Promise<{}> {
+  getUsersByLogin(data: SearchUserByLogin): Promise<UserData[]> {
     loaderToggle({ show: true });
 
     return userAPI

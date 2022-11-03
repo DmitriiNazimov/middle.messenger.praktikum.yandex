@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import './createChatForm.css';
 import Block from '../../../utils/Rendering/Block';
 import { formIsValid, toggle } from '../../../utils/Helpers/viewHelpers';
@@ -7,7 +6,7 @@ import { chatsController } from '../../../controllers';
 import { data, Selector } from './defaultProps';
 
 export default class CreateChatForm extends Block<FormProps> {
-  static componentName: string = 'CreateChatForm';
+  static componentName = 'CreateChatForm';
 
   constructor(props: FormProps) {
     super({
@@ -25,7 +24,7 @@ export default class CreateChatForm extends Block<FormProps> {
     const target = event.target as HTMLElement;
 
     if (target.closest(`.${Selector.createButton}`)) {
-      const formWrapper: HTMLFormElement = document.querySelector(`.${Selector.formWrapper}`)!;
+      const formWrapper: HTMLFormElement = document.querySelector(`.${Selector.formWrapper}`) as HTMLFormElement;
       toggle(formWrapper);
       toggle(target);
       (formWrapper.querySelector(`#${Selector.inputId}`) as HTMLInputElement).focus();
@@ -36,7 +35,7 @@ export default class CreateChatForm extends Block<FormProps> {
   submitHandler(event: Event) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
-    const input: HTMLInputElement = form.querySelector(`#${Selector.inputId}`)!;
+    const input = form.querySelector(`#${Selector.inputId}`) as HTMLInputElement;
 
     if (formIsValid(form) && input) {
       const formData = Object.fromEntries(new FormData(form)) as CreateChat;

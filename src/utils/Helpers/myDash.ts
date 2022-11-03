@@ -1,10 +1,6 @@
-/* eslint-disable max-len */
-/* eslint-disable no-return-assign */
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-continue */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable no-unused-vars */
 
 /**
  * Первый спринт
@@ -26,9 +22,7 @@ export function first(list: unknown[]): unknown {
   return list[0];
 }
 
-export function range(start: number, end?: number, step: number = 1): number[] {
-  /* eslint-disable no-param-reassign */
-
+export function range(start: number, end?: number, step = 1): number[] {
   const result: number[] = [];
 
   if (step < 0) {
@@ -60,7 +54,7 @@ export function range(start: number, end?: number, step: number = 1): number[] {
   return result;
 }
 
-export function rangeRight(start: number, end?: number, step: number = 1): number[] {
+export function rangeRight(start: number, end?: number, step = 1): number[] {
   return range(start, end, step).reverse();
 }
 
@@ -84,7 +78,6 @@ export function isEmpty(value: any): boolean {
  * Третий спринт
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export function isObject(value: any): boolean {
   return typeof value === 'object'
     && value !== null
@@ -93,7 +86,7 @@ export function isObject(value: any): boolean {
 }
 
 export function escapeSpecialChars(chars: string): string {
-  const specialChars: string = '[]^$.-|?*+()';
+  const specialChars = '[]^$.-|?*+()';
 
   return chars
     .split('')
@@ -114,7 +107,7 @@ export function trim(string: string, chars?: string): string {
 export function merge(target: Record<string, any>, ...sources: any[]) {
   for (const source of sources) {
     for (const k in source) {
-      const targetValue: {} = target[k];
+      const targetValue: Record<string, unknown> = target[k];
       const sourceValue = source[k];
       if (isObject(sourceValue) && isObject(targetValue)) {
         target[k] = merge(targetValue, sourceValue);
@@ -128,7 +121,7 @@ export function merge(target: Record<string, any>, ...sources: any[]) {
 
 // Добавление значения в обьект по пути через точечную нотацию.
 // Пример: set(obj, 'foo.bar.baz', 1); // {foo: {bar: {baz: 1}}}
-export function set(object: {}, path: string, value: unknown) {
+export function set(object: Record<string, unknown>, path: string, value: unknown) {
   if (!isObject(object)) {
     return object;
   }
@@ -140,7 +133,7 @@ export function set(object: {}, path: string, value: unknown) {
   const keys: string[] = path.split('.').reverse();
 
   const tempObj = keys.reduce((acc, key, i) => {
-    acc = (i === 0) ? { [key]: value } : { [key]: acc };
+    acc = i === 0 ? { [key]: value } : { [key]: acc };
     return acc;
   }, {});
 
@@ -150,6 +143,7 @@ export function set(object: {}, path: string, value: unknown) {
 }
 
 // Глубокое сравнение объектов
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
@@ -184,7 +178,10 @@ export function cloneDeep<T extends object = object>(obj: T) {
     if (item instanceof Array) {
       const copy: any[] = [];
 
-      item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
+      item.forEach((_, i) => {
+        copy[i] = _cloneDeep(item[i]);
+        return copy[i];
+      });
 
       return copy;
     }
@@ -209,12 +206,18 @@ export function cloneDeep<T extends object = object>(obj: T) {
       const copy: Record<string | symbol, any> = {};
 
       // * Object.symbol
-      // @ts-expect-error item[s]
-      Object.getOwnPropertySymbols(item).forEach((s) => (copy[s] = _cloneDeep(item[s])));
+      Object.getOwnPropertySymbols(item).forEach((s) => {
+        // @ts-expect-error item[s]
+        copy[s] = _cloneDeep(item[s]);
+        return copy[s];
+      });
 
       // * Object.name (other)
-      // @ts-expect-error item[k]
-      Object.keys(item).forEach((k) => (copy[k] = _cloneDeep(item[k])));
+      Object.keys(item).forEach((k) => {
+        // @ts-expect-error item[k]
+        copy[k] = _cloneDeep(item[k]);
+        return copy[k];
+      });
 
       return copy;
     }

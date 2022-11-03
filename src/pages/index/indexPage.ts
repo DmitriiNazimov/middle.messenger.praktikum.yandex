@@ -3,7 +3,7 @@ import './index.css';
 
 import { Block } from '../../utils';
 
-export default class IndexPage extends Block<{}> {
+export default class IndexPage extends Block {
   render() {
     return `
     <main>

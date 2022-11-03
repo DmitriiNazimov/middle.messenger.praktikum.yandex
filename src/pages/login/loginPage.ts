@@ -3,38 +3,7 @@ import { authController } from '../../controllers';
 import { formIsValid } from '../../utils/Helpers/viewHelpers';
 import { Block } from '../../utils';
 import { SignIn } from '../../api';
-
-export const data: FormProps = {
-  header: 'Вход',
-  inputs: [
-    {
-      title: 'Логин',
-      type: 'login',
-      id: 'login',
-      placeholder: 'ivanIvanov',
-      required: true,
-    },
-    {
-      title: 'Пароль',
-      type: 'password',
-      id: 'password',
-      placeholder: 'Латинские буквы и цифры',
-      required: true,
-    },
-  ],
-  buttons: [
-    {
-      typeFull: true,
-      text: 'Войти',
-      link: './messenger',
-    },
-    {
-      typeFull: false,
-      text: 'Ещё не зарегистрированы?',
-      link: './sign-up',
-    },
-  ],
-};
+import { data } from './defaultProps';
 
 export default class LoginPage extends Block<FormProps> {
   constructor() {
@@ -44,7 +13,6 @@ export default class LoginPage extends Block<FormProps> {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   submitHandler(event: Event) {
     const form = event.target;
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { PATH } from '../../consts';
 import { DefaultState, store } from '../../utils';
 import { last } from '../../utils/Helpers/myDash';
@@ -51,13 +50,13 @@ export function convertStateMessagesToProps(stateMessages: MessageServer[]): Day
 
 export function convertStateChatsToProps(freshStateChats: DefaultState['chats']): PropsContactsUpdate {
   const props: PropsContactsUpdate = { contacts: [] };
-  const chats: Chat[] = Object.values(freshStateChats!);
+  const chats: Chat[] = Object.values(freshStateChats as Chat[]);
 
   if (chats.length) {
     chats.forEach((chat: Chat) => {
-      let lastMsgPrefix: string = '';
+      let lastMsgPrefix = '';
 
-      if (chat.last_message && chat.last_message.user.login === store.state.user!.login) {
+      if (chat.last_message && chat.last_message.user.login === store.state.user?.login) {
         lastMsgPrefix = 'Вы:';
       }
 

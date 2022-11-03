@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import { addNotice } from '../utils/Helpers/viewHelpers';
 import BaseApi from './baseApi';
 
 export type GetChats = {
@@ -59,7 +59,13 @@ class ChatsAPI extends BaseApi {
   }
 
   public getChatTokenApi(chatId: number): Promise<string> {
-    return this.http.post(`/token/${chatId}`, {}).then(({ response }) => JSON.parse(response).token);
+    try {
+      return this.http.post(`/token/${chatId}`).then(({ response }) => JSON.parse(response).token);
+    } catch (err) {
+      addNotice('Ошибка при подключении к серверу.', 'error');
+      console.error(err);
+      throw new Error('Ошибка при подключении к WebSocket');
+    }
   }
 }
 

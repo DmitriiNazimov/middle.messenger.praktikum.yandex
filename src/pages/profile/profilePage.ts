@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import '../../styles.css';
 import './profile.css';
 import { authController, userController } from '../../controllers';
@@ -23,7 +22,7 @@ export default class ProfilePage extends Block<Props> {
     let userOldState = {};
 
     store.on(StoreEvents.updated, () => {
-      const userFreshState: DefaultState['user'] = store.state.user!;
+      const userFreshState: DefaultState['user'] = store.state.user as UserData;
       const newProps: propsUpdate = this.convertStateToProps(userFreshState);
 
       if (!isEqual(userOldState, userFreshState)) {
@@ -42,8 +41,10 @@ export default class ProfilePage extends Block<Props> {
 
     props.inputs.map((item) => {
       const key = item.id as keyof DefaultState['user'];
-      // eslint-disable-next-line no-param-reassign
-      item.value = freshState![key];
+      if (freshState) {
+        item.value = freshState[key];
+      }
+
       return item;
     });
 
@@ -65,8 +66,8 @@ export default class ProfilePage extends Block<Props> {
     }
 
     // Обновление пароля
-    const oldPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.oldPassword}`)!;
-    const newPasswordInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.newPassword}`)!;
+    const oldPasswordInput = form.querySelector(`#${SELECTOR.input.oldPassword}`) as HTMLInputElement;
+    const newPasswordInput = form.querySelector(`#${SELECTOR.input.newPassword}`) as HTMLInputElement;
 
     if (oldPasswordInput.value && newPasswordInput.value) {
       const formDataPassword = {
@@ -80,7 +81,7 @@ export default class ProfilePage extends Block<Props> {
     }
 
     // Обновление аватара
-    const avatarInput: HTMLInputElement = form.querySelector(`#${SELECTOR.input.avatar}`)!;
+    const avatarInput = form.querySelector(`#${SELECTOR.input.avatar}`) as HTMLInputElement;
 
     if (avatarInput.value) {
       userController.updateUserAvatar(new FormData(form));
@@ -99,7 +100,11 @@ export default class ProfilePage extends Block<Props> {
 
   propsIsFilled() {
     // Если логин в хедере не указан - значит данные пользователя недостаточны.
-    return this._props.header!.length > 2;
+    if (this._props.header) {
+      return this._props.header.length > 2;
+    }
+
+    return false;
   }
 
   render() {

@@ -2,7 +2,7 @@ import Block from '../../../utils/Rendering/Block';
 import './input.css';
 
 export default class Input extends Block<InputProps> {
-  static componentName: string = 'Input';
+  static componentName = 'Input';
 
   render() {
     return `

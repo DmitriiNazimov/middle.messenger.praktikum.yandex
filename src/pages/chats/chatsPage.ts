@@ -19,9 +19,9 @@ export default class ChatsPage extends Block<ChatsProps> {
   constructor() {
     // activeChat = id чата, который открыт у пользователя.
     let activeChatOldState: DefaultState['activeChat'] = store.state.activeChat;
-    let chatsOldState = cloneDeep(store.state.chats!) as Chat[];
-    let messagesOldState: DefaultState['messages'] = store.state.messages!;
-    let isLoadingOldState: DefaultState['isLoading'] = store.state.isLoading!;
+    let chatsOldState = cloneDeep(store.state.chats as Chat[]);
+    let messagesOldState: DefaultState['messages'] = store.state.messages as MessageServer[];
+    let isLoadingOldState: DefaultState['isLoading'] = store.state.isLoading as boolean;
 
     super({
       ...data,
@@ -30,18 +30,20 @@ export default class ChatsPage extends Block<ChatsProps> {
 
     store.on(StoreEvents.updated, () => {
       const activeChatFreshState: DefaultState['activeChat'] = store.state.activeChat;
-      const chatsFreshState: DefaultState['chats'] = store.state.chats!;
-      const messagesFreshState: DefaultState['messages'] = store.state.messages!;
-      const isLoadingFreshState: DefaultState['isLoading'] = store.state.isLoading!;
+      const chatsFreshState: DefaultState['chats'] = store.state.chats as Chat[];
+      const messagesFreshState: DefaultState['messages'] = store.state.messages as MessageServer[];
+      const isLoadingFreshState: DefaultState['isLoading'] = store.state.isLoading;
 
-      if (!isEqual(messagesOldState!, messagesFreshState)) {
+      let newProps = {};
+
+      if (!isEqual(messagesOldState as MessageServer[], messagesFreshState)) {
         const days: Day[] = convertStateMessagesToProps(messagesFreshState);
-        this.setProps({ days });
+        newProps = { ...newProps, days };
         messagesOldState = cloneDeep(messagesFreshState) as MessageServer[];
       }
 
       if (activeChatOldState !== activeChatFreshState) {
-        this.setProps({ activeChat: activeChatFreshState });
+        newProps = { ...newProps, activeChat: activeChatFreshState };
         activeChatOldState = activeChatFreshState;
       }
 
@@ -50,22 +52,29 @@ export default class ChatsPage extends Block<ChatsProps> {
 
         // Помечаем активный чат, т.е.который открыт у пользователя (записан в props)
         if (this._props.activeChat) {
-          chatsProps.contacts.find((chat) => chat.chatId === this._props.activeChat)!.active = true;
+          const propsActiveChat = this._props.activeChat;
+          const activeChat = chatsProps.contacts.find((chat) => chat.chatId === propsActiveChat);
+
+          if (activeChat) {
+            activeChat.active = true;
+          }
         }
 
-        this.setProps(chatsProps);
+        newProps = { ...newProps, ...chatsProps };
         chatsOldState = cloneDeep(chatsFreshState) as Chat[];
       }
 
       if (isLoadingOldState !== isLoadingFreshState) {
-        this.setProps({ isLoading: isLoadingFreshState });
+        newProps = { ...newProps, isLoading: isLoadingFreshState };
         isLoadingOldState = isLoadingFreshState;
       }
+
+      this.setProps(newProps);
     });
   }
 
   getContent(): HTMLElement {
-    chatsController.getChats({ data: {} });
+    chatsController.getChats();
 
     return this.element;
   }
@@ -76,15 +85,16 @@ export default class ChatsPage extends Block<ChatsProps> {
 
     // Обработка клика на конкретный чат в списке контактов.
     if (chat instanceof HTMLElement) {
-      const chatId: number = +chat.dataset.chatId!;
-      const chatFromState: Chat = store.state.chats!.find((item) => item.id === chatId)!;
+      const chatId: number = +(chat.dataset.chatId as string);
+      const chatFromState = (store.state.chats as Chat[]).find((item) => item.id === chatId);
       const chatsFromProps: ContactProps[] = this._props.contacts;
 
       if (chatId === store.state.activeChat) {
         return;
       }
 
-      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatFromState, chatId);
+      // eslint-disable-next-line max-len
+      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatFromState as Chat, chatId);
       this.setProps({ ...newChatHeaderProps, days: [] });
 
       await messagesController.connect(chatId);

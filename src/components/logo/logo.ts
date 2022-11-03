@@ -1,8 +1,8 @@
 import Block from '../../utils/Rendering/Block';
 import './logo.css';
 
-export default class Logo extends Block<{}> {
-  static componentName: string = 'Logo';
+export default class Logo extends Block {
+  static componentName = 'Logo';
 
   render() {
     return `

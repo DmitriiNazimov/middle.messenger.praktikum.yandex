@@ -1,13 +1,10 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable no-unused-vars */
-
 import { MENU_CHAT_SCREEN } from '../../../consts';
 import { chatsController } from '../../../controllers';
 import { store } from '../../../utils';
 import { NoticeSelectors, toggle, trimLongString } from '../../../utils/Helpers/viewHelpers';
 import { FoundUser, Props } from './defaultProps';
 
-// eslint-disable-next-line no-shadow
 export enum Selector {
   sectionWrapper = 'chat-menu',
   menuIcon = 'chat-menu__icon',
@@ -58,8 +55,16 @@ export async function clickAddUserToChat(target: HTMLElement, props: Props) {
 
     // Визуально выделить юзера как успешно добавленного.
     if (isUserAdded) {
-      // eslint-disable-next-line no-param-reassign
-      props.users.find((user) => +user.id! === +userId!)!.alreadyInChat = true;
+      const addedUser = (props.users).find((user: FoundUser) => {
+        if (user.id) {
+          return +user.id === +userId;
+        }
+        return false;
+      });
+
+      if (addedUser) {
+        addedUser.alreadyInChat = true;
+      }
 
       store.setState({ users: props.users });
     }
@@ -69,11 +74,10 @@ export async function clickAddUserToChat(target: HTMLElement, props: Props) {
 // Открыть экран "Удалить пользователя из чата"
 export async function clickDeleteUserLink(target: HTMLElement, props:Props) {
   if (target.closest(`.${Selector.deleteUserLink}`)) {
-    const usersList = await chatsController.getUsersList({ id: props.chatId });
+    const usersList = (await chatsController.getUsersList({ id: props.chatId })) as UserData[];
 
     // Визуально выделяем всех юзеров как добавленных в чат.
     usersList.map((user: FoundUser) => {
-      // eslint-disable-next-line no-param-reassign
       user.alreadyInChat = true;
       return user;
     });
@@ -124,15 +128,18 @@ export async function clickDeleteChatLink(target: HTMLElement, props: Props) {
 
 // Отмечаем юзеров уже добавленных в чат, чтобы потом визуально их выделить
 export async function markUsersWhoAlreadyInChat(chatId: number, foundUsersByLogin: FoundUser[]) {
-  const usersInChat = await chatsController.getUsersList({ id: chatId });
+  const usersInChat = await chatsController.getUsersList({ id: chatId }) as UserData[];
 
-  foundUsersByLogin.map((item: FoundUser) => {
-    if (usersInChat.find((user: FoundUser) => +user.id! === +item.id!)) {
-      // eslint-disable-next-line no-param-reassign
-      item.alreadyInChat = true;
+  foundUsersByLogin.map((foundUser: FoundUser) => {
+    const isUserinChat = usersInChat.find(
+      (userInChat: FoundUser) => (userInChat.id as number) === (foundUser.id as number),
+    );
+
+    if (isUserinChat) {
+      foundUser.alreadyInChat = true;
     }
 
-    return item;
+    return foundUser;
   });
 
   return foundUsersByLogin;
@@ -152,8 +159,9 @@ export function setListenerToHideBlockByOffTargetClick() {
 
 export function trimLongEmails(users: UserData[]) {
   users.map((user) => {
-    // eslint-disable-next-line no-param-reassign
-    user.email = trimLongString(user.email!, 23);
+    if (user.email) {
+      user.email = trimLongString(user.email, 23);
+    }
     return user;
   });
 }

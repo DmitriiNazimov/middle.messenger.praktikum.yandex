@@ -12,11 +12,11 @@ class Router {
 
   private _currentRoute: RouteType = null;
 
-  private _rootSelector: string = '#app';
+  private _rootSelector = '#app';
 
   static __instance: Router;
 
-  constructor(rootSelector: string = '#app') {
+  constructor(rootSelector = '#app') {
     /* eslint-disable no-constructor-return */
     if (Router.__instance) {
       return Router.__instance;
@@ -86,7 +86,7 @@ class Router {
 
   // Обновляет содержимое страницы переходом на текущий роут.
   refresh() {
-    this._onRoute(this._currentRoute?.pathname!);
+    this._onRoute(this._currentRoute?.pathname as string);
   }
 
   // Возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию
@@ -102,7 +102,7 @@ class Router {
   // Возвращает конкретный роут
   private _getRoute(pathname: string): RouteType {
     const sanitizedPath = sanitizeUrl(pathname);
-    // @ts-expect-error
+    // @ts-expect-error Type 'undefined' is not assignable to type 'RouteType'
     return this._routes.find((route: RouteType) => route.match(sanitizedPath));
   }
 

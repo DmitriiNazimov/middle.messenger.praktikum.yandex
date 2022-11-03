@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-use-before-define */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
+
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import EventBus from './EventBus';
 
-export default class Block<Props extends {}> {
+export default class Block<Props extends Record<string, unknown> = Record<string, unknown>> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -28,7 +28,7 @@ export default class Block<Props extends {}> {
   private _eventBus: () => EventBus<string, Function>;
 
   // Переключается на true после изменения props и на false после вызова EVENTS.FLOW_CDU
-  private _propsNeedUpdate: boolean = false;
+  private _propsNeedUpdate = false;
 
   constructor(props: Props) {
     const eventBus = new EventBus();
@@ -58,12 +58,14 @@ export default class Block<Props extends {}> {
     this._eventBus().emit(Block.EVENTS.FLOW_RENDER, this._props);
   }
 
-  private _componentDidMount(props: any) {
+  private _componentDidMount(props: unknown) {
     this.componentDidMount(props);
   }
 
   // Может переопределять пользователь
-  protected componentDidMount(props: any) {}
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  protected componentDidMount(_props: unknown) {}
 
   public dispatchComponentDidMount() {
     this._eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -78,7 +80,8 @@ export default class Block<Props extends {}> {
   }
 
   // Может переопределять пользователь
-  protected componentDidUpdate(oldProps: Object, newProps: Object) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected componentDidUpdate(_oldProps: Object, _newProps: Object) {
     this._children = {};
     return true;
   }
@@ -96,9 +99,9 @@ export default class Block<Props extends {}> {
 
     this._removeEvents();
 
-    const newElement = fragment.firstElementChild!;
+    const newElement = fragment.firstElementChild as Element;
 
-    this._element!.replaceWith(newElement);
+    this._element?.replaceWith(newElement);
 
     this._element = newElement as HTMLElement;
     this._addEvents();
@@ -110,7 +113,7 @@ export default class Block<Props extends {}> {
   }
 
   get element(): HTMLElement {
-    return this._element!;
+    return this._element as HTMLElement;
   }
 
   getContent(): HTMLElement {
@@ -128,7 +131,6 @@ export default class Block<Props extends {}> {
       },
 
       set: (objProps: Object, prop: keyof Object, value) => {
-        // eslint-disable-next-line no-param-reassign
         objProps[prop] = value;
         this._propsNeedUpdate = true;
 
@@ -154,26 +156,26 @@ export default class Block<Props extends {}> {
   }
 
   private _removeEvents() {
-    const { events } = this._props as any;
+    const { events } = this._props;
 
     if (!events || !this._element) {
       return;
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.removeEventListener(event, listener as any);
+      (this._element as HTMLElement).removeEventListener(event, listener);
     });
   }
 
   private _addEvents() {
-    const { events }: Record<string, Function> = this._props;
+    const { events }: Record<string, unknown> = this._props;
 
     if (!events) {
       return;
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.addEventListener(event, listener, true);
+      (this._element as HTMLElement).addEventListener(event, listener, true);
     });
   }
 

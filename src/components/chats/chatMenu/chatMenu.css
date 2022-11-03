@@ -18,7 +18,7 @@
     width: 260px;
     margin-top: 10px;
     z-index: 900;
-    background-color: #151928;
+    background-color: $section_background_color;
     position: fixed;
     right: 30px;
     padding: 0 30px;

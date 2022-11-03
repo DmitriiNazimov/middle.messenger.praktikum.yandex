@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import '../../styles.css';
 import './netError.css';
 
@@ -6,11 +5,11 @@ import Block from '../../utils/Rendering/Block';
 import { router } from '../../utils';
 
 type Props = {
-  code: string,
-  message: string,
-  url: string,
-  linkText: string,
-  events?: {}
+  code: string;
+  message: string;
+  url: string;
+  linkText: string;
+  events?: Record<string, unknown>;
 };
 
 export const data401: Props = {
@@ -42,7 +41,6 @@ export class NetErrorPage extends Block<Props> {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   clickHandler(event: Event) {
     const target = event.target as HTMLElement;
 

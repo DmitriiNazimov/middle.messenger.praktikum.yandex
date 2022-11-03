@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 type Listener = Record<string, Function[]>
 
 export default class EventBus<Key extends string, Func extends Function> {

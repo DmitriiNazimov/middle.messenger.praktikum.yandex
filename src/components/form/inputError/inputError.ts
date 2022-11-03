@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default class InputError extends Block<Props> {
-  static componentName: string = 'InputError';
+  static componentName = 'InputError';
 
   render() {
     return (

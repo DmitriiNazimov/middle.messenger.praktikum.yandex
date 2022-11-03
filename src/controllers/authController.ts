@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-
 import { router, store } from '../utils';
 import { authAPI, SignUp, SignIn } from '../api';
 import { addNotice, loaderToggle } from '../utils/Helpers/viewHelpers';
@@ -13,7 +10,7 @@ class AuthController {
 
     authAPI
       .signUpApi(data)
-      .then(({ response }) => {
+      .then(({ response }): void => {
         store.setState({ isAuthenticated: true, user: { id: JSON.parse(response).id } });
         router.go('/messenger');
         addNotice('Успешная регистрация!', 'success');
@@ -59,13 +56,13 @@ class AuthController {
 
     return authAPI
       .getUserApi()
-      .then(({ response }) => {
+      .then(({ response }): boolean => {
         const userData: DefaultState['user'] = JSON.parse(response);
         store.setState({ isAuthenticated: true, user: { ...userData } });
 
         return true;
       })
-      .catch(({ response }) => {
+      .catch(({ response }): boolean => {
         let noticeText: string = JSON.parse(response).reason;
 
         // Если куки не валидные - проблемы с авторизацией.

@@ -86,20 +86,20 @@ export default class ChatsPage extends Block<ChatsProps> {
     // Обработка клика на конкретный чат в списке контактов.
     if (chat instanceof HTMLElement) {
       const chatId: number = +(chat.dataset.chatId as string);
-      const chatFromState = (store.state.chats as Chat[]).find((item) => item.id === chatId);
-      const chatsFromProps: ContactProps[] = this._props.contacts;
+      const chatsState = (store.state.chats as Chat[]).find((item) => item.id === chatId) as Chat;
+      const chatsProps: ContactProps[] = this._props.contacts;
 
       if (chatId === store.state.activeChat) {
         return;
       }
 
-      // eslint-disable-next-line max-len
-      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatFromState as Chat, chatId);
+      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatsState, chatId);
+
       this.setProps({ ...newChatHeaderProps, days: [] });
 
       await messagesController.connect(chatId);
 
-      markActiveChat(chatsFromProps, chatId);
+      markActiveChat(chatsProps, chatId);
 
       store.setState({
         activeChat: chatId, chatMenuScreen: MENU_CHAT_SCREEN.start, lastMessageEffect: false,

@@ -87,7 +87,7 @@ export default class HTTPTransport {
           outputData = JSON.stringify(data);
         }
 
-        xhr.send(outputData as any);
+        xhr.send(outputData as XMLHttpRequestBodyInit);
       }
     });
   }

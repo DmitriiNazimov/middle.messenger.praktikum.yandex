@@ -63,7 +63,6 @@ class ChatsAPI extends BaseApi {
       return this.http.post(`/token/${chatId}`).then(({ response }) => JSON.parse(response).token);
     } catch (err) {
       addNotice('Ошибка при подключении к серверу.', 'error');
-      console.error(err);
       throw new Error('Ошибка при подключении к WebSocket');
     }
   }

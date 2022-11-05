@@ -1,5 +1,5 @@
 import { PATH } from '../../consts';
-import { DefaultState, store } from '../../utils';
+import { store } from '../../utils';
 import { last } from '../../utils/Helpers/myDash';
 import { getLastMessageDate, trimLongString } from '../../utils/Helpers/viewHelpers';
 import { PropsContactsUpdate } from './defaultProps';
@@ -40,17 +40,20 @@ export function convertStateMessagesToProps(stateMessages: MessageServer[]): Day
   });
 
   if (store.state.lastMessageEffect) {
-    const lastDay = last(days) as Day;
-    const lastMsg = last(lastDay.messages) as MessageToProps;
-    lastMsg.isLast = true;
+    const lastDay = last(days);
+
+    if (lastDay) {
+      const lastMsg = last(lastDay.messages) as MessageToProps;
+      lastMsg.isLast = true;
+    }
   }
 
   return days.reverse();
 }
 
-export function convertStateChatsToProps(freshStateChats: DefaultState['chats']): PropsContactsUpdate {
+export function convertStateChatsToProps(freshStateChats: Chat[]): PropsContactsUpdate {
   const props: PropsContactsUpdate = { contacts: [] };
-  const chats: Chat[] = Object.values(freshStateChats as Chat[]);
+  const chats: Chat[] = Object.values(freshStateChats);
 
   if (chats.length) {
     chats.forEach((chat: Chat) => {

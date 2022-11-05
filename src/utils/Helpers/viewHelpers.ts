@@ -72,7 +72,7 @@ export function getLastMessageDate(chat: Chat): string {
     return '';
   }
 
-  const messageTime = new Date(chat.last_message.time) as unknown as number;
+  const messageTime = +new Date(chat.last_message.time);
   const currentTime = Date.now();
   const hours24 = 24 * 60 * 60 * 1000;
 

@@ -25,7 +25,7 @@ export default function registerComponent<Props>(Component: BlockConstructable<P
      * Костыль для того, чтобы передавать переменные
      * внутрь блоков вручную подменяя значение
      */
-      (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      (Object.keys(hash) as []).forEach((key: keyof Props) => {
         if (this[key] && typeof this[key] === 'string') {
           hash[key] = hash[key].replace(new RegExp(`{{${String(key)}}}`, 'i'), this[key]);
         }

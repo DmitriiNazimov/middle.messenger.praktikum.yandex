@@ -24,7 +24,7 @@ export default class CreateChatForm extends Block<FormProps> {
     const target = event.target as HTMLElement;
 
     if (target.closest(`.${Selector.createButton}`)) {
-      const formWrapper: HTMLFormElement = document.querySelector(`.${Selector.formWrapper}`) as HTMLFormElement;
+      const formWrapper = document.querySelector(`.${Selector.formWrapper}`) as HTMLFormElement;
       toggle(formWrapper);
       toggle(target);
       (formWrapper.querySelector(`#${Selector.inputId}`) as HTMLInputElement).focus();

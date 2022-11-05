@@ -22,10 +22,10 @@ export default class ProfilePage extends Block<Props> {
     let userOldState = {};
 
     store.on(StoreEvents.updated, () => {
-      const userFreshState: DefaultState['user'] = store.state.user as UserData;
+      const userFreshState: DefaultState['user'] = store.state.user;
       const newProps: propsUpdate = this.convertStateToProps(userFreshState);
 
-      if (!isEqual(userOldState, userFreshState)) {
+      if (userFreshState && !isEqual(userOldState, userFreshState)) {
         this.setProps(newProps);
         userOldState = cloneDeep(userFreshState) as UserData;
       }
@@ -53,13 +53,14 @@ export default class ProfilePage extends Block<Props> {
 
   clickHandler(event: Event) {
     const target = event.target as HTMLElement;
+
     if (target.id === SELECTOR.logoutBtn) {
       authController.logout();
     }
   }
 
   submitHandler(event: Event) {
-    const form = event.target as HTMLElement;
+    const form = event.target;
 
     if (!(form instanceof HTMLFormElement) || !formIsValid(form)) {
       return;
@@ -81,9 +82,9 @@ export default class ProfilePage extends Block<Props> {
     }
 
     // Обновление аватара
-    const avatarInput = form.querySelector(`#${SELECTOR.input.avatar}`) as HTMLInputElement;
+    const avatarInput = form.querySelector(`#${SELECTOR.input.avatar}`);
 
-    if (avatarInput.value) {
+    if (avatarInput instanceof HTMLInputElement && avatarInput.value) {
       userController.updateUserAvatar(new FormData(form));
     }
 

@@ -11,7 +11,7 @@ type GetChatsArgs = {
 class ChatsController {
   // С сервера получаем чаты конкретного пользователя (пользователь определяется по кукам)
   getChats({ data = {}, withLoader = true, returnValue = false }: GetChatsArgs = {}):
-  Promise<boolean | Chat[] | void> {
+  Promise<boolean | Chat[]> {
     if (withLoader) {
       loaderToggle({ show: true });
     }
@@ -26,7 +26,10 @@ class ChatsController {
         store.setState({ chats: [...JSON.parse(response)] });
         return true;
       })
-      .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
+      .catch(({ response }) => {
+        addNotice(JSON.parse(response).reason, 'error');
+        return false;
+      })
       .finally(() => loaderToggle());
   }
 

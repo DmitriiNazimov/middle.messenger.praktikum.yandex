@@ -7,7 +7,7 @@ import { userController } from '../../../controllers';
 import { addNotice, formIsValid } from '../../../utils/Helpers/viewHelpers';
 import Block from '../../../utils/Rendering/Block';
 import { MENU_CHAT_SCREEN, PATH, StoreEvents } from '../../../consts';
-import { FoundUser, Props, data } from './defaultProps';
+import { Props, data } from './defaultProps';
 import {
   Selector,
   clickChatMenu,
@@ -17,7 +17,7 @@ import {
   clickBackLinkFromUsersWrapper,
   clickAddUserToChat,
   clickDeleteUserItem,
-  markUsersWhoAlreadyInChat as markUsersWhoAddedBefore,
+  markUsersWhoAddedBefore,
   setListenerToHideBlockByOffTargetClick,
   trimLongEmails,
 } from './supportMethods';
@@ -62,11 +62,11 @@ export default class ChatMenu extends Block<Props> {
       this._screenOldState = screenFreshState;
     }
 
-    if (!isEqual(this._usersOldState as UserData, usersFreshState as UserData)) {
-      trimLongEmails(usersFreshState as UserData[]);
+    if (this._usersOldState && usersFreshState && !isEqual(this._usersOldState, usersFreshState)) {
+      trimLongEmails(usersFreshState);
 
       this.setProps({ users: usersFreshState });
-      this._usersOldState = cloneDeep(usersFreshState as UserData) as UserData[];
+      this._usersOldState = cloneDeep(usersFreshState) as UserData[];
     }
   }
 
@@ -97,23 +97,25 @@ export default class ChatMenu extends Block<Props> {
 
   // Форма для поиска пользователя по логину, чтобы потом добавить его в чат.
   async submitHandler(event: Event) {
-    const form = event.target as HTMLElement;
+    const form = event.target;
 
     if (!(form instanceof HTMLFormElement) || !formIsValid(form)) {
       return;
     }
 
     const formData = Object.fromEntries(new FormData(form)) as SearchUserByLogin;
-    const foundUsersByLogin = (await userController.getUsersByLogin(formData)) as FoundUser[];
+    const foundUsersByLogin = await userController.getUsersByLogin(formData);
 
     if (!foundUsersByLogin.length) {
       addNotice('Пользователь не найден.');
     }
 
     // eslint-disable-next-line max-len
-    const usersList: FoundUser[] = await markUsersWhoAddedBefore(this._props.chatId, foundUsersByLogin);
+    const usersList = await markUsersWhoAddedBefore(this._props.chatId, foundUsersByLogin);
 
-    store.setState({ users: usersList });
+    if (usersList) {
+      store.setState({ users: usersList });
+    }
   }
 
   render() {

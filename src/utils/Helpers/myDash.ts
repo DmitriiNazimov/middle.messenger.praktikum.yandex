@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-continue */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -6,7 +7,7 @@
  * Первый спринт
  */
 
-export function last(list: unknown[]): unknown {
+export function last<T>(list: T[]): T | undefined {
   if (!Array.isArray(list) || !list.length) {
     return undefined;
   }
@@ -142,9 +143,9 @@ export function set(object: Record<string, unknown>, path: string, value: unknow
   return object;
 }
 
-// Глубокое сравнение объектов
+// Глубокое сравнение объектов|массивов
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
+export function isEqual<Obj extends Object | []>(object1: Obj, object2: Obj) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   if (keys1.length !== keys2.length) {
@@ -176,7 +177,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
     }
 
     if (item instanceof Array) {
-      const copy: any[] = [];
+      const copy: unknown[] = [];
 
       item.forEach((_, i) => {
         copy[i] = _cloneDeep(item[i]);
@@ -203,7 +204,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
     }
 
     if (item instanceof Object) {
-      const copy: Record<string | symbol, any> = {};
+      const copy: Record<string | symbol, unknown> = {};
 
       // * Object.symbol
       Object.getOwnPropertySymbols(item).forEach((s) => {

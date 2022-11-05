@@ -47,16 +47,16 @@ export function clickBackLinkFromUsersWrapper(target: HTMLElement) {
 
 // Клик по конкретному юзеру, чтобы добавить его в чат
 export async function clickAddUserToChat(target: HTMLElement, props: Props) {
-  const userItem = target.closest(`.${Selector.userItem}`) as HTMLElement;
+  const userItem = target.closest(`.${Selector.userItem}`);
 
-  if (userItem && props.chatMenuScreen === MENU_CHAT_SCREEN.addUser) {
-    const userId = userItem.dataset.id as string;
+  if (userItem instanceof HTMLElement && props.chatMenuScreen === MENU_CHAT_SCREEN.addUser) {
+    const userId = userItem.dataset.id;
     const isUserAdded = await chatsController.addUser({ users: [userId], chatId: props.chatId });
 
     // Визуально выделить юзера как успешно добавленного.
     if (isUserAdded) {
       const addedUser = (props.users).find((user: FoundUser) => {
-        if (user.id) {
+        if (user.id && userId) {
           return +user.id === +userId;
         }
         return false;
@@ -74,41 +74,51 @@ export async function clickAddUserToChat(target: HTMLElement, props: Props) {
 // Открыть экран "Удалить пользователя из чата"
 export async function clickDeleteUserLink(target: HTMLElement, props:Props) {
   if (target.closest(`.${Selector.deleteUserLink}`)) {
-    const usersList = (await chatsController.getUsersList({ id: props.chatId })) as UserData[];
+    const usersList = (await chatsController.getUsersList({ id: props.chatId }));
 
-    // Визуально выделяем всех юзеров как добавленных в чат.
-    usersList.map((user: FoundUser) => {
-      user.alreadyInChat = true;
-      return user;
-    });
+    if (Array.isArray(usersList)) {
+      // Визуально выделяем всех юзеров как добавленных в чат.
+      usersList.map((user: FoundUser) => {
+        user.alreadyInChat = true;
+        return user;
+      });
 
-    store.setState({ users: usersList, chatMenuScreen: MENU_CHAT_SCREEN.deleteUser });
+      store.setState({ users: usersList, chatMenuScreen: MENU_CHAT_SCREEN.deleteUser });
+    }
   }
 }
 
 // Клик по конкретному юзеру, чтобы удалить его из чата
 export async function clickDeleteUserItem(target: HTMLElement, props: Props) {
-  const userItem = target.closest(`.${Selector.userItem}`) as HTMLElement;
+  const userItem = target.closest(`.${Selector.userItem}`);
 
-  if (userItem && props.chatMenuScreen === MENU_CHAT_SCREEN.deleteUser) {
+  if (userItem instanceof HTMLElement && props.chatMenuScreen === MENU_CHAT_SCREEN.deleteUser) {
     userItem.classList.add('contact__user-item__delete');
 
-    const userId = userItem.dataset.id as string;
+    const userId = userItem.dataset.id;
+
+    if (!userId) {
+      return;
+    }
 
     const usersList = (await chatsController.deleteUser({
       users: [userId],
       chatId: props.chatId,
-    })) as FoundUser[];
+    }));
 
     // Закрываем ленту переписки если пользователь удалил себя из чата.
-    if (store.state.user?.id === +userId && usersList) {
+    if (store.state.user?.id === +userId && usersList === true) {
       store.setState({ activeChat: null, messages: [] });
       return;
     }
 
-    const markedUsersList: FoundUser[] = await markUsersWhoAlreadyInChat(props.chatId, usersList);
+    if (usersList instanceof Array) {
+      const markedUsersList = await markUsersWhoAddedBefore(props.chatId, usersList);
 
-    store.setState({ users: markedUsersList });
+      if (markedUsersList) {
+        store.setState({ users: markedUsersList });
+      }
+    }
   }
 }
 
@@ -127,12 +137,22 @@ export async function clickDeleteChatLink(target: HTMLElement, props: Props) {
 }
 
 // Отмечаем юзеров уже добавленных в чат, чтобы потом визуально их выделить
-export async function markUsersWhoAlreadyInChat(chatId: number, foundUsersByLogin: FoundUser[]) {
-  const usersInChat = await chatsController.getUsersList({ id: chatId }) as UserData[];
+export async function markUsersWhoAddedBefore(chatId: number, foundUsersByLogin: FoundUser[]) {
+  const usersInChat = await chatsController.getUsersList({ id: chatId });
+
+  if (!Array.isArray(usersInChat)) {
+    return false;
+  }
 
   foundUsersByLogin.map((foundUser: FoundUser) => {
     const isUserinChat = usersInChat.find(
-      (userInChat: FoundUser) => (userInChat.id as number) === (foundUser.id as number),
+      (userInChat: FoundUser) => {
+        if (!userInChat.id || !foundUser.id) {
+          return false;
+        }
+
+        return userInChat.id === foundUser.id;
+      },
     );
 
     if (isUserinChat) {
@@ -148,10 +168,12 @@ export async function markUsersWhoAlreadyInChat(chatId: number, foundUsersByLogi
 // Установка события клика мимо блока меню. По этому событию блок скрывается.
 export function setListenerToHideBlockByOffTargetClick() {
   document.addEventListener('click', (event) => {
-    const target = event.target as HTMLElement;
+    const { target } = event;
 
-    if (!target.closest(`.${Selector.sectionWrapper}`)
-    && !target.closest(`.${NoticeSelectors.wrapper}`)) {
+    if (target instanceof HTMLElement
+    && !target.closest(`.${Selector.sectionWrapper}`)
+    && !target.closest(`.${NoticeSelectors.wrapper}`)
+    ) {
       document.querySelector(`.${Selector.menuWrapper}`)?.classList.add('hide');
     }
   });

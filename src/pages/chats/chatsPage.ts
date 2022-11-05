@@ -20,7 +20,7 @@ export default class ChatsPage extends Block<ChatsProps> {
     // activeChat = id чата, который открыт у пользователя.
     let activeChatOldState: DefaultState['activeChat'] = store.state.activeChat;
     let chatsOldState = cloneDeep(store.state.chats as Chat[]);
-    let messagesOldState: DefaultState['messages'] = store.state.messages as MessageServer[];
+    let messagesOldState = store.state.messages;
     let isLoadingOldState: DefaultState['isLoading'] = store.state.isLoading as boolean;
 
     super({
@@ -30,13 +30,14 @@ export default class ChatsPage extends Block<ChatsProps> {
 
     store.on(StoreEvents.updated, () => {
       const activeChatFreshState: DefaultState['activeChat'] = store.state.activeChat;
-      const chatsFreshState: DefaultState['chats'] = store.state.chats as Chat[];
-      const messagesFreshState: DefaultState['messages'] = store.state.messages as MessageServer[];
+      const chatsFreshState: DefaultState['chats'] = store.state.chats;
+      const messagesFreshState: DefaultState['messages'] = store.state.messages;
       const isLoadingFreshState: DefaultState['isLoading'] = store.state.isLoading;
 
       let newProps = {};
 
-      if (!isEqual(messagesOldState as MessageServer[], messagesFreshState)) {
+      if (messagesOldState && messagesFreshState
+        && !isEqual(messagesOldState, messagesFreshState)) {
         const days: Day[] = convertStateMessagesToProps(messagesFreshState);
         newProps = { ...newProps, days };
         messagesOldState = cloneDeep(messagesFreshState) as MessageServer[];
@@ -47,7 +48,7 @@ export default class ChatsPage extends Block<ChatsProps> {
         activeChatOldState = activeChatFreshState;
       }
 
-      if (!isEqual(chatsOldState, chatsFreshState)) {
+      if (chatsOldState && chatsFreshState && !isEqual(chatsOldState, chatsFreshState)) {
         const chatsProps: PropsContactsUpdate = convertStateChatsToProps(chatsFreshState);
 
         // Помечаем активный чат, т.е.который открыт у пользователя (записан в props)
@@ -86,14 +87,14 @@ export default class ChatsPage extends Block<ChatsProps> {
     // Обработка клика на конкретный чат в списке контактов.
     if (chat instanceof HTMLElement) {
       const chatId: number = +(chat.dataset.chatId as string);
-      const chatsState = (store.state.chats as Chat[]).find((item) => item.id === chatId) as Chat;
+      const chatState = (store.state.chats as Chat[]).find((item) => item.id === chatId);
       const chatsProps: ContactProps[] = this._props.contacts;
 
-      if (chatId === store.state.activeChat) {
+      if (chatId === store.state.activeChat || chatState === undefined) {
         return;
       }
 
-      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatsState, chatId);
+      const newChatHeaderProps: ChatHeaderWrapper = getChatHeaderProps(chatState, chatId);
 
       this.setProps({ ...newChatHeaderProps, days: [] });
 

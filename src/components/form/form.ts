@@ -31,7 +31,7 @@ export default class Form extends Block<FormProps> {
 
   inputFocusBlurHandler(target: HTMLInputElement) {
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const validateData: UnknownObj = this.validator.check([target] as HTMLInputElement[]);
+      const validateData: UnknownObj = this.validator.check([target]);
       this.updatePropsAfterValidation(validateData);
     }
   }
@@ -39,12 +39,16 @@ export default class Form extends Block<FormProps> {
   submitHandler(event: Event) {
     event.preventDefault();
 
+    if (!(event.target instanceof HTMLFormElement)) {
+      return;
+    }
+
     // Проводим валидацию всех элементов формы
-    const form = event.target as HTMLFormElement;
+    const form = event.target;
 
-    const formItems: Element[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
+    const formItems: HTMLInputElement[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
 
-    const validateData: ValidateResult = this.validator.check(formItems as HTMLInputElement[]);
+    const validateData: ValidateResult = this.validator.check(formItems);
 
     if (!validateData.isCorrect) {
       addNotice('Данные формы заполнены некорректно', 'error');

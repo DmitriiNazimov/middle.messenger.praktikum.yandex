@@ -86,7 +86,9 @@ class Router {
 
   // Обновляет содержимое страницы переходом на текущий роут.
   refresh() {
-    this._onRoute(this._currentRoute?.pathname as string);
+    if (this._currentRoute?.pathname) {
+      this._onRoute(this._currentRoute?.pathname);
+    }
   }
 
   // Возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию

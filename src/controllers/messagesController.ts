@@ -115,23 +115,25 @@ class MessagesController {
           serverMessages.is_read = false;
         }
 
-        const stateMessages = store.getState()?.messages as MessageServer[];
+        const stateMessages = store.state.messages;
         stateMessages?.push(serverMessages);
 
-        const chatsUpdated = (await chatsController.getChats({
+        const chatsUpdated: boolean | Chat[] = await chatsController.getChats({
           withLoader: false,
           returnValue: true,
-        })) as Chat[];
+        });
 
-        store.setState({ messages: stateMessages, chats: chatsUpdated });
+        if (typeof chatsUpdated !== 'boolean') {
+          store.setState({ messages: stateMessages, chats: chatsUpdated });
+        }
       }
     }
   }
 
-  private _errorHandler(event: any): void {
+  private _errorHandler(event: Event): void {
     store.setState({ isLoading: false });
 
-    addNotice(event.message, 'error');
+    addNotice((event as ErrorEvent).message, 'error');
   }
 
   private _removeListeners() {

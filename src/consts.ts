@@ -1,3 +1,5 @@
+import '../static/img/default-avatar.png';
+
 export const SELECTOR = {
   input: {
     errorList: 'input-error__list',
@@ -25,7 +27,7 @@ export const MENU_CHAT_SCREEN = {
 export const PATH = {
   baseurl: 'https://ya-praktikum.tech/api/v2',
   avatarBase: 'https://ya-praktikum.tech/api/v2/resources',
-  defaultAvatar: '/img/default-avatar.png',
+  defaultAvatar: '/asset/resource/default-avatar.png',
   socket: 'wss://ya-praktikum.tech/ws/chats',
 };
 

@@ -1,9 +1,12 @@
-export { default as authAPI, SignUp, SignIn } from './authApi';
+export { default as authAPI } from './authApi';
+export type { SignUp, SignIn } from './authApi';
 
-export {
-  default as userAPI, UpdateProfile, UpdatePassword, SearchUserByLogin, UpdateAvatar,
+export { default as userAPI } from './userApi';
+export type {
+  UpdateProfile, UpdatePassword, SearchUserByLogin, UpdateAvatar,
 } from './userApi';
 
-export {
-  default as chatsAPI, GetChats, CreateChat, DeleteChat, UsersInChat, GetChatUsers,
+export { default as chatsAPI } from './chatsApi';
+export type {
+  GetChats, CreateChat, DeleteChat, UsersInChat, GetChatUsers,
 } from './chatsApi';

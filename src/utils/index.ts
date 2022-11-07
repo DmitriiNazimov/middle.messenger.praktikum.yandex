@@ -16,4 +16,5 @@ export { default as Route } from './Routing/Route';
 
 // Store
 export { default as store } from './Store/Store';
-export { defaultState, DefaultState } from './Store/defaultState';
+export { defaultState } from './Store/defaultState';
+export type { DefaultState } from './Store/defaultState';

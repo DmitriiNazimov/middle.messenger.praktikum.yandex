@@ -1,3 +1,4 @@
+import './index.html';
 import './styles.css';
 
 import Handlebars from 'handlebars';

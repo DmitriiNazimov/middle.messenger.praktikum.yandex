@@ -13,6 +13,7 @@ export { default as Validator } from './Helpers/Validator';
 // eslint-disable-next-line import/no-cycle
 export { default as router } from './Routing/Router';
 export { default as Route } from './Routing/Route';
+export { routes } from './Routing/routes';
 
 // Store
 export { default as store } from './Store/Store';

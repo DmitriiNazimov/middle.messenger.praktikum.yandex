@@ -4,6 +4,7 @@ import Route from './Route';
 import { sanitizeUrl } from '../Helpers/myDash';
 import { store } from '..';
 import { authController } from '../../controllers';
+import { SELECTOR } from '../../consts';
 
 class Router {
   _routes: RouteType[] = [];
@@ -12,11 +13,11 @@ class Router {
 
   private _currentRoute: RouteType = null;
 
-  private _rootSelector = '#app';
+  private _rootSelector = SELECTOR.rootId;
 
   static __instance: Router;
 
-  constructor(rootSelector = '#app') {
+  constructor(rootSelector = SELECTOR.rootId) {
     /* eslint-disable no-constructor-return */
     if (Router.__instance) {
       return Router.__instance;
@@ -30,7 +31,7 @@ class Router {
   // Регистрирует роуты связывая их с компонентами.
   use(props: RouteProps) {
     if (!Object.prototype.hasOwnProperty.call(props, 'rootSelector')) {
-      Object.assign(props, { rootSelector: this._rootSelector });
+      Object.assign(props, { rootSelector: `#${this._rootSelector}` });
     }
 
     const route: RouteType = new Route(props);
@@ -48,7 +49,7 @@ class Router {
     this._onRoute(window.location.pathname);
 
     // Отменяем дефолтный переход по ссылкам. Активируем переход через router.go()
-    document.querySelector(this._rootSelector)?.addEventListener('click', this.сlickLinkHandler);
+    document.querySelector(`#${this._rootSelector}`)?.addEventListener('click', this.сlickLinkHandler);
   }
 
   private async _onRoute(locationPathname: string) {

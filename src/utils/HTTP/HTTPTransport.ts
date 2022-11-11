@@ -23,6 +23,10 @@ export default class HTTPTransport {
 
   constructor(pathName?: string) {
     this.baseUrl = pathName ? PATH.baseurl + pathName : PATH.baseurl;
+
+    if (pathName?.startsWith('http')) {
+      this.baseUrl = pathName;
+    }
   }
 
   public get(url: string, options: Options = {}): Promise<XMLHttpRequest> {

@@ -1,8 +1,11 @@
 import '../static/img/default-avatar.png';
 
 export const SELECTOR = {
+  rootId: 'app',
   input: {
+    node: 'standart-input',
     errorList: 'input-error__list',
+    errorRow: 'input-error__list-row',
     oldPassword: 'oldPassword',
     newPassword: 'newPassword',
     avatar: 'avatar',

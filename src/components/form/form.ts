@@ -15,9 +15,9 @@ export default class Form extends Block<FormProps> {
       ...props,
       events: {
         submit: (event: Event) => this.submitHandler(event),
-        blur: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
-        input: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
-        focus: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
+        blur: (event: Event) => this.inputFocusBlurHandler(event.target),
+        input: (event: Event) => this.inputFocusBlurHandler(event.target),
+        focus: (event: Event) => this.inputFocusBlurHandler(event.target),
       },
     });
 
@@ -29,7 +29,11 @@ export default class Form extends Block<FormProps> {
     }
   }
 
-  inputFocusBlurHandler(target: HTMLInputElement) {
+  inputFocusBlurHandler(target: EventTarget | null) {
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
       const validateData: UnknownObj = this.validator.check([target]);
       this.updatePropsAfterValidation(validateData);

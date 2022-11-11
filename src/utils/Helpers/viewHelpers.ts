@@ -105,3 +105,13 @@ export function trimLongString(str: string, num: number): string {
 
   return str;
 }
+
+export function isHide(classlist: string | DOMTokenList): boolean {
+  classlist = classlist.toString();
+
+  if (classlist.includes('hide')) {
+    return true;
+  }
+
+  return false;
+}

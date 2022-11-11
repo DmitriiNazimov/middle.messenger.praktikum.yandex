@@ -145,9 +145,17 @@ export function set(object: Record<string, unknown>, path: string, value: unknow
 
 // Глубокое сравнение объектов|массивов
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function isEqual<Obj extends Object | []>(object1: Obj, object2: Obj) {
+export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
+  if (typeof object1 !== 'object'
+  || typeof object2 !== 'object'
+  || object1 === null
+  || object2 === null) {
+    return false;
+  }
+
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
+
   if (keys1.length !== keys2.length) {
     return false;
   }
@@ -155,16 +163,19 @@ export function isEqual<Obj extends Object | []>(object1: Obj, object2: Obj) {
   for (const key of keys1) {
     const val1 = object1[key as keyof Obj];
     const val2 = object2[key as keyof Obj];
-    const areObjects = isObject(val1) && isObject(val2);
-    if ((areObjects && !isEqual(val1 as Obj, val2 as Obj))
-    || (!areObjects && val1 !== val2)) {
+
+    const areObjectsOrArrays = (isObject(val1) && isObject(val2))
+    || (Array.isArray(val1) && Array.isArray(val2));
+
+    if ((areObjectsOrArrays && !isEqual(val1 as Obj, val2 as Obj))
+    || (!areObjectsOrArrays && val1 !== val2)) {
       return false;
     }
   }
   return true;
 }
 
-// Глубокое копирование обьекта
+// Глубокое копирование обьекто-подобной сущности
 export function cloneDeep<T extends object = object>(obj: T) {
   // eslint-disable-next-line max-len
   return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
@@ -287,4 +298,9 @@ export function sanitizeUrl(string: string): string {
     "'": '&#x27;',
   };
   return string.replace(/[<>"']/gi, (match) => unsafeChars[match]);
+}
+
+export function sleep(ms = 200) {
+  // eslint-disable-next-line no-promise-executor-return
+  return new Promise((r) => setTimeout(r, ms));
 }

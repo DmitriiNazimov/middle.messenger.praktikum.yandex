@@ -17,6 +17,9 @@ export enum Selector {
   deleteUserMarker = 'chat-menu__users__delete',
   userItem = 'contact__user-item',
   deleteChatLink = 'chat-menu__delete-chat',
+  backLinkId = 'back-to-menu-items',
+  addUserBlockWrapper = 'chat-menu__item__add',
+  deleteUserBlockWrapper = 'chat-menu__item__delete',
 }
 
 // Раскрыть/скрыть меню (иконка три точки)
@@ -74,6 +77,7 @@ export async function clickAddUserToChat(target: HTMLElement, props: Props) {
 // Открыть экран "Удалить пользователя из чата"
 export async function clickDeleteUserLink(target: HTMLElement, props:Props) {
   if (target.closest(`.${Selector.deleteUserLink}`)) {
+    console.log('++++++++++++++DELETE USER LINK');
     const usersList = (await chatsController.getUsersList({ id: props.chatId }));
 
     if (Array.isArray(usersList)) {
@@ -84,6 +88,8 @@ export async function clickDeleteUserLink(target: HTMLElement, props:Props) {
       });
 
       store.setState({ users: usersList, chatMenuScreen: MENU_CHAT_SCREEN.deleteUser });
+    } else {
+      throw new Error('Can`t get usersList from server');
     }
   }
 }

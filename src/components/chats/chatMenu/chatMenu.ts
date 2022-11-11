@@ -148,13 +148,13 @@ export default class ChatMenu extends Block<Props> {
 
             {{!-- Список пользователей и форма поиска пользователей --}}
             <div class="${Selector.usersWrapper}{{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.items}") }} hide{{/if}}{{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.start}") }} hide{{/if}}">
-                <p><a href="#" id="back-to-menu-items">< Назад</a></p>
+                <p><a href="#" id="${Selector.backLinkId}">< Назад</a></p>
                 {{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.addUser}")}}
                     {{{Form inputs=inputs buttons=buttons}}}
                 {{/if}}
                 {{#if users}}
                     <div class="chat-menu__users{{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.deleteUser}")}} chat-menu__users__delete{{/if}}">
-                        <p class="{{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.addUser}")}}chat-menu__item__add{{else}}chat-menu__item__delete{{/if}}">
+                        <p class="{{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.addUser}")}}${Selector.addUserBlockWrapper}{{else}}${Selector.deleteUserBlockWrapper}{{/if}}">
                           {{#if (eq chatMenuScreen "${MENU_CHAT_SCREEN.addUser}")}}Добавить пользователя:{{else}}Удалить пользователя:{{/if}}
                         </p>
                         {{#each users}}

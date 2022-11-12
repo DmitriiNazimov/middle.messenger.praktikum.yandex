@@ -2,12 +2,14 @@
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(express.static('dist'));
+const distDir = `${__dirname}/dist/`;
+
+app.use(express.static(distDir));
 
 app.get('*', (req, res) => {
-  res.sendFile(`${__dirname}/dist/index.html`);
+  res.sendFile(`${distDir}/index.html`);
 });
 
 app.listen(port, () => {

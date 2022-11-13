@@ -304,3 +304,64 @@ export function sleep(ms = 200) {
   // eslint-disable-next-line no-promise-executor-return
   return new Promise((r) => setTimeout(r, ms));
 }
+
+// Группирует значения из массивов по индексам
+export function unzip(...args: number[][]) {
+  let longestArg: number[] = [];
+
+  args.forEach((arg) => {
+    if (!Array.isArray(arg)) {
+      throw new Error(`${arg} is not array`);
+    }
+
+    if (longestArg.length < arg.length) {
+      longestArg = arg;
+    }
+  });
+
+  return longestArg.map((_arg, i) => args.map((elem) => elem[i]));
+}
+
+// Объединяет имена CSS классов
+export function classNames(...args: unknown[]) {
+  return args
+    .map((arg): string|boolean => {
+      if (!arg) {
+        return false;
+      }
+
+      if (Array.isArray(arg)) {
+        return classNames(...arg);
+      }
+
+      if (isObject(arg)) {
+        const objKeysTruthyVal = Object.keys(arg).map((key) => {
+          if (!arg[key as keyof typeof arg]) {
+            return false;
+          }
+
+          return key;
+        });
+        return classNames(...objKeysTruthyVal);
+      }
+
+      return arg as string;
+    })
+    .filter((item) => item)
+    .join(' ');
+}
+
+// Исключает из объекта указанные свойства.
+export function omit<T extends object>(obj: T, fields: (keyof T)[]) {
+  const omittedObj: Record<string, unknown> = {};
+
+  Object.keys(obj).forEach((key) => {
+    if (fields.includes(key as keyof T)) {
+      return;
+    }
+
+    omittedObj[key] = obj[key as keyof T];
+  });
+
+  return omittedObj;
+}

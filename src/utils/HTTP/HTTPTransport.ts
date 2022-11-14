@@ -18,6 +18,8 @@ export type Options = {
   id?: number;
 };
 
+type HTTPMethod = (url: string, options?: Options) => Promise<XMLHttpRequest>;
+
 export default class HTTPTransport {
   baseUrl: string;
 
@@ -29,34 +31,34 @@ export default class HTTPTransport {
     }
   }
 
-  public get(url: string, options: Options = {}): Promise<XMLHttpRequest> {
+  get: HTTPMethod = (url, options = {}) => {
     let urlWithParams = url;
-
     if (options.data && Object.keys(options.data).length) {
       urlWithParams = `${url}?${queryStringify(options.data as Record<string, unknown>)}`;
     }
-
     return this.request(this.baseUrl + urlWithParams, { ...options, method: Method.GET });
-  }
+  };
 
-  public post(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.POST });
-  }
+  post: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.POST })
+  );
 
-  public put(url: string, options: Options | FormData = {}): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.PUT });
-  }
+  put: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.PUT })
+  );
 
-  public delete(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.DELETE });
-  }
+  delete: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.DELETE })
+  );
 
-  private request(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    const { method,
+  private request: HTTPMethod = (url, options = {}) => {
+    const {
+      method,
       data,
       headers = HEADERS.JSON,
       timeout = 2000,
-      withCredentials = true } = options;
+      withCredentials = true,
+    } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -94,5 +96,5 @@ export default class HTTPTransport {
         xhr.send(outputData as XMLHttpRequestBodyInit);
       }
     });
-  }
+  };
 }

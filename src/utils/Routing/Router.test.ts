@@ -8,26 +8,30 @@ Object.keys(routes).forEach((item) => {
   router.use(routes[item]);
 });
 
-document.body.innerHTML = `<div id="${SELECTOR.rootId}"></div>`;
+document.body.innerHTML = `<div id="${SELECTOR.rootId}"></div><div class="${SELECTOR.loader.wrapper} hide"></div>`;
 
 router.start();
 
 describe('utils/Router', () => {
-  it('should return 404 if Route not exist', () => {
+  it('should return 404 if Route not exist', async () => {
     router.go('/fakepath-1-2-3');
 
-    expect(document.title).toBe(routes.page404.title);
+    await waitFor(async () => {
+      expect(document.title).toBe(routes.page404.title);
+    });
   });
 
-  it('should go to Route by pathname', () => {
+  it('should go to Route by pathname', async () => {
     router.go(routes.login.pathname);
 
-    expect(document.title).toBe(routes.login.title);
+    await waitFor(async () => {
+      expect(document.title).toBe(routes.login.title);
+    });
   });
 
   it('should go back to previous Route in history', async () => {
     router.go(routes.login.pathname);
-    router.go(routes.registration.pathname);
+    router.go(routes.page401.pathname);
     router.back();
 
     await waitFor(async () => {

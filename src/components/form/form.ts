@@ -15,7 +15,7 @@ export default class Form extends Block<FormProps> {
       ...props,
       events: {
         submit: (event: Event) => this.submitHandler(event),
-        blur: (event: Event) => this.inputFocusBlurHandler(event.target),
+        blur: (event: Event) => this.inputFocusBlurHandler(event.target, true),
         input: (event: Event) => this.inputFocusBlurHandler(event.target),
         focus: (event: Event) => this.inputFocusBlurHandler(event.target),
       },
@@ -29,14 +29,14 @@ export default class Form extends Block<FormProps> {
     }
   }
 
-  inputFocusBlurHandler(target: EventTarget | null) {
+  inputFocusBlurHandler(target: EventTarget | null, paintInRed = false) {
     if (!(target instanceof HTMLInputElement)) {
       return;
     }
 
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
       const validateData: UnknownObj = this.validator.check([target]);
-      this.updatePropsAfterValidation(validateData);
+      this.updatePropsAfterValidation(validateData, paintInRed);
     }
   }
 
@@ -61,14 +61,14 @@ export default class Form extends Block<FormProps> {
     this.updatePropsAfterValidation(validateData, true);
   }
 
-  updatePropsAfterValidation(props: Record<string, unknown>, formSubmitted = false) {
+  updatePropsAfterValidation(props: Record<string, unknown>, paintInRed = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(props).forEach(([name, errors]) => {
       if (name === 'isCorrect') {
         return;
       }
 
-      this._refs[`${name}Error`].setProps({ errors, formSubmitted });
+      this._refs[`${name}Error`].setProps({ errors, paintInRed });
     });
   }
 
@@ -103,7 +103,7 @@ export default class Form extends Block<FormProps> {
                 required=required
                 value=value
             }}}
-            {{{ InputError errors=errors formSubmitted=formSubmitted ref=errorRefName }}}
+            {{{ InputError errors=errors paintInRed=paintInRed ref=errorRefName }}}
         </div>
       {{/each}}
 

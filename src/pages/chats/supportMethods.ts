@@ -64,7 +64,7 @@ export function convertStateChatsToProps(freshStateChats: Chat[]): PropsContacts
       }
 
       props.contacts.push({
-        avatarPath: chat.avatar || PATH.defaultAvatar,
+        avatarPath: chat.avatar ? PATH.avatarBase + chat.avatar : PATH.defaultAvatar,
         displayName: chat.title,
         lastMsgPrefix,
         lastMsgText: chat.last_message ? trimLongString(chat.last_message.content, 55) : '',
@@ -83,7 +83,8 @@ export function convertStateChatsToProps(freshStateChats: Chat[]): PropsContacts
 export function getChatHeaderProps(chatFromState: Chat, chatId: number): ChatHeaderWrapper {
   return {
     chatHeader: {
-      avatarPath: chatFromState.avatar || PATH.defaultAvatar,
+      // eslint-disable-next-line max-len
+      avatarPath: chatFromState.avatar ? PATH.avatarBase + chatFromState.avatar : PATH.defaultAvatar,
       displayName: chatFromState.title,
       chatId,
     },

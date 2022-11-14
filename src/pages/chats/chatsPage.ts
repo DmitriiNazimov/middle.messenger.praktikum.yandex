@@ -124,15 +124,6 @@ export default class ChatsPage extends Block<ChatsProps> {
     <main>
       <div class="chat-side contacts-list{{#if activeChat}} hide__mobile{{/if}}">
         <p class="chat-side__profile-link"><a href="./settings">Профиль ></a></p>
-        <form class="search-form form__round-wrapper">
-          <div class="form__round-wrapper-row">
-            {{{ Input
-              type="text"
-              id="search-contacts"
-              placeholder="Поиск"
-            }}}
-            </div>
-        </form>
             {{{CreateChatForm}}}
         <div class="contacts">
           {{#if contacts}}
@@ -157,7 +148,7 @@ export default class ChatsPage extends Block<ChatsProps> {
       <div class="chat-side feed{{#if activeChat}} feed__opened__mobile{{/if}}">
         {{#if activeChat}}
           {{#with chatHeader}}
-            {{{ ChatHeader avatarPath=avatarPath displayName=displayName chatId=chatId chatsPage=chatsPage }}}
+            {{{ ChatHeader avatarPath=avatarPath displayName=displayName chatId=chatId }}}
           {{/with}}
         {{/if}}
         <div class="messages">

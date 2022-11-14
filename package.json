@@ -21,11 +21,12 @@
     "lint": "bash -c tsc --noEmit && eslint src",
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "test": "jest"
+    "test": "jest",
+    "testLS": "jest --passWithNoTests"
   },
   "lint-staged": {
     "*.{scss, css}": "stylelint \"**/*.css\"",
-    "*.{ts, js}": "npm run test && npm run lint"
+    "*.{ts, js}": "npm run testLS && npm run lint"
   },
   "author": "Dmitrii Nazimov",
   "license": "MIT",

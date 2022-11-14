@@ -2,7 +2,7 @@
 
 import Route from './Route';
 import { sanitizeUrl } from '../Helpers/myDash';
-import { store } from '..';
+import { routes, store } from '..';
 import { authController } from '../../controllers';
 import { SELECTOR } from '../../consts';
 
@@ -61,10 +61,22 @@ class Router {
     }
 
     // Проверка авторизации.
+    // Если не залогинен - отправляем на страницу логина.
     if (route.requestAuthorization && store.state.isAuthenticated === false) {
-      const response: boolean = await authController.getUser();
+      const isMainPage = route.pathname === routes.index.pathname;
+
+      const response: boolean = await authController.getUser({ isAuthPage: isMainPage });
 
       if (!response) {
+        this.go(routes.login.pathname);
+        return;
+      }
+      // Если залогинен страницы авторизации и регистрации д.б. недоступны.
+    } else if (route.pathname === routes.login.pathname
+      || route.pathname === routes.registration.pathname) {
+      if (store.state.isAuthenticated === true
+        || await authController.getUser({ isAuthPage: true })) {
+        this.go(routes.alreadyAuthorized.pathname);
         return;
       }
     }
@@ -73,7 +85,7 @@ class Router {
     route.render();
   }
 
-  // Переходит на роут и отображает нужный блок
+  // Переходит на роут и отображает нужный блок.
   go(pathname: string) {
     const sanitizedPath = sanitizeUrl(pathname);
 

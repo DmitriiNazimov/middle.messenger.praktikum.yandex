@@ -9,6 +9,7 @@ type Props = {
   message: string;
   url: string;
   linkText: string;
+  useLinkPath?: boolean;
   events?: Record<string, unknown>;
 };
 
@@ -17,6 +18,14 @@ export const data401: Props = {
   message: 'Требуется авторизация',
   url: '/',
   linkText: 'Назад',
+};
+
+export const dataAlreadyAuthorized: Props = {
+  code: 'Вы уже авторизованы',
+  message: 'Регистрация и авторизация недоступны.',
+  url: '/messenger',
+  useLinkPath: true,
+  linkText: 'Назад к чатам',
 };
 
 export const data404: Props = {
@@ -44,7 +53,7 @@ export class NetErrorPage extends Block<Props> {
   clickHandler(event: Event) {
     const target = event.target as HTMLElement;
 
-    if (target.id === 'navigate-back') {
+    if (!target.dataset.uselinkpath && target.id === 'navigate-back') {
       event.preventDefault();
       router.back();
     }
@@ -58,7 +67,11 @@ export class NetErrorPage extends Block<Props> {
         <p class="web-error__paragraph web-error__header">{{ code }}</p>
         <p class="web-error__paragraph web-error__msg">{{ message }}</p>
         <p class="web-error__paragraph web-error__link">
-            <a href="{{ url }}" id="navigate-back" class="button button__empty">{{ linkText }}</a>
+            <a href="{{ url }}" 
+            {{#if useLinkPath}}
+              data-uselinkpath="{{useLinkPath}}"
+            {{/if}}  
+            id="navigate-back" class="button button__empty">{{ linkText }}</a>
         </p>
     </div>
     </main>

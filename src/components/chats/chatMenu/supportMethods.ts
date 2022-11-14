@@ -75,9 +75,8 @@ export async function clickAddUserToChat(target: HTMLElement, props: Props) {
 }
 
 // Открыть экран "Удалить пользователя из чата"
-export async function clickDeleteUserLink(target: HTMLElement, props:Props) {
+export async function clickDeleteUserLink(target: HTMLElement, props: Props) {
   if (target.closest(`.${Selector.deleteUserLink}`)) {
-    console.log('++++++++++++++DELETE USER LINK');
     const usersList = (await chatsController.getUsersList({ id: props.chatId }));
 
     if (Array.isArray(usersList)) {
@@ -136,7 +135,9 @@ export async function clickDeleteChatLink(target: HTMLElement, props: Props) {
     // Скрыть ленту переписки чата
     if (response) {
       store.setState({
-        activeChat: null, messages: [], lastMessageEffect: false,
+        activeChat: null,
+        messages: [],
+        lastMessageEffect: false,
       });
     }
   }

@@ -1,11 +1,11 @@
 // Страницы
-import IndexPage from '../../pages/index';
 import LoginPage from '../../pages/login';
 import RegistrationPage from '../../pages/registration';
 import ChatsPage from '../../pages/chats';
 import ProfilePage from '../../pages/profile';
 import { NetErrorPage, data404, data500, data401 } from '../../pages/netError';
 import { data as loginData } from '../../pages/login/defaultProps';
+import { dataAlreadyAuthorized } from '../../pages/netError/netErrorPage';
 
 // Пути к страницам
 
@@ -13,9 +13,9 @@ import { data as loginData } from '../../pages/login/defaultProps';
 export const routes: Routes = {
   index: {
     pathname: '/',
-    blockClass: IndexPage,
-    requestAuthorization: false,
-    title: 'Easy Touch - главная страница',
+    blockClass: ChatsPage,
+    requestAuthorization: true,
+    title: 'Чаты',
   },
   login: {
     pathname: '/sign-in',
@@ -62,5 +62,12 @@ export const routes: Routes = {
     requestAuthorization: false,
     title: 'Ошибка 401',
     data: data401,
+  },
+  alreadyAuthorized: {
+    pathname: '/is-authorized',
+    blockClass: NetErrorPage,
+    requestAuthorization: true,
+    title: 'Вы уже авторизованы',
+    data: dataAlreadyAuthorized,
   },
 };

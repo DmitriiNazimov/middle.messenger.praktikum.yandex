@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-
-import { router, store } from '../utils';
+import { router, routes, store } from '../utils';
 import { authAPI, SignUp, SignIn } from '../api';
 import { addNotice, loaderToggle } from '../utils/Helpers/viewHelpers';
 import { DefaultState } from '../utils/Store/defaultState';
@@ -13,9 +10,9 @@ class AuthController {
 
     authAPI
       .signUpApi(data)
-      .then(({ response }) => {
+      .then(({ response }): void => {
         store.setState({ isAuthenticated: true, user: { id: JSON.parse(response).id } });
-        router.go('/messenger');
+        router.go(routes.chats.pathname);
         addNotice('Успешная регистрация!', 'success');
       })
       .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
@@ -29,7 +26,7 @@ class AuthController {
     authAPI
       .signInApi(data)
       .then(() => {
-        router.go('/messenger');
+        router.go(routes.chats.pathname);
         addNotice('Успешная авторизация!', 'success');
       })
       .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
@@ -44,7 +41,7 @@ class AuthController {
       .logoutApi()
       .then(() => {
         store.setState({ isAuthenticated: false });
-        router.go('/');
+        router.go(routes.login.pathname);
         addNotice('Вы вышли из аккаунта', 'success');
       })
       .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
@@ -52,27 +49,29 @@ class AuthController {
   }
 
   // Получить данные пользователя с сервера.
-  getUser({ withLoader = true } = {}): Promise<boolean> {
+  getUser({ withLoader = true, isAuthPage = false } = {}): Promise<boolean> {
     if (withLoader) {
       loaderToggle({ show: true });
     }
 
     return authAPI
       .getUserApi()
-      .then(({ response }) => {
+      .then(({ response }): boolean => {
         const userData: DefaultState['user'] = JSON.parse(response);
         store.setState({ isAuthenticated: true, user: { ...userData } });
 
         return true;
       })
-      .catch(({ response }) => {
+      .catch(({ response }): boolean => {
         let noticeText: string = JSON.parse(response).reason;
 
         // Если куки не валидные - проблемы с авторизацией.
-        if (noticeText === 'Cookie is not valid') {
+        if (noticeText === 'Cookie is not valid' && !isAuthPage) {
           authAPI.logoutApi();
-          router.go('/sign-in');
+          router.go(routes.login.pathname);
           noticeText += '\r\n\r\nВойдите в аккаунт или зарегистрируйтесь';
+        } else if (noticeText === 'Cookie is not valid' && isAuthPage) {
+          return false;
         }
 
         addNotice(noticeText, 'error');

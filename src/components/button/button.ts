@@ -2,7 +2,7 @@ import { Block } from '../../utils';
 import './button.css';
 
 export default class Button extends Block<ButtonProps> {
-  static componentName: string = 'Button';
+  static componentName = 'Button';
 
   render() {
     return `

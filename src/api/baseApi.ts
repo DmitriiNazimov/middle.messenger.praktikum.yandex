@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import HTTPTransport, { Options as HttpOptions } from '../utils/HTTP/HTTPTransport';
+import HTTPTransport from '../utils/HTTP/HTTPTransport';
 
 export default abstract class BaseAPI {
   http: HTTPTransport;

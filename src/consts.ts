@@ -1,7 +1,11 @@
-/* eslint-disable no-unused-vars */
+import '../static/img/default-avatar.png';
+
 export const SELECTOR = {
+  rootId: 'app',
   input: {
+    node: 'standart-input',
     errorList: 'input-error__list',
+    errorRow: 'input-error__list-row',
     oldPassword: 'oldPassword',
     newPassword: 'newPassword',
     avatar: 'avatar',
@@ -13,6 +17,7 @@ export const SELECTOR = {
   loader: { wrapper: 'loader__wrapper' },
   contact: { row: 'contact__row' },
   logoutBtn: 'logout-buton',
+  message: 'message',
 };
 
 export const MENU_CHAT_SCREEN = {
@@ -25,7 +30,7 @@ export const MENU_CHAT_SCREEN = {
 export const PATH = {
   baseurl: 'https://ya-praktikum.tech/api/v2',
   avatarBase: 'https://ya-praktikum.tech/api/v2/resources',
-  defaultAvatar: '/img/default-avatar.png',
+  defaultAvatar: '/asset/resource/default-avatar.png',
   socket: 'wss://ya-praktikum.tech/ws/chats',
 };
 
@@ -33,7 +38,6 @@ export const HEADERS = { JSON: { 'Content-Type': 'application/json' } };
 
 export const DEFAULT_TITLE = 'Easy Touch';
 
-// eslint-disable-next-line no-shadow
 export enum StoreEvents {
   updated = 'updated',
 }

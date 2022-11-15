@@ -1,16 +1,13 @@
-/* eslint-disable max-len */
-/* eslint-disable no-return-assign */
-/* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-continue */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable no-unused-vars */
 
 /**
  * Первый спринт
  */
 
-export function last(list: unknown[]): unknown {
+export function last<T>(list: T[]): T | undefined {
   if (!Array.isArray(list) || !list.length) {
     return undefined;
   }
@@ -26,9 +23,7 @@ export function first(list: unknown[]): unknown {
   return list[0];
 }
 
-export function range(start: number, end?: number, step: number = 1): number[] {
-  /* eslint-disable no-param-reassign */
-
+export function range(start: number, end?: number, step = 1): number[] {
   const result: number[] = [];
 
   if (step < 0) {
@@ -60,7 +55,7 @@ export function range(start: number, end?: number, step: number = 1): number[] {
   return result;
 }
 
-export function rangeRight(start: number, end?: number, step: number = 1): number[] {
+export function rangeRight(start: number, end?: number, step = 1): number[] {
   return range(start, end, step).reverse();
 }
 
@@ -84,7 +79,6 @@ export function isEmpty(value: any): boolean {
  * Третий спринт
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export function isObject(value: any): boolean {
   return typeof value === 'object'
     && value !== null
@@ -93,7 +87,7 @@ export function isObject(value: any): boolean {
 }
 
 export function escapeSpecialChars(chars: string): string {
-  const specialChars: string = '[]^$.-|?*+()';
+  const specialChars = '[]^$.-|?*+()';
 
   return chars
     .split('')
@@ -114,7 +108,7 @@ export function trim(string: string, chars?: string): string {
 export function merge(target: Record<string, any>, ...sources: any[]) {
   for (const source of sources) {
     for (const k in source) {
-      const targetValue: {} = target[k];
+      const targetValue: Record<string, unknown> = target[k];
       const sourceValue = source[k];
       if (isObject(sourceValue) && isObject(targetValue)) {
         target[k] = merge(targetValue, sourceValue);
@@ -128,7 +122,7 @@ export function merge(target: Record<string, any>, ...sources: any[]) {
 
 // Добавление значения в обьект по пути через точечную нотацию.
 // Пример: set(obj, 'foo.bar.baz', 1); // {foo: {bar: {baz: 1}}}
-export function set(object: {}, path: string, value: unknown) {
+export function set(object: Record<string, unknown>, path: string, value: unknown) {
   if (!isObject(object)) {
     return object;
   }
@@ -140,7 +134,7 @@ export function set(object: {}, path: string, value: unknown) {
   const keys: string[] = path.split('.').reverse();
 
   const tempObj = keys.reduce((acc, key, i) => {
-    acc = (i === 0) ? { [key]: value } : { [key]: acc };
+    acc = i === 0 ? { [key]: value } : { [key]: acc };
     return acc;
   }, {});
 
@@ -149,10 +143,19 @@ export function set(object: {}, path: string, value: unknown) {
   return object;
 }
 
-// Глубокое сравнение объектов
+// Глубокое сравнение объектов|массивов
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
+  if (typeof object1 !== 'object'
+  || typeof object2 !== 'object'
+  || object1 === null
+  || object2 === null) {
+    return false;
+  }
+
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
+
   if (keys1.length !== keys2.length) {
     return false;
   }
@@ -160,16 +163,19 @@ export function isEqual<Obj extends Object>(object1: Obj, object2: Obj) {
   for (const key of keys1) {
     const val1 = object1[key as keyof Obj];
     const val2 = object2[key as keyof Obj];
-    const areObjects = isObject(val1) && isObject(val2);
-    if ((areObjects && !isEqual(val1 as Obj, val2 as Obj))
-    || (!areObjects && val1 !== val2)) {
+
+    const areObjectsOrArrays = (isObject(val1) && isObject(val2))
+    || (Array.isArray(val1) && Array.isArray(val2));
+
+    if ((areObjectsOrArrays && !isEqual(val1 as Obj, val2 as Obj))
+    || (!areObjectsOrArrays && val1 !== val2)) {
       return false;
     }
   }
   return true;
 }
 
-// Глубокое копирование обьекта
+// Глубокое копирование обьекто-подобной сущности
 export function cloneDeep<T extends object = object>(obj: T) {
   // eslint-disable-next-line max-len
   return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
@@ -182,9 +188,12 @@ export function cloneDeep<T extends object = object>(obj: T) {
     }
 
     if (item instanceof Array) {
-      const copy: any[] = [];
+      const copy: unknown[] = [];
 
-      item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
+      item.forEach((_, i) => {
+        copy[i] = _cloneDeep(item[i]);
+        return copy[i];
+      });
 
       return copy;
     }
@@ -206,15 +215,21 @@ export function cloneDeep<T extends object = object>(obj: T) {
     }
 
     if (item instanceof Object) {
-      const copy: Record<string | symbol, any> = {};
+      const copy: Record<string | symbol, unknown> = {};
 
       // * Object.symbol
-      // @ts-expect-error item[s]
-      Object.getOwnPropertySymbols(item).forEach((s) => (copy[s] = _cloneDeep(item[s])));
+      Object.getOwnPropertySymbols(item).forEach((s) => {
+        // @ts-expect-error item[s]
+        copy[s] = _cloneDeep(item[s]);
+        return copy[s];
+      });
 
       // * Object.name (other)
-      // @ts-expect-error item[k]
-      Object.keys(item).forEach((k) => (copy[k] = _cloneDeep(item[k])));
+      Object.keys(item).forEach((k) => {
+        // @ts-expect-error item[k]
+        copy[k] = _cloneDeep(item[k]);
+        return copy[k];
+      });
 
       return copy;
     }
@@ -283,4 +298,70 @@ export function sanitizeUrl(string: string): string {
     "'": '&#x27;',
   };
   return string.replace(/[<>"']/gi, (match) => unsafeChars[match]);
+}
+
+export function sleep(ms = 200) {
+  // eslint-disable-next-line no-promise-executor-return
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+// Группирует значения из массивов по индексам
+export function unzip(...args: number[][]) {
+  let longestArg: number[] = [];
+
+  args.forEach((arg) => {
+    if (!Array.isArray(arg)) {
+      throw new Error(`${arg} is not array`);
+    }
+
+    if (longestArg.length < arg.length) {
+      longestArg = arg;
+    }
+  });
+
+  return longestArg.map((_arg, i) => args.map((elem) => elem[i]));
+}
+
+// Объединяет имена CSS классов
+export function classNames(...args: unknown[]) {
+  return args
+    .map((arg): string|boolean => {
+      if (!arg) {
+        return false;
+      }
+
+      if (Array.isArray(arg)) {
+        return classNames(...arg);
+      }
+
+      if (isObject(arg)) {
+        const objKeysTruthyVal = Object.keys(arg).map((key) => {
+          if (!arg[key as keyof typeof arg]) {
+            return false;
+          }
+
+          return key;
+        });
+        return classNames(...objKeysTruthyVal);
+      }
+
+      return arg as string;
+    })
+    .filter((item) => item)
+    .join(' ');
+}
+
+// Исключает из объекта указанные свойства.
+export function omit<T extends object>(obj: T, fields: (keyof T)[]) {
+  const omittedObj: Record<string, unknown> = {};
+
+  Object.keys(obj).forEach((key) => {
+    if (fields.includes(key as keyof T)) {
+      return;
+    }
+
+    omittedObj[key] = obj[key as keyof T];
+  });
+
+  return omittedObj;
 }

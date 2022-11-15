@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import BaseApi from './baseApi';
 
 export type SignUp = {
@@ -29,11 +28,11 @@ class AuthAPI extends BaseApi {
   }
 
   public getUserApi(): Promise<XMLHttpRequest> {
-    return this.http.get('/user', {});
+    return this.http.get('/user');
   }
 
   public logoutApi(): Promise<XMLHttpRequest> {
-    return this.http.post('/logout', {});
+    return this.http.post('/logout');
   }
 }
 

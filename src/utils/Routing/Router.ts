@@ -2,8 +2,9 @@
 
 import Route from './Route';
 import { sanitizeUrl } from '../Helpers/myDash';
-import { store } from '..';
+import { routes, store } from '..';
 import { authController } from '../../controllers';
+import { SELECTOR } from '../../consts';
 
 class Router {
   _routes: RouteType[] = [];
@@ -12,11 +13,11 @@ class Router {
 
   private _currentRoute: RouteType = null;
 
-  private _rootSelector: string = '#app';
+  private _rootSelector = SELECTOR.rootId;
 
   static __instance: Router;
 
-  constructor(rootSelector: string = '#app') {
+  constructor(rootSelector = SELECTOR.rootId) {
     /* eslint-disable no-constructor-return */
     if (Router.__instance) {
       return Router.__instance;
@@ -30,7 +31,7 @@ class Router {
   // Регистрирует роуты связывая их с компонентами.
   use(props: RouteProps) {
     if (!Object.prototype.hasOwnProperty.call(props, 'rootSelector')) {
-      Object.assign(props, { rootSelector: this._rootSelector });
+      Object.assign(props, { rootSelector: `#${this._rootSelector}` });
     }
 
     const route: RouteType = new Route(props);
@@ -48,7 +49,7 @@ class Router {
     this._onRoute(window.location.pathname);
 
     // Отменяем дефолтный переход по ссылкам. Активируем переход через router.go()
-    document.querySelector(this._rootSelector)?.addEventListener('click', this.сlickLinkHandler);
+    document.querySelector(`#${this._rootSelector}`)?.addEventListener('click', this.сlickLinkHandler);
   }
 
   private async _onRoute(locationPathname: string) {
@@ -60,10 +61,22 @@ class Router {
     }
 
     // Проверка авторизации.
+    // Если не залогинен - отправляем на страницу логина.
     if (route.requestAuthorization && store.state.isAuthenticated === false) {
-      const response: boolean = await authController.getUser();
+      const isMainPage = route.pathname === routes.index.pathname;
+
+      const response: boolean = await authController.getUser({ isAuthPage: isMainPage });
 
       if (!response) {
+        this.go(routes.login.pathname);
+        return;
+      }
+      // Если залогинен страницы авторизации и регистрации д.б. недоступны.
+    } else if (route.pathname === routes.login.pathname
+      || route.pathname === routes.registration.pathname) {
+      if (store.state.isAuthenticated === true
+        || await authController.getUser({ isAuthPage: true })) {
+        this.go(routes.alreadyAuthorized.pathname);
         return;
       }
     }
@@ -72,7 +85,7 @@ class Router {
     route.render();
   }
 
-  // Переходит на роут и отображает нужный блок
+  // Переходит на роут и отображает нужный блок.
   go(pathname: string) {
     const sanitizedPath = sanitizeUrl(pathname);
 
@@ -86,7 +99,9 @@ class Router {
 
   // Обновляет содержимое страницы переходом на текущий роут.
   refresh() {
-    this._onRoute(this._currentRoute?.pathname!);
+    if (this._currentRoute?.pathname) {
+      this._onRoute(this._currentRoute?.pathname);
+    }
   }
 
   // Возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию
@@ -102,7 +117,7 @@ class Router {
   // Возвращает конкретный роут
   private _getRoute(pathname: string): RouteType {
     const sanitizedPath = sanitizeUrl(pathname);
-    // @ts-expect-error
+    // @ts-expect-error Type 'undefined' is not assignable to type 'RouteType'
     return this._routes.find((route: RouteType) => route.match(sanitizedPath));
   }
 

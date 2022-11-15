@@ -13,5 +13,6 @@
     "target": "es2017",
     "esModuleInterop": true,
     "typeRoots": ["typings/app.d.ts", "node_modules/@types"]
-  }
+  },
+  "exclude": ["mydev"]
 }

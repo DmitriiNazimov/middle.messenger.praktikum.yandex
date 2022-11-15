@@ -7,11 +7,11 @@ type Props = {
   imgPath: string;
   outgoing: boolean;
   readed: boolean;
-  events?: Object;
-}
+  events?: Record<string, unknown>;
+};
 
 export default class Message extends Block<Props> {
-  static componentName: string = 'Message';
+  static componentName = 'Message';
 
   render() {
     return `

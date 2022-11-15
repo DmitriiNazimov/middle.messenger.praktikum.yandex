@@ -2,7 +2,7 @@ import Block from '../../../utils/Rendering/Block';
 import './contact.css';
 
 export default class Contact extends Block<ContactProps> {
-  static componentName: string = 'Contact';
+  static componentName = 'Contact';
 
   render() {
     return `

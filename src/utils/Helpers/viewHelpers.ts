@@ -1,7 +1,5 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
+
 import { SELECTOR } from '../../consts';
 
 export enum NoticeSelectors {
@@ -12,7 +10,7 @@ export enum NoticeSelectors {
 }
 
 // Показываем уведомление об успешной операции или провале.
-export function addNotice(text: string = 'Возникла ошибка', type: string = 'error') {
+export function addNotice(text = 'Возникла ошибка', type = 'error') {
   const notice = document.createElement('div');
   const noticeSelector = NoticeSelectors[type as keyof typeof NoticeSelectors];
 
@@ -74,7 +72,7 @@ export function getLastMessageDate(chat: Chat): string {
     return '';
   }
 
-  const messageTime = new Date(chat.last_message.time) as unknown as number;
+  const messageTime = +new Date(chat.last_message.time);
   const currentTime = Date.now();
   const hours24 = 24 * 60 * 60 * 1000;
 
@@ -106,4 +104,14 @@ export function trimLongString(str: string, num: number): string {
   }
 
   return str;
+}
+
+export function isHide(classlist: string | DOMTokenList): boolean {
+  classlist = classlist.toString();
+
+  if (classlist.includes('hide')) {
+    return true;
+  }
+
+  return false;
 }

@@ -1,16 +1,15 @@
-/* eslint-disable no-param-reassign */
 import Handlebars, { HelperOptions } from 'handlebars';
 import Block from './Block';
 
-type BlockConstructable<Props = any> = {
-  // eslint-disable-next-line no-unused-vars
-  new(props: Props): Block<{}>;
+type BlockConstructable<Props> = {
+  new(props: Props): Block;
   componentName: string;
 }
 
-export default function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
+export default function registerComponent<Props>(Component: BlockConstructable<Props>) {
   Handlebars.registerHelper(
     Component.componentName || Component.name,
+    // eslint-disable-next-line func-names
     function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       if (!data.root.children) {
         data.root.children = {};
@@ -26,7 +25,7 @@ export default function registerComponent<Props extends any>(Component: BlockCon
      * Костыль для того, чтобы передавать переменные
      * внутрь блоков вручную подменяя значение
      */
-      (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      (Object.keys(hash) as []).forEach((key: keyof Props) => {
         if (this[key] && typeof this[key] === 'string') {
           hash[key] = hash[key].replace(new RegExp(`{{${String(key)}}}`, 'i'), this[key]);
         }

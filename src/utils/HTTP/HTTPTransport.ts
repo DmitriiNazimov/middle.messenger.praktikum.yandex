@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { queryStringify } from '../Helpers/myDash';
 import { PATH, HEADERS } from '../../consts';
 
-// eslint-disable-next-line no-shadow
 enum Method {
   GET = 'GET',
   POST = 'POST',
@@ -14,48 +12,53 @@ enum Method {
 export type Options = {
   method?: Method;
   headers?: Record<string, string>;
-  data?: {};
+  data?: Record<string, unknown> | string | FormData;
   timeout?: number;
   withCredentials?: boolean;
   id?: number;
 };
+
+type HTTPMethod = (url: string, options?: Options) => Promise<XMLHttpRequest>;
 
 export default class HTTPTransport {
   baseUrl: string;
 
   constructor(pathName?: string) {
     this.baseUrl = pathName ? PATH.baseurl + pathName : PATH.baseurl;
-  }
 
-  public get(url: string, options: Options): Promise<XMLHttpRequest> {
-    let urlWithParams = url;
-
-    if (options.data && Object.keys(options.data).length) {
-      urlWithParams = `${url}?${queryStringify(options.data)}`;
+    if (pathName?.startsWith('http')) {
+      this.baseUrl = pathName;
     }
+  }
 
+  get: HTTPMethod = (url, options = {}) => {
+    let urlWithParams = url;
+    if (options.data && Object.keys(options.data).length) {
+      urlWithParams = `${url}?${queryStringify(options.data as Record<string, unknown>)}`;
+    }
     return this.request(this.baseUrl + urlWithParams, { ...options, method: Method.GET });
-  }
+  };
 
-  public post(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.POST });
-  }
+  post: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.POST })
+  );
 
-  public put(url: string, options: Options | FormData): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.PUT });
-  }
+  put: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.PUT })
+  );
 
-  public delete(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(this.baseUrl + url, { ...options, method: Method.DELETE });
-  }
+  delete: HTTPMethod = (url, options = {}) => (
+    this.request(this.baseUrl + url, { ...options, method: Method.DELETE })
+  );
 
-  // eslint-disable-next-line class-methods-use-this
-  private request(url: string, options: Options): Promise<XMLHttpRequest> {
-    const { method,
+  private request: HTTPMethod = (url, options = {}) => {
+    const {
+      method,
       data,
       headers = HEADERS.JSON,
       timeout = 2000,
-      withCredentials = true } = options;
+      withCredentials = true,
+    } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -90,8 +93,8 @@ export default class HTTPTransport {
           outputData = JSON.stringify(data);
         }
 
-        xhr.send(outputData as any);
+        xhr.send(outputData as XMLHttpRequestBodyInit);
       }
     });
-  }
+  };
 }

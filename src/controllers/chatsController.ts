@@ -1,18 +1,17 @@
-/* eslint-disable class-methods-use-this */
-
 import { store } from '../utils';
 import { chatsAPI, GetChats, CreateChat, DeleteChat, UsersInChat, GetChatUsers } from '../api';
 import { addNotice, loaderToggle } from '../utils/Helpers/viewHelpers';
 
 type GetChatsArgs = {
-  data: GetChats;
+  data?: GetChats;
   withLoader?: boolean;
   returnValue?: boolean;
 };
 
 class ChatsController {
   // С сервера получаем чаты конкретного пользователя (пользователь определяется по кукам)
-  getChats({ data, withLoader = true, returnValue = false }: GetChatsArgs) {
+  getChats({ data = {}, withLoader = true, returnValue = false }: GetChatsArgs = {}):
+  Promise<boolean | Chat[]> {
     if (withLoader) {
       loaderToggle({ show: true });
     }
@@ -27,7 +26,10 @@ class ChatsController {
         store.setState({ chats: [...JSON.parse(response)] });
         return true;
       })
-      .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
+      .catch(({ response }) => {
+        addNotice(JSON.parse(response).reason, 'error');
+        return false;
+      })
       .finally(() => loaderToggle());
   }
 
@@ -38,7 +40,7 @@ class ChatsController {
     chatsAPI
       .createChatApi(data)
       .then(() => {
-        this.getChats({ data: {} }); // Чтобы обновился список чатов и там появился созданный чат.
+        this.getChats(); // Чтобы обновился список чатов и там появился созданный чат.
         addNotice('Чат успешно создан!', 'success');
       })
       .catch(({ response }) => addNotice(JSON.parse(response).reason, 'error'))
@@ -46,13 +48,13 @@ class ChatsController {
   }
 
   // Удаление чата
-  deleteChat(data: DeleteChat) {
+  deleteChat(data: DeleteChat): Promise<boolean> {
     loaderToggle({ show: true });
 
     return chatsAPI
       .deleteChatByIdApi(data)
       .then(() => {
-        this.getChats({ data: {} }); // Чтобы обновился список чатов и исчез удаленный чат.
+        this.getChats(); // Чтобы обновился список чатов и исчез удаленный чат.
         addNotice('Чат успешно удален!', 'success');
         return true;
       })
@@ -73,7 +75,7 @@ class ChatsController {
       return false;
     }
 
-    const isUserAlreadyInChat = usersList.find((item: UserData) => +item.id! === +data.users[0]!);
+    const isUserAlreadyInChat = (usersList as UserData[]).find((item) => item.id === data.users[0]);
 
     if (isUserAlreadyInChat) {
       addNotice('Пользователь уже был добавлен в чат ранее!', 'error');
@@ -94,14 +96,14 @@ class ChatsController {
   }
 
   // Удаление юзера из чата
-  async deleteUser(data: UsersInChat): Promise<unknown[]> {
+  async deleteUser(data: UsersInChat): Promise<UserData[] | boolean> {
     loaderToggle({ show: true });
 
     return chatsAPI
       .deleteUsersFromChatApi(data)
       .then(() => {
-        if (store.state.user?.id === +data.users[0]!) {
-          this.getChats({ data: {} }); // Пользователь удалил себя из чата - убираем у него этот чат
+        if (store.state.user?.id === (data.users[0] as number)) {
+          this.getChats(); // Пользователь удалил себя из чата - убираем у него этот чат
           addNotice('Вы успешно удалили себя из чата!', 'success');
           return true;
         }
@@ -118,7 +120,7 @@ class ChatsController {
   }
 
   // Получение списка юзеров чата по id чата
-  getUsersList(data: GetChatUsers) {
+  getUsersList(data: GetChatUsers): Promise<UserData[] | boolean> {
     loaderToggle({ show: true });
 
     return chatsAPI

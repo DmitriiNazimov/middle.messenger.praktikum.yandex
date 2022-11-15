@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 import { Block } from '../../utils';
 import { addNotice } from '../../utils/Helpers/viewHelpers';
 import Validator from '../../utils/Helpers/Validator';
@@ -9,7 +6,7 @@ import './form.css';
 type InputRef = { errorRefName?: string; id: string; };
 
 export default class Form extends Block<FormProps> {
-  static componentName: string = 'Form';
+  static componentName = 'Form';
 
   protected validator: Validator;
 
@@ -18,9 +15,9 @@ export default class Form extends Block<FormProps> {
       ...props,
       events: {
         submit: (event: Event) => this.submitHandler(event),
-        blur: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
-        input: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
-        focus: (event: Event) => this.inputFocusBlurHandler(event.target as HTMLInputElement),
+        blur: (event: Event) => this.inputFocusBlurHandler(event.target, true),
+        input: (event: Event) => this.inputFocusBlurHandler(event.target),
+        focus: (event: Event) => this.inputFocusBlurHandler(event.target),
       },
     });
 
@@ -32,22 +29,30 @@ export default class Form extends Block<FormProps> {
     }
   }
 
-  inputFocusBlurHandler(target: HTMLInputElement) {
+  inputFocusBlurHandler(target: EventTarget | null, paintInRed = false) {
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      const validateData: Object = this.validator.check([target] as HTMLInputElement[]);
-      this.updatePropsAfterValidation(validateData);
+      const validateData: UnknownObj = this.validator.check([target]);
+      this.updatePropsAfterValidation(validateData, paintInRed);
     }
   }
 
   submitHandler(event: Event) {
     event.preventDefault();
 
+    if (!(event.target instanceof HTMLFormElement)) {
+      return;
+    }
+
     // Проводим валидацию всех элементов формы
-    const form = event.target as HTMLFormElement;
+    const form = event.target;
 
-    const formItems: Element[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
+    const formItems: HTMLInputElement[] = Array.from(form.querySelectorAll('INPUT, TEXTAREA'));
 
-    const validateData: ValidateResult = this.validator.check(formItems as HTMLInputElement[]);
+    const validateData: ValidateResult = this.validator.check(formItems);
 
     if (!validateData.isCorrect) {
       addNotice('Данные формы заполнены некорректно', 'error');
@@ -56,23 +61,21 @@ export default class Form extends Block<FormProps> {
     this.updatePropsAfterValidation(validateData, true);
   }
 
-  updatePropsAfterValidation(props: Object, formSubmitted: boolean = false) {
+  updatePropsAfterValidation(props: Record<string, unknown>, paintInRed = false) {
     // Обновление props вызывает перерендер элемента и ошибка выводится/исчезает на странице.
     Object.entries(props).forEach(([name, errors]) => {
       if (name === 'isCorrect') {
         return;
       }
 
-      this._refs[`${name}Error`].setProps({ errors, formSubmitted });
+      this._refs[`${name}Error`].setProps({ errors, paintInRed });
     });
   }
 
   addErrorRefNamesToProps() {
     const newProps = this._props;
 
-    // eslint-disable-next-line no-param-reassign
     newProps.inputs.forEach((input: InputRef) => {
-      // eslint-disable-next-line no-param-reassign
       input.errorRefName = `${input.id}Error`;
     });
 
@@ -100,7 +103,7 @@ export default class Form extends Block<FormProps> {
                 required=required
                 value=value
             }}}
-            {{{ InputError errors=errors formSubmitted=formSubmitted ref=errorRefName }}}
+            {{{ InputError errors=errors paintInRed=paintInRed ref=errorRefName }}}
         </div>
       {{/each}}
 

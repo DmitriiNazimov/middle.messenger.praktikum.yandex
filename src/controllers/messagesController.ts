@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import chatsApi from '../api/chatsApi';
 import { MENU_CHAT_SCREEN, PATH } from '../consts';
 import { store } from '../utils';
@@ -16,12 +15,12 @@ class MessagesController {
 
   private _pingIntervalFunc!: NodeJS.Timer;
 
-  async connect(chatId: number) {
+  async connect(chatId: number): Promise<void> {
     loaderToggle({ show: true });
     store.setState({ isLoading: true });
 
     this._closeConnection();
-    this._userId = store.state.user?.id!;
+    this._userId = store.state.user?.id as number;
     this._chatId = chatId;
     this._token = await chatsApi.getChatTokenApi(chatId);
     this._socket = await new WebSocket(`${PATH.socket}/${this._userId}/${this._chatId}/${this._token}`);
@@ -30,31 +29,34 @@ class MessagesController {
     this._socket.onclose = () => this._closeHandler();
   }
 
-  getMessages(num: number = 0) {
+  getMessages(num = 0) {
     if (this._socket) {
       this._socket.send(JSON.stringify({ content: num, type: 'get old' }));
     }
   }
 
   // eslint-disable-next-line consistent-return
-  async sendMessage(messageText: string) {
+  async sendMessage(messageText: string): Promise<boolean> {
     try {
       if (this._socket) {
-        await this._socket.send(JSON.stringify({
-          content: messageText,
-          type: 'message',
-        }));
-        chatsController.getChats({ data: {}, withLoader: false });
+        await this._socket.send(
+          JSON.stringify({
+            content: messageText,
+            type: 'message',
+          }),
+        );
+        chatsController.getChats({ withLoader: false });
 
         return true;
       }
+      return false;
     } catch (error) {
       addNotice(error as string, 'error');
       return false;
     }
   }
 
-  private _closeConnection() {
+  private _closeConnection(): void {
     if (this._socket) {
       clearInterval(this._pingIntervalFunc);
       this._socket.close();
@@ -62,14 +64,14 @@ class MessagesController {
     }
   }
 
-  private _setListeners() {
+  private _setListeners(): void {
     if (this._socket) {
       this._socket.addEventListener('message', this._messageHandler);
       this._socket.addEventListener('error', this._errorHandler);
     }
   }
 
-  private async _openHandler() {
+  private async _openHandler(): Promise<void> {
     if (this._socket) {
       await this.getMessages();
       loaderToggle();
@@ -80,7 +82,7 @@ class MessagesController {
     }
   }
 
-  private _closeHandler(event?: any) {
+  private _closeHandler(event?: CloseEvent): void {
     this._removeListeners();
     clearInterval(this._pingIntervalFunc);
 
@@ -89,7 +91,7 @@ class MessagesController {
     }
   }
 
-  private async _messageHandler(event: any) {
+  private async _messageHandler(event: MessageEvent): Promise<void> {
     const serverMessages: MessageServer = JSON.parse(event.data);
 
     if (serverMessages.type !== 'pong') {
@@ -113,22 +115,25 @@ class MessagesController {
           serverMessages.is_read = false;
         }
 
-        const stateMessages = store.getState()?.messages as MessageServer[];
+        const stateMessages = store.state.messages;
         stateMessages?.push(serverMessages);
 
-        const chatsUpdated = await chatsController.getChats({
-          data: {}, withLoader: false, returnValue: true,
+        const chatsUpdated: boolean | Chat[] = await chatsController.getChats({
+          withLoader: false,
+          returnValue: true,
         });
 
-        store.setState({ messages: stateMessages, chats: chatsUpdated });
+        if (typeof chatsUpdated !== 'boolean') {
+          store.setState({ messages: stateMessages, chats: chatsUpdated });
+        }
       }
     }
   }
 
-  private _errorHandler(event: any) {
+  private _errorHandler(event: Event): void {
     store.setState({ isLoading: false });
 
-    addNotice(event.message, 'error');
+    addNotice((event as ErrorEvent).message, 'error');
   }
 
   private _removeListeners() {

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import BaseApi from './baseApi';
 
 export type UpdateProfile = {
@@ -42,7 +41,7 @@ class UserAPI extends BaseApi {
   }
 
   public getUserByIdApi(id: number): Promise<XMLHttpRequest> {
-    return this.http.get(`/${id}`, {});
+    return this.http.get(`/${id}`);
   }
 
   public searchUserByLogin(data: SearchUserByLogin): Promise<XMLHttpRequest> {

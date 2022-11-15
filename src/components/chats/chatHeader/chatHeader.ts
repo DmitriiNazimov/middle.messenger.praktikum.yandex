@@ -3,7 +3,7 @@ import Block from '../../../utils/Rendering/Block';
 import './chatHeader.css';
 
 export default class ChatHeader extends Block<ChatHeaderProps> {
-  static componentName: string = 'ChatHeader';
+  static componentName = 'ChatHeader';
 
   render() {
     return `

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 export type ChatsProps = {
   contacts: ContactProps[];
   activeChat: null | number;
@@ -15,7 +14,7 @@ export type ChatsProps = {
       readed?: boolean;
     }[];
   }[];
-  events?: {};
+  events?: Record<string, unknown>;
 };
 
 export type PropsContactsUpdate = {

@@ -1,10 +1,11 @@
+import { SELECTOR } from '../../../consts';
 import { messagesController } from '../../../controllers';
 import Form from '../form';
 import '../form.css';
 import './sendMessageForm.css';
 
 export default class SendMessageForm extends Form {
-  static componentName: string = 'SendMessageForm';
+  static componentName = 'SendMessageForm';
 
   constructor(props: FormProps) {
     super({
@@ -17,7 +18,7 @@ export default class SendMessageForm extends Form {
     super.submitHandler(event);
 
     const form = event.target as HTMLFormElement;
-    const textArea = form.querySelector('#message') as HTMLTextAreaElement;
+    const textArea = form.querySelector(`#${SELECTOR.message}`) as HTMLTextAreaElement;
 
     const response = await messagesController.sendMessage(textArea.value);
 

@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
 import { PATH } from '../../consts';
-import { DefaultState, store } from '../../utils';
+import { store } from '../../utils';
 import { last } from '../../utils/Helpers/myDash';
 import { getLastMessageDate, trimLongString } from '../../utils/Helpers/viewHelpers';
 import { PropsContactsUpdate } from './defaultProps';
@@ -41,28 +40,31 @@ export function convertStateMessagesToProps(stateMessages: MessageServer[]): Day
   });
 
   if (store.state.lastMessageEffect) {
-    const lastDay = last(days) as Day;
-    const lastMsg = last(lastDay.messages) as MessageToProps;
-    lastMsg.isLast = true;
+    const lastDay = last(days);
+
+    if (lastDay) {
+      const lastMsg = last(lastDay.messages) as MessageToProps;
+      lastMsg.isLast = true;
+    }
   }
 
   return days.reverse();
 }
 
-export function convertStateChatsToProps(freshStateChats: DefaultState['chats']): PropsContactsUpdate {
+export function convertStateChatsToProps(freshStateChats: Chat[]): PropsContactsUpdate {
   const props: PropsContactsUpdate = { contacts: [] };
-  const chats: Chat[] = Object.values(freshStateChats!);
+  const chats: Chat[] = Object.values(freshStateChats);
 
   if (chats.length) {
     chats.forEach((chat: Chat) => {
-      let lastMsgPrefix: string = '';
+      let lastMsgPrefix = '';
 
-      if (chat.last_message && chat.last_message.user.login === store.state.user!.login) {
+      if (chat.last_message && chat.last_message.user.login === store.state.user?.login) {
         lastMsgPrefix = 'Вы:';
       }
 
       props.contacts.push({
-        avatarPath: chat.avatar || PATH.defaultAvatar,
+        avatarPath: chat.avatar ? PATH.avatarBase + chat.avatar : PATH.defaultAvatar,
         displayName: chat.title,
         lastMsgPrefix,
         lastMsgText: chat.last_message ? trimLongString(chat.last_message.content, 55) : '',
@@ -81,7 +83,8 @@ export function convertStateChatsToProps(freshStateChats: DefaultState['chats'])
 export function getChatHeaderProps(chatFromState: Chat, chatId: number): ChatHeaderWrapper {
   return {
     chatHeader: {
-      avatarPath: chatFromState.avatar || PATH.defaultAvatar,
+      // eslint-disable-next-line max-len
+      avatarPath: chatFromState.avatar ? PATH.avatarBase + chatFromState.avatar : PATH.defaultAvatar,
       displayName: chatFromState.title,
       chatId,
     },

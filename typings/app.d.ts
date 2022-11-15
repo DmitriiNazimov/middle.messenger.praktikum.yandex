@@ -12,7 +12,7 @@ declare global {
     errorRefName?: string;
     pattern?: string;
     error?: string;
-    events?: Object;
+    events?: Record<string, unknown>;
   };
 
   export type ButtonProps = {
@@ -20,21 +20,21 @@ declare global {
     text: string;
     link?: string;
     id?: string;
-    events?: Object;
+    events?: Record<string, unknown>;
   };
 
   export type FormProps = {
     header?: string;
     inputs: InputProps[];
     buttons: ButtonProps[];
-    events?: {}
+    events?: Record<string, unknown>;
   };
 
   export type ChatHeaderProps = {
     avatarPath: string;
     displayName: string;
     chatId: number;
-    events?: Object;
+    events?: Record<string, unknown>;
   };
 
   export type ContactProps = {
@@ -46,24 +46,24 @@ declare global {
     lastMsgDate: string;
     msgCounter: number;
     chatId: number;
-    events?: Object;
+    events?: Record<string, unknown>;
   };
 
   export type RouteType = null | Route;
 
   export type RouteProps = {
     pathname: string;
-    blockClass: typeof Block<{}>;
+    blockClass: typeof Block<any>;
     requestAuthorization: boolean;
     title?: string;
-    data?: {};
+    data?: Record<string, unknown>;
     rootSelector?: string;
   };
 
   export type Routes = Record<string, RouteProps>;
 
-  export type BlockComponent = Block<{}>;
-  export type BlockClass = typeof Block<{}>;
+  export type BlockComponent = Block;
+  export type BlockClass = typeof Block;
 
   export type ValidateResult = Record<string, string[] | boolean>;
 
@@ -95,7 +95,7 @@ declare global {
   export type MessageServer = {
     chat_id: number;
     content: string;
-    file: null | {};
+    file: null | Record<string, unknown>;
     id: number;
     is_read: boolean;
     time: string;
@@ -117,5 +117,18 @@ declare global {
     date: string;
     messages: MessageToProps[];
   };
+
+  export type ArrOfObj = Record<string, unknown>[];
+  export type UnknownObj = Record<string, unknown>;
+
+  export type DeletedChat = {
+  userId: number,
+  result: {
+    id: number,
+    title: string,
+    avatar: string
+  }
 }
+}
+
 export {};

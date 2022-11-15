@@ -2,6 +2,7 @@ import EventBus from '../Rendering/EventBus';
 import { defaultState } from './defaultState';
 import { StoreEvents } from '../../consts';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 class Store<State> extends EventBus<string, Function> {
   state: State;
 

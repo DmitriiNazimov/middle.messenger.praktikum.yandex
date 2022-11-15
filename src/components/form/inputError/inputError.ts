@@ -8,14 +8,14 @@ type Props = {
 }
 
 export default class InputError extends Block<Props> {
-  static componentName: string = 'InputError';
+  static componentName = 'InputError';
 
   render() {
     return (
       '<div class="input-error'
       + '{{#unless errors}} hide{{/unless}}'
       + '{{#if sendMessageError}} send-message__validate-error{{/if}}'
-      + '{{#if formSubmitted}} input-error__submitted{{/if}}'
+      + '{{#if paintInRed}} input-error__submitted{{/if}}'
       + `">
           {{#if errors}}
             <ul class='${SELECTOR.input.errorList}'>

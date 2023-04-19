@@ -8,9 +8,6 @@
 Netlify:
 https://effortless-nougat-339a5d.netlify.app/
 
-Heroku:
-https://easytouch.herokuapp.com/
-
 Тестовые данные:
 
 - Логин: Ivan
